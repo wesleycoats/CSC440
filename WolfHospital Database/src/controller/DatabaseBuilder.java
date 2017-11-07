@@ -2,6 +2,7 @@ package controller;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -25,7 +26,7 @@ import java.sql.Statement;
  */
 public class DatabaseBuilder {
     /** Database url */
-    private static final String URL    = "jdbc:mysql://localhost:3306";
+    private static String       URL    = "jdbc:mysql://localhost:3306/";
     /** JDBC driver */
     private static final String DRIVER = "com.mysql.jdbc.Driver";
     /** Database username */
@@ -34,7 +35,12 @@ public class DatabaseBuilder {
     private static final String PW     = "";
 
     public static void main ( final String[] args ) {
-        dropDB();
+        try {
+            dropDB();
+        }
+        catch ( final Exception e ) {
+            e.printStackTrace();
+        }
         createDB();
         createTables();
         generateData();
@@ -42,39 +48,43 @@ public class DatabaseBuilder {
     }
 
     /** Deletes the database and all contents */
-    public static void dropDB () {
-        executeQuery( "DROP DATABASE wolfhospital" );
+    public static void dropDB () throws Exception {
+        Class.forName( DRIVER );
+        final Connection connection = DriverManager.getConnection( URL, USER, PW );
+        final ResultSet resultSet = connection.getMetaData().getCatalogs();
+        String dbName = null;
+        // iterate each catalog in the ResultSet
+        while ( resultSet.next() ) {
+            // Get the database name, which is at position 1
+            dbName = resultSet.getString( 1 );
+        }
+        resultSet.close();
+        if ( dbName.equals( "wolfhospital" ) ) {
+            executeQuery( "DROP DATABASE wolfhospital" );
+        }
     }
 
-    /** Creates the database */
+    /**
+     * Creates the database
+     *
+     * @throws Exception
+     */
     public static void createDB () {
         executeQuery( "CREATE DATABASE wolfhospital" );
+        URL = "jdbc:mysql://localhost:3306/wolfhospital";
     }
 
     /** Creates all tables to be used in database */
     public static void createTables () {
         // TODO: add other tables
-        
-        executeQuery(
-                "CREATE TABLE staff(" + 
-                "id INT PRIMARY KEY AUTO_INCREMENT," + 
-                "name NVARCHAR2(128) NOT NULL," + 
-                "date_of_birth DATE NOT NULL," + 
-                "gender NVARCHAR2(10) NOT NULL," + 
-                "phone NVARCHAR2(20) NOT NULL," + 
-                "address NVARCHAR2(128) NOT NULL," + 
-                "department NVARCHAR2(128) NOT NULL," + 
-                "title NVARCHAR2(128) NOT NULL," + 
-                "professional_title NVARCHAR2(128) NOT NULL);"
-                ,
-                "CREATE TABLE patient(" + 
-                "id INT PRIMARY KEY AUTO_INCREMENT," + 
-                "name NVARCHAR2(128) NOT NULL," + 
-                "patientSSN NVARCHAR2(11)," + 
-                "date_of_birth DATE NOT NULL," + 
-                "gender NVARCHAR2(10) NOT NULL," + 
-                "status NVARCHAR2(30) NOT NULL);"
-        );
+
+        executeQuery( "CREATE TABLE staff(" + "id INT PRIMARY KEY AUTO_INCREMENT," + "name NVARCHAR2(128) NOT NULL,"
+                + "date_of_birth DATE NOT NULL," + "gender NVARCHAR2(10) NOT NULL," + "phone NVARCHAR2(20) NOT NULL,"
+                + "address NVARCHAR2(128) NOT NULL," + "department NVARCHAR2(128) NOT NULL,"
+                + "title NVARCHAR2(128) NOT NULL," + "professional_title NVARCHAR2(128) NOT NULL);",
+                "CREATE TABLE patient(" + "id INT PRIMARY KEY AUTO_INCREMENT," + "name NVARCHAR2(128) NOT NULL,"
+                        + "patientSSN NVARCHAR2(11)," + "date_of_birth DATE NOT NULL,"
+                        + "gender NVARCHAR2(10) NOT NULL," + "status NVARCHAR2(30) NOT NULL);" );
     }
 
     /** Populates tables with sample data */
