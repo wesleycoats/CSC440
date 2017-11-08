@@ -10,10 +10,10 @@ import java.sql.Statement;
  * Class to handle resetting and creating the WolfHospital database, as well as
  * generating sample data to use in database demonstration. Executing a query is
  * done in a private helper method since a lot of the set up and tear down was
- * the same. This is not handled as a transaction, but instead as a regular
- * single query. Other methods are public and static so that they can be called
- * elsewhere in the program since they will likely be helpful for resetting the
- * expected state of the database.
+ * the same. This is handled as a transaction (though not with
+ * PreparedStatement). Other methods are public and static so that they can be
+ * called elsewhere in the program since they will likely be helpful for
+ * resetting the expected state of the database.
  *
  * Currently the DatabaseBuilder creates the database locally using the default
  * MySQL port 3306, and assumes user "root" with empty password. To run this on
@@ -78,12 +78,12 @@ public class DatabaseBuilder {
     public static void createTables () {
         final String staff = "CREATE TABLE staff(id INT PRIMARY KEY AUTO_INCREMENT, name NVARCHAR(128) NOT NULL, "
                 + "date_of_birth DATE NOT NULL, gender NVARCHAR(10) NOT NULL, phone NVARCHAR(20) NOT NULL, "
-                + "address NVARCHAR(128) NOT NULL, department NVARCHAR(128) NOT NULL, title NVARCHAR(128) NOT NULL,"
+                + "address NVARCHAR(128) NOT NULL, department NVARCHAR(128) NOT NULL, job_title NVARCHAR(128) NOT NULL,"
                 + "professional_title NVARCHAR(128) NOT NULL);";
 
         final String patient = "CREATE TABLE patient(id INT PRIMARY KEY AUTO_INCREMENT, name NVARCHAR(128) NOT NULL,"
                 + "patientSSN NVARCHAR(11)," + "date_of_birth DATE NOT NULL, gender NVARCHAR(10) NOT NULL,"
-                + "status NVARCHAR(30) NOT NULL);";
+                + "phone NVARCHAR(20) NOT NULL, address NVARCHAR(128) NOT NULL, status NVARCHAR(30) NOT NULL);";
 
         final String ward = "CREATE TABLE ward(ward_number INT PRIMARY KEY, capacity INT NOT NULL, charges_per_day FLOAT NOT NULL,"
                 + "open_beds INT NOT NULL, nurse_id INT, CONSTRAINT ward_nurse_fk FOREIGN KEY(nurse_id) REFERENCES staff(id));";
@@ -93,14 +93,15 @@ public class DatabaseBuilder {
                 + "CONSTRAINT check_in_patient_id_fk FOREIGN KEY(patient_id) REFERENCES patient(id) ON DELETE CASCADE,"
                 + "end_date DATETIME, ward_number INT,"
                 + "CONSTRAINT check_in_ward_num_fk FOREIGN KEY(ward_number) REFERENCES ward(ward_number),"
-                + "bed_number INT NOT NULL);";
+                + "bed_number INT NOT NULL, registration_fee FLOAT NOT NULL);";
 
-        final String medicalRecord = "CREATE TABLE medical_record(id INT PRIMARY KEY AUTO_INCREMENT,"
-                + "start_date DATETIME, end_date DATETIME, check_in_id INT,"
-                + "CONSTRAINT med_rec_check_in_id_fk FOREIGN KEY(check_in_id) REFERENCES check_in(id) ON DELETE CASCADE,"
-                + "doctor_id INT, CONSTRAINT med_rec_doctor_id_fk FOREIGN KEY(doctor_id) REFERENCES staff(id),"
+        final String medicalRecord = "CREATE TABLE medical_record(id INT PRIMARY KEY AUTO_INCREMENT, patient_id INT,"
+                + "CONSTRAINT med_rec_patient_id_fk FOREIGN KEY(patient_id) REFERENCES patient(id) ON DELETE CASCADE,"
+                + "start_date DATETIME, end_date DATETIME, doctor_id INT, CONSTRAINT med_rec_doctor_id_fk FOREIGN KEY(doctor_id) REFERENCES staff(id),"
                 + "test_type NVARCHAR(128) NOT NULL, test_results NVARCHAR(1024) NOT NULL,"
-                + "prescription NVARCHAR(128), diagnosis_details NVARCHAR(1024));";
+                + "prescription NVARCHAR(128), diagnosis_details NVARCHAR(1024), treatment NVARCHAR(128),"
+                + "consultation_fee FLOAT NOT NULL, test_fee FLOAT, treatment_fee FLOAT, specialist_id INT,"
+                + "CONSTRAINT staff_id_fk FOREIGN KEY(specialist_id) REFERENCES staff(id) ON DELETE CASCADE);";
 
         final String billingAccount = "CREATE TABLE billing_account(patient_id INT, check_in_id INT,"
                 + "CONSTRAINT bill_acc_pk PRIMARY KEY(patient_id, check_in_id),"
@@ -123,6 +124,7 @@ public class DatabaseBuilder {
     /** Populates tables with sample data */
     public static void generateData () {
         // TODO: write queries to insert data
+
     }
 
     /**
