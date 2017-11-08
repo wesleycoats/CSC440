@@ -76,19 +76,48 @@ public class DatabaseBuilder {
 
     /** Creates all tables to be used in database */
     public static void createTables () {
-        // TODO: add other tables
-
-        final String staff = "CREATE TABLE staff(" + "id INT PRIMARY KEY AUTO_INCREMENT,"
-                + "name NVARCHAR(128) NOT NULL," + "date_of_birth DATE NOT NULL," + "gender NVARCHAR(10) NOT NULL,"
-                + "phone NVARCHAR(20) NOT NULL," + "address NVARCHAR(128) NOT NULL,"
-                + "department NVARCHAR(128) NOT NULL," + "title NVARCHAR(128) NOT NULL,"
+        final String staff = "CREATE TABLE staff(id INT PRIMARY KEY AUTO_INCREMENT, name NVARCHAR(128) NOT NULL, "
+                + "date_of_birth DATE NOT NULL, gender NVARCHAR(10) NOT NULL, phone NVARCHAR(20) NOT NULL, "
+                + "address NVARCHAR(128) NOT NULL, department NVARCHAR(128) NOT NULL, title NVARCHAR(128) NOT NULL,"
                 + "professional_title NVARCHAR(128) NOT NULL);";
 
-        final String patient = "CREATE TABLE patient(" + "id INT PRIMARY KEY AUTO_INCREMENT,"
-                + "name NVARCHAR(128) NOT NULL," + "patientSSN NVARCHAR(11)," + "date_of_birth DATE NOT NULL,"
-                + "gender NVARCHAR(10) NOT NULL," + "status NVARCHAR(30) NOT NULL);";
+        final String patient = "CREATE TABLE patient(id INT PRIMARY KEY AUTO_INCREMENT, name NVARCHAR(128) NOT NULL,"
+                + "patientSSN NVARCHAR(11)," + "date_of_birth DATE NOT NULL, gender NVARCHAR(10) NOT NULL,"
+                + "status NVARCHAR(30) NOT NULL);";
 
-        executeQuery( staff, patient );
+        final String ward = "CREATE TABLE ward(ward_number INT PRIMARY KEY, capacity INT NOT NULL, charges_per_day FLOAT NOT NULL,"
+                + "open_beds INT NOT NULL, nurse_id INT, CONSTRAINT ward_nurse_fk FOREIGN KEY(nurse_id) REFERENCES staff(id));";
+
+        final String checkin = "CREATE TABLE check_in(id INT AUTO_INCREMENT, patient_id INT, start_date DATETIME,"
+                + "CONSTRAINT check_in_pk PRIMARY KEY(id, patient_id, start_date),"
+                + "CONSTRAINT check_in_patient_id_fk FOREIGN KEY(patient_id) REFERENCES patient(id) ON DELETE CASCADE,"
+                + "end_date DATETIME, ward_number INT,"
+                + "CONSTRAINT check_in_ward_num_fk FOREIGN KEY(ward_number) REFERENCES ward(ward_number),"
+                + "bed_number INT NOT NULL);";
+
+        final String medicalRecord = "CREATE TABLE medical_record(id INT PRIMARY KEY AUTO_INCREMENT,"
+                + "start_date DATETIME, end_date DATETIME, check_in_id INT,"
+                + "CONSTRAINT med_rec_check_in_id_fk FOREIGN KEY(check_in_id) REFERENCES check_in(id) ON DELETE CASCADE,"
+                + "doctor_id INT, CONSTRAINT med_rec_doctor_id_fk FOREIGN KEY(doctor_id) REFERENCES staff(id),"
+                + "test_type NVARCHAR(128) NOT NULL, test_results NVARCHAR(1024) NOT NULL,"
+                + "prescription NVARCHAR(128), diagnosis_details NVARCHAR(1024));";
+
+        final String billingAccount = "CREATE TABLE billing_account(patient_id INT, check_in_id INT,"
+                + "CONSTRAINT bill_acc_pk PRIMARY KEY(patient_id, check_in_id),"
+                + "CONSTRAINT bill_acc_patient_id_fk FOREIGN KEY(patient_id) REFERENCES patient(id) ON DELETE CASCADE,"
+                + "CONSTRAINT bill_acc_visit_date_fk FOREIGN KEY(check_in_id) REFERENCES check_in(id),"
+                + "visit_date DATETIME, payerSSN NVARCHAR(11) NOT NULL, payment_type NVARCHAR(128) NOT NULL,"
+                + "billing_address NVARCHAR(128) NOT NULL);";
+
+        final String billingRecordCost = "CREATE TABLE billing_record_cost(type NVARCHAR(128) PRIMARY KEY, cost FLOAT NOT NULL);";
+
+        final String billingRecord = "CREATE TABLE billing_record(patient_id INT, check_in_id INT, type NVARCHAR(128),"
+                + "CONSTRAINT bill_rec_pk PRIMARY KEY(patient_id, check_in_id, type),"
+                + "CONSTRAINT bill_rec_patient_id_fk FOREIGN KEY(patient_id) REFERENCES billing_account(patient_id) ON DELETE CASCADE,"
+                + "CONSTRAINT bill_rec_visit_date_fk FOREIGN KEY(check_in_id) REFERENCES billing_account(check_in_id) ON DELETE CASCADE,"
+                + "CONSTRAINT bill_rec_type_fk FOREIGN KEY(type) REFERENCES billing_record_cost(type));";
+
+        executeQuery( staff, patient, ward, checkin, medicalRecord, billingAccount, billingRecordCost, billingRecord );
     }
 
     /** Populates tables with sample data */
