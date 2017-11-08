@@ -78,13 +78,17 @@ public class DatabaseBuilder {
     public static void createTables () {
         // TODO: add other tables
 
-        executeQuery( "CREATE TABLE staff(" + "id INT PRIMARY KEY AUTO_INCREMENT," + "name NVARCHAR2(128) NOT NULL,"
-                + "date_of_birth DATE NOT NULL," + "gender NVARCHAR2(10) NOT NULL," + "phone NVARCHAR2(20) NOT NULL,"
-                + "address NVARCHAR2(128) NOT NULL," + "department NVARCHAR2(128) NOT NULL,"
-                + "title NVARCHAR2(128) NOT NULL," + "professional_title NVARCHAR2(128) NOT NULL);",
-                "CREATE TABLE patient(" + "id INT PRIMARY KEY AUTO_INCREMENT," + "name NVARCHAR2(128) NOT NULL,"
-                        + "patientSSN NVARCHAR2(11)," + "date_of_birth DATE NOT NULL,"
-                        + "gender NVARCHAR2(10) NOT NULL," + "status NVARCHAR2(30) NOT NULL);" );
+        final String staff = "CREATE TABLE staff(" + "id INT PRIMARY KEY AUTO_INCREMENT,"
+                + "name NVARCHAR(128) NOT NULL," + "date_of_birth DATE NOT NULL," + "gender NVARCHAR(10) NOT NULL,"
+                + "phone NVARCHAR(20) NOT NULL," + "address NVARCHAR(128) NOT NULL,"
+                + "department NVARCHAR(128) NOT NULL," + "title NVARCHAR(128) NOT NULL,"
+                + "professional_title NVARCHAR(128) NOT NULL);";
+
+        final String patient = "CREATE TABLE patient(" + "id INT PRIMARY KEY AUTO_INCREMENT,"
+                + "name NVARCHAR(128) NOT NULL," + "patientSSN NVARCHAR(11)," + "date_of_birth DATE NOT NULL,"
+                + "gender NVARCHAR(10) NOT NULL," + "status NVARCHAR(30) NOT NULL);";
+
+        executeQuery( staff, patient );
     }
 
     /** Populates tables with sample data */
