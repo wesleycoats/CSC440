@@ -77,7 +77,7 @@ public class BillingAccountDB {
 
     public boolean deleteById ( final int id ) {
         try {
-            final PreparedStatement stmt = conn.prepareStatement( "DELETE FROM staff WHERE id = ?;" );
+            final PreparedStatement stmt = conn.prepareStatement( "DELETE FROM billing_account WHERE id = ?;" );
             stmt.setInt( 1, id );
             return ( stmt.executeUpdate() > 0 );
         }
