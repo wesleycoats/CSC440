@@ -80,4 +80,16 @@ public class StaffDB {
 		}
 		return false;
 	}
+	
+	public boolean deleteById(int id) {
+		try {
+			PreparedStatement stmt = conn.prepareStatement("DELETE FROM staff WHERE id = ?;");
+			stmt.setInt(1, id);
+			return (stmt.executeUpdate() > 0);
+		} catch (SQLException e) {
+			//TODO put something here
+			e.printStackTrace();
+		}
+		return false;
+	}
 }
