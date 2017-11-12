@@ -48,7 +48,6 @@ public class PatientDB {
             stmt.setString( 7, s.getAddress() );
             stmt.setString( 8, s.getStatus() );
 
-            System.out.println( stmt );
             return ( stmt.executeUpdate() > 0 );
         }
         catch ( final SQLException e ) {

@@ -62,7 +62,6 @@ public class MedicalRecordDB {
             stmt.setFloat( 13, s.getTreatmentFee() );
             stmt.setInt( 14, s.getSpecialistId() );
 
-            System.out.println( stmt );
             return ( stmt.executeUpdate() > 0 );
         }
         catch ( final SQLException e ) {

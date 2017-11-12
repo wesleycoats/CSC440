@@ -45,7 +45,6 @@ public class CheckInDB {
             stmt.setInt( 5, s.getWardId() );
             stmt.setInt( 6, s.getBedNum() );
             stmt.setFloat( 7, s.getFee() );
-            System.out.println( stmt );
             return ( stmt.executeUpdate() > 0 );
         }
         catch ( final SQLException e ) {

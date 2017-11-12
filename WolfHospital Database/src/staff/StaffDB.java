@@ -48,7 +48,6 @@ public class StaffDB {
 			stmt.setString(7, s.getDepartment());
 			stmt.setString(8, s.getJobTitle());
 			stmt.setString(9, s.getProfessionalTitle());
-			System.out.println(stmt);
 			return (stmt.executeUpdate() > 0);
 		} catch (SQLException e) {
 			//TODO put something here

@@ -44,7 +44,6 @@ public class WardDB {
             stmt.setInt( 5, s.getOpenBeds() );
             stmt.setInt( 6, s.getNurseId() );
 
-            System.out.println( stmt );
             return ( stmt.executeUpdate() > 0 );
         }
         catch ( final SQLException e ) {

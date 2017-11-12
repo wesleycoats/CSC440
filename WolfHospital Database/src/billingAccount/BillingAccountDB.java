@@ -45,7 +45,6 @@ public class BillingAccountDB {
             stmt.setString( 4, b.getPayerSsn() );
             stmt.setString( 5, b.getPmtType() );
             stmt.setString( 6, b.getAddress() );
-            System.out.println( stmt );
             return ( stmt.executeUpdate() > 0 );
         }
         catch ( final SQLException e ) {
