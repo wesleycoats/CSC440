@@ -2,11 +2,20 @@ package ward;
 
 public class Ward {
 
+    private int   id;
     private int   wardNum;
     private int   capacity;
     private float charge;
     private int   openBeds;
     private int   nurseId;
+
+    public int getId () {
+        return id;
+    }
+
+    public void setId ( final int id ) {
+        this.id = id;
+    }
 
     public int getWardNum () {
         return wardNum;

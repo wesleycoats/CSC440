@@ -85,14 +85,14 @@ public class DatabaseBuilder {
                 + "patientSSN NVARCHAR(11)," + "date_of_birth DATE NOT NULL, gender NVARCHAR(10) NOT NULL,"
                 + "phone NVARCHAR(20) NOT NULL, address NVARCHAR(128) NOT NULL, status NVARCHAR(30) NOT NULL);";
 
-        final String ward = "CREATE TABLE IF NOT EXISTS ward(ward_number INT PRIMARY KEY, capacity INT NOT NULL, charges_per_day FLOAT NOT NULL,"
+        final String ward = "CREATE TABLE IF NOT EXISTS ward(id INT PRIMARY KEY, ward_number INT NOT NULL, capacity INT NOT NULL, charges_per_day FLOAT NOT NULL,"
                 + "open_beds INT NOT NULL, nurse_id INT, CONSTRAINT ward_nurse_fk FOREIGN KEY(nurse_id) REFERENCES staff(id));";
 
         final String checkin = "CREATE TABLE IF NOT EXISTS check_in(id INT AUTO_INCREMENT, patient_id INT, start_date DATETIME,"
                 + "CONSTRAINT check_in_pk PRIMARY KEY(id, patient_id, start_date),"
                 + "CONSTRAINT check_in_patient_id_fk FOREIGN KEY(patient_id) REFERENCES patient(id) ON DELETE CASCADE,"
-                + "end_date DATETIME, ward_number INT,"
-                + "CONSTRAINT check_in_ward_num_fk FOREIGN KEY(ward_number) REFERENCES ward(ward_number),"
+                + "end_date DATETIME, ward_id INT,"
+                + "CONSTRAINT check_in_ward_id_fk FOREIGN KEY(ward_id) REFERENCES ward(id),"
                 + "bed_number INT NOT NULL, registration_fee FLOAT NOT NULL);";
 
         final String medicalRecord = "CREATE TABLE IF NOT EXISTS medical_record(id INT PRIMARY KEY AUTO_INCREMENT, patient_id INT,"

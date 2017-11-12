@@ -8,7 +8,7 @@ public class CheckIn {
     private int   patientId;
     private Date  startDate;
     private Date  endDate;
-    private int   wardNum;
+    private int   wardId;
     private int   bedNum;
     private float fee;
 
@@ -44,12 +44,12 @@ public class CheckIn {
         this.endDate = endDate;
     }
 
-    public int getWardNum () {
-        return wardNum;
+    public int getWardId () {
+        return wardId;
     }
 
-    public void setWardNum ( final int wardNum ) {
-        this.wardNum = wardNum;
+    public void setWardId ( final int wardId ) {
+        this.wardId = wardId;
     }
 
     public int getBedNum () {
