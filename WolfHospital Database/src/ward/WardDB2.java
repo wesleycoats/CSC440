@@ -12,8 +12,8 @@ public class WardDB2 {
         this.conn = conn;
     }
 
-    public Ward getById ( final int id ) {
-        final Ward s = new Ward();
+    public Ward2 getById ( final int id ) {
+        final Ward2 s = new Ward2();
         try {
             final PreparedStatement stmt = conn.prepareStatement( "SELECT * FROM ward WHERE id = ?;" );
             stmt.setInt( 1, id );
@@ -34,7 +34,7 @@ public class WardDB2 {
         return s;
     }
 
-    public boolean insert ( final Ward s ) {
+    public boolean insert ( final Ward2 s ) {
         try {
             final PreparedStatement stmt = conn.prepareStatement( "INSERT INTO ward VALUES (?,?,?,?,?,?);" );
             stmt.setInt( 1, s.getId() );
@@ -53,11 +53,10 @@ public class WardDB2 {
         return false;
     }
 
-    public boolean update ( final Ward s ) {
+    public boolean update ( final Ward2 s ) {
         try {
             final PreparedStatement stmt = conn.prepareStatement( "UPDATE ward SET ward_number = ?, "
-                                                                + "capcity = ?, charges_per_day = ?, open_beds = ?, " 
-                                                                + "nurse_id = ? WHERE id = ?;" );
+                    + "capcity = ?, charges_per_day = ?, open_beds = ?, " + "nurse_id = ? WHERE id = ?;" );
             stmt.setInt( 1, s.getWardNum() );
             stmt.setInt( 2, s.getCapacity() );
             stmt.setFloat( 3, s.getCharge() );
