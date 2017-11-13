@@ -11,6 +11,31 @@ public class BillingAccount {
     private String pmtType;
     private String address;
 
+    /** Empty constructor */
+    public BillingAccount () {
+    }
+
+    /** Constructor with id */
+    public BillingAccount ( final int id, final int checkinId, final Date date, final String payerSsn,
+            final String pmtType, final String address ) {
+        setId( id );
+        setCheckinId( checkinId );
+        setDate( date );
+        setPayerSsn( payerSsn );
+        setPmtType( pmtType );
+        setAddress( address );
+    }
+
+    /** Constructor without id */
+    public BillingAccount ( final int checkinId, final Date date, final String payerSsn, final String pmtType,
+            final String address ) {
+        setCheckinId( checkinId );
+        setDate( date );
+        setPayerSsn( payerSsn );
+        setPmtType( pmtType );
+        setAddress( address );
+    }
+
     public int getId () {
         return id;
     }

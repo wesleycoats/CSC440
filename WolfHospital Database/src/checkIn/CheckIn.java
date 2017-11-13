@@ -12,6 +12,33 @@ public class CheckIn {
     private int   bedNum;
     private float fee;
 
+    /** Empty constructor */
+    public CheckIn () {
+    }
+
+    /** Constructor with id */
+    public CheckIn ( final int id, final int patientId, final Date startDate, final Date endDate, final int wardId,
+            final int bedNum, final float fee ) {
+        setId( id );
+        setPatientId( patientId );
+        setStartDate( startDate );
+        setEndDate( endDate );
+        setWardId( wardId );
+        setBedNum( bedNum );
+        setFee( fee );
+    }
+
+    /** Constructor without id */
+    public CheckIn ( final int patientId, final Date startDate, final Date endDate, final int wardId, final int bedNum,
+            final float fee ) {
+        setPatientId( patientId );
+        setStartDate( startDate );
+        setEndDate( endDate );
+        setWardId( wardId );
+        setBedNum( bedNum );
+        setFee( fee );
+    }
+
     public int getId () {
         return id;
     }

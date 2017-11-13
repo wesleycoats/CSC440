@@ -13,6 +13,35 @@ public class Patient {
     private String address;
     private String status;
 
+    /** Empty constructor */
+    public Patient () {
+    }
+
+    /** Constructor with id */
+    public Patient ( final int id, final String name, final String ssn, final Date dob, final String gender,
+            final String phone, final String address, final String status ) {
+        setId( id );
+        setName( name );
+        setSsn( ssn );
+        setDob( dob );
+        setGender( gender );
+        setPhone( phone );
+        setAddress( address );
+        setStatus( status );
+    }
+
+    /** Constructor without id */
+    public Patient ( final String name, final String ssn, final Date dob, final String gender, final String phone,
+            final String address, final String status ) {
+        setName( name );
+        setSsn( ssn );
+        setDob( dob );
+        setGender( gender );
+        setPhone( phone );
+        setAddress( address );
+        setStatus( status );
+    }
+
     public int getId () {
         return id;
     }

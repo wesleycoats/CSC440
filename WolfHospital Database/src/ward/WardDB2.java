@@ -5,10 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class WardDB {
+public class WardDB2 {
     private final Connection conn;
 
-    public WardDB ( final Connection conn ) {
+    public WardDB2 ( final Connection conn ) {
         this.conn = conn;
     }
 
@@ -19,11 +19,11 @@ public class WardDB {
             stmt.setInt( 1, id );
             final ResultSet rs = stmt.executeQuery();
             if ( rs.next() ) {
-                s.setWardNum( id );
-                s.setCapacity1( rs.getInt( "capacity_one" ) );
-                s.setCapacity2( rs.getInt( "capacity_two" ) );
-                s.setCapacity3( rs.getInt( "capacity_three" ) );
+                s.setId( id );
+                s.setWardNum( rs.getInt( "ward_number" ) );
+                s.setCapacity( rs.getInt( "capacity" ) );
                 s.setCharge( rs.getFloat( "charges_per_day" ) );
+                s.setOpenBeds( rs.getInt( "open_beds" ) );
                 s.setNurseId( rs.getInt( "nurse_id" ) );
             }
         }
@@ -37,11 +37,11 @@ public class WardDB {
     public boolean insert ( final Ward s ) {
         try {
             final PreparedStatement stmt = conn.prepareStatement( "INSERT INTO ward VALUES (?,?,?,?,?,?);" );
-            stmt.setInt( 1, s.getWardNum() );
-            stmt.setInt( 2, s.getCapacity1() );
-            stmt.setInt( 3, s.getCapacity2() );
-            stmt.setInt( 4, s.getCapacity3() );
-            stmt.setFloat( 5, s.getCharge() );
+            stmt.setInt( 1, s.getId() );
+            stmt.setInt( 2, s.getWardNum() );
+            stmt.setInt( 3, s.getCapacity() );
+            stmt.setFloat( 4, s.getCharge() );
+            stmt.setInt( 5, s.getOpenBeds() );
             stmt.setInt( 6, s.getNurseId() );
 
             return ( stmt.executeUpdate() > 0 );
@@ -55,12 +55,13 @@ public class WardDB {
 
     public boolean update ( final Ward s ) {
         try {
-            final PreparedStatement stmt = conn.prepareStatement( "UPDATE ward SET capacity_one = ?, "
-                    + "capcity_two = ?, capacity_three = ?, charges_per_day = ?, nurse_id = ? WHERE id = ?;" );
-            stmt.setInt( 1, s.getCapacity1() );
-            stmt.setInt( 2, s.getCapacity2() );
-            stmt.setInt( 3, s.getCapacity3() );
-            stmt.setFloat( 4, s.getCharge() );
+            final PreparedStatement stmt = conn.prepareStatement( "UPDATE ward SET ward_number = ?, "
+                                                                + "capcity = ?, charges_per_day = ?, open_beds = ?, " 
+                                                                + "nurse_id = ? WHERE id = ?;" );
+            stmt.setInt( 1, s.getWardNum() );
+            stmt.setInt( 2, s.getCapacity() );
+            stmt.setFloat( 3, s.getCharge() );
+            stmt.setInt( 4, s.getOpenBeds() );
             stmt.setInt( 5, s.getNurseId() );
             stmt.setInt( 6, s.getWardNum() );
             return ( stmt.executeUpdate() > 0 );

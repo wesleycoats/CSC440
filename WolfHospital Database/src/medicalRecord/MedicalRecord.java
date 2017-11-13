@@ -19,6 +19,50 @@ public class MedicalRecord {
     private float  treatmentFee;
     private int    specialistId;
 
+    /** Empty constructor */
+    public MedicalRecord () {
+    }
+
+    /** Constructor with id */
+    public MedicalRecord ( final int id, final int patientId, final Date startDate, final Date endDate,
+            final int doctorId, final String testType, final String testResult, final String prescription,
+            final String diagDetails, final String treatment, final float consultFee, final float testFee,
+            final float treatmentFee, final int specialistId ) {
+        setId( id );
+        setPatientId( patientId );
+        setStartDate( startDate );
+        setEndDate( endDate );
+        setDoctorId( doctorId );
+        setTestType( testType );
+        setTestResult( testResult );
+        setPrescription( prescription );
+        setDiagDetails( diagDetails );
+        setTreatment( treatment );
+        setConsultFee( consultFee );
+        setTestFee( testFee );
+        setTreatmentFee( treatmentFee );
+        setSpecialistId( specialistId );
+    }
+
+    /** Constructor without id */
+    public MedicalRecord ( final int patientId, final Date startDate, final Date endDate, final int doctorId,
+            final String testType, final String testResult, final String prescription, final String diagDetails,
+            final String treatment, final float consultFee, final float testFee, final float treatmentFee,
+            final int specialistId ) {
+        setStartDate( startDate );
+        setEndDate( endDate );
+        setDoctorId( doctorId );
+        setTestType( testType );
+        setTestResult( testResult );
+        setPrescription( prescription );
+        setDiagDetails( diagDetails );
+        setTreatment( treatment );
+        setConsultFee( consultFee );
+        setTestFee( testFee );
+        setTreatmentFee( treatmentFee );
+        setSpecialistId( specialistId );
+    }
+
     public int getId () {
         return id;
     }

@@ -1,10 +1,22 @@
 package controller;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import checkIn.CheckIn;
+import checkIn.CheckInDB;
+import medicalRecord.MedicalRecord;
+import medicalRecord.MedicalRecordDB;
+import patient.Patient;
+import patient.PatientDB;
+import staff.Staff;
+import staff.StaffDB;
+import ward.Ward;
+import ward.WardDB;
 
 /**
  * Class to handle resetting and creating the WolfHospital database, as well as
@@ -85,8 +97,15 @@ public class DatabaseBuilder {
                 + "patientSSN NVARCHAR(11)," + "date_of_birth DATE NOT NULL, gender NVARCHAR(10) NOT NULL,"
                 + "phone NVARCHAR(20) NOT NULL, address NVARCHAR(128) NOT NULL, status NVARCHAR(30) NOT NULL);";
 
-        final String ward = "CREATE TABLE IF NOT EXISTS ward(id INT PRIMARY KEY, ward_number INT NOT NULL, capacity INT NOT NULL, charges_per_day FLOAT NOT NULL,"
-                + "open_beds INT NOT NULL, nurse_id INT, CONSTRAINT ward_nurse_fk FOREIGN KEY(nurse_id) REFERENCES staff(id));";
+        // final String ward = "CREATE TABLE IF NOT EXISTS ward(id INT PRIMARY
+        // KEY, ward_number INT NOT NULL, capacity INT NOT NULL, charges_per_day
+        // FLOAT NOT NULL,"
+        // + "open_beds INT NOT NULL, nurse_id INT, CONSTRAINT ward_nurse_fk
+        // FOREIGN KEY(nurse_id) REFERENCES staff(id));";
+
+        final String ward = "CREATE TABLE IF NOT EXISTS ward(id INT PRIMARY KEY, capacity_one INT NOT NULL, "
+                + "capacity_two INT NOT NULL, capacity_three INT NOT NULL, charges_per_day FLOAT NOT NULL,"
+                + "nurse_id INT, CONSTRAINT ward_nurse_fk FOREIGN KEY(nurse_id) REFERENCES staff(id));";
 
         final String checkin = "CREATE TABLE IF NOT EXISTS check_in(id INT AUTO_INCREMENT, patient_id INT, start_date DATETIME,"
                 + "CONSTRAINT check_in_pk PRIMARY KEY(id, patient_id, start_date),"
@@ -123,7 +142,49 @@ public class DatabaseBuilder {
 
     /** Populates tables with sample data */
     public static void generateData () {
-        // TODO: write queries to insert data
+        final Date d1 = new Date( 1981, 10, 16 );
+        final Staff operator = new Staff( 1001, "Simpson", d1, "F", "919", "21 ABC St , NC 27", "Billing", "Biller",
+                "Accounts Supervisor" );
+
+        final Date d2 = new Date( 1972, 07, 15 );
+        final Staff nurse1 = new Staff( 1002, "David", d2, "M", "123", "22 ABC St , NC 27", "Casuality", "Nurse",
+                "Senior Nurse" );
+
+        final Date d3 = new Date( 1982, 02, 18 );
+        final Staff nurse2 = new Staff( 1005, "Ruth", d3, "F", "456", "23 ABC St , NC 27", "Casuality", "Nurse",
+                "Assistant Nurse" );
+
+        final Date d4 = new Date( 1977, 01, 01 );
+        final Staff doctor1 = new Staff( 1003, "Lucy", d4, "F", "631", "42 ABC St , NC 27", "Intensive Care", "Doctor",
+                "Senior Surgeon" );
+
+        final Date d5 = new Date( 1976, 03, 27 );
+        final Staff doctor2 = new Staff( 1004, "Joseph", d5, "M", "327", "51 ABC St , NC 27", "Pulmonary", "Doctor",
+                "Pulmonologist" );
+
+        final Ward ward = new Ward();
+
+        final CheckIn checkin = new CheckIn();
+
+        final Patient patient1 = new Patient();
+
+        final MedicalRecord medicalRecord1 = new MedicalRecord();
+
+        final MedicalRecord medicalRecord2 = new MedicalRecord();
+
+        try {
+            Class.forName( DRIVER );
+            final Connection conn = DriverManager.getConnection( URL, USER, PW );
+            final StaffDB staffDB = new StaffDB( conn );
+            final WardDB wardDB = new WardDB( conn );
+            final CheckInDB checkinDB = new CheckInDB( conn );
+            final PatientDB patientDB = new PatientDB( conn );
+            final MedicalRecordDB medDB = new MedicalRecordDB( conn );
+
+        }
+        catch ( final Exception e ) {
+            e.printStackTrace();
+        }
 
     }
 
