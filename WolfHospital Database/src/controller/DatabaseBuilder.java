@@ -129,18 +129,17 @@ public class DatabaseBuilder {
                 + "visit_date DATETIME, payerSSN NVARCHAR(11) NOT NULL, payment_type NVARCHAR(128) NOT NULL,"
                 + "billing_address NVARCHAR(128) NOT NULL);";
 
-        final String billingRecordCost = "CREATE TABLE IF NOT EXISTS billing_record_cost(type NVARCHAR(128) PRIMARY KEY, cost FLOAT NOT NULL);";
-
         final String billingRecord = "CREATE TABLE IF NOT EXISTS billing_record(patient_id INT, check_in_id INT, type NVARCHAR(128),"
                 + "CONSTRAINT bill_rec_pk PRIMARY KEY(patient_id, check_in_id, type),"
                 + "CONSTRAINT bill_rec_patient_id_fk FOREIGN KEY(patient_id) REFERENCES billing_account(patient_id) ON DELETE CASCADE,"
                 + "CONSTRAINT bill_rec_visit_date_fk FOREIGN KEY(check_in_id) REFERENCES billing_account(check_in_id) ON DELETE CASCADE,"
                 + "CONSTRAINT bill_rec_type_fk FOREIGN KEY(type) REFERENCES billing_record_cost(type));";
 
-        executeQuery( staff, patient, ward, checkin, medicalRecord, billingAccount, billingRecordCost, billingRecord );
+        executeQuery( staff, patient, ward, checkin, medicalRecord, billingAccount, billingRecord );
     }
 
     /** Populates tables with sample data */
+    @SuppressWarnings ( "deprecation" )
     public static void generateData () {
         final Date d1 = new Date( 1981, 10, 16 );
         final Staff operator = new Staff( 1001, "Simpson", d1, "F", "919", "21 ABC St , NC 27", "Billing", "Biller",
@@ -162,15 +161,24 @@ public class DatabaseBuilder {
         final Staff doctor2 = new Staff( 1004, "Joseph", d5, "M", "327", "51 ABC St , NC 27", "Pulmonary", "Doctor",
                 "Pulmonologist" );
 
-        final Ward ward = new Ward();
+        final Ward ward = new Ward( 5001, 1, 0, 0, 57, 1002 );
 
-        final CheckIn checkin = new CheckIn();
+        final Date d6 = new Date( 2017, 10, 05 );
+        final CheckIn checkin = new CheckIn( 1001, 3001, d6, null, 5001, 1, 20 );
 
-        final Patient patient1 = new Patient();
+        final Date d7 = new Date( 1986, 10, 22 );
+        final Patient patient1 = new Patient( 3001, "John", null, d7, "M", "513", "81 ABC St , NC 27",
+                "Treatment complete" );
 
-        final MedicalRecord medicalRecord1 = new MedicalRecord();
+        final Date d8 = new Date( 2017, 10, 05 );
+        final Date d9 = new Date( 2017, 10, 31 );
+        final MedicalRecord medicalRecord1 = new MedicalRecord( 2001, 3001, d8, d9, 1003, "TB blood test", "positive",
+                "antibiotics", "Testing for TB", "TB treatment", 50, 75, 199, 1004 );
 
-        final MedicalRecord medicalRecord2 = new MedicalRecord();
+        final Date d10 = new Date( 2017, 11, 01 );
+        final Date d11 = new Date( 2017, 11, 16 );
+        final MedicalRecord medicalRecord2 = new MedicalRecord( 2002, 3001, d10, d11, 1003, "X-ray chest (TB) Advanced",
+                "negative", "continue antibiotics", "Testing for TB", "Not required", 0, 125, 0, 1004 );
 
         try {
             Class.forName( DRIVER );
@@ -181,8 +189,26 @@ public class DatabaseBuilder {
             final PatientDB patientDB = new PatientDB( conn );
             final MedicalRecordDB medDB = new MedicalRecordDB( conn );
 
+            staffDB.insert( operator );
+            staffDB.insert( nurse1 );
+            staffDB.insert( nurse2 );
+            staffDB.insert( doctor1 );
+            staffDB.insert( doctor2 );
+            wardDB.insert( ward );
+            checkinDB.insert( checkin );
+            patientDB.insert( patient1 );
+            medDB.insert( medicalRecord1 );
+            medDB.insert( medicalRecord2 );
         }
         catch ( final Exception e ) {
+            try {
+                dropDB();
+            }
+            catch ( final Exception e2 ) {
+                e.printStackTrace();
+            }
+            createDB();
+            createTables();
             e.printStackTrace();
         }
 
