@@ -125,17 +125,16 @@ public class DatabaseBuilder {
         final String billingAccount = "CREATE TABLE IF NOT EXISTS billing_account(patient_id INT, check_in_id INT,"
                 + "CONSTRAINT bill_acc_pk PRIMARY KEY(patient_id, check_in_id),"
                 + "CONSTRAINT bill_acc_patient_id_fk FOREIGN KEY(patient_id) REFERENCES patient(id) ON DELETE CASCADE,"
-                + "CONSTRAINT bill_acc_visit_date_fk FOREIGN KEY(check_in_id) REFERENCES check_in(id),"
+                + "CONSTRAINT bill_acc_check_in_id_fk FOREIGN KEY(check_in_id) REFERENCES check_in(id),"
                 + "visit_date DATETIME, payerSSN NVARCHAR(11) NOT NULL, payment_type NVARCHAR(128) NOT NULL,"
                 + "billing_address NVARCHAR(128) NOT NULL);";
 
-        final String billingRecord = "CREATE TABLE IF NOT EXISTS billing_record(patient_id INT, check_in_id INT, type NVARCHAR(128),"
-                + "CONSTRAINT bill_rec_pk PRIMARY KEY(patient_id, check_in_id, type),"
-                + "CONSTRAINT bill_rec_patient_id_fk FOREIGN KEY(patient_id) REFERENCES billing_account(patient_id) ON DELETE CASCADE,"
-                + "CONSTRAINT bill_rec_visit_date_fk FOREIGN KEY(check_in_id) REFERENCES billing_account(check_in_id) ON DELETE CASCADE,"
-                + "CONSTRAINT bill_rec_type_fk FOREIGN KEY(type) REFERENCES billing_record_cost(type));";
+//        final String billingRecord = "CREATE TABLE IF NOT EXISTS billing_record(patient_id INT, check_in_id INT,"
+//                + "CONSTRAINT bill_rec_pk PRIMARY KEY(patient_id, check_in_id),"
+//                + "CONSTRAINT bill_rec_patient_id_fk FOREIGN KEY(patient_id) REFERENCES billing_account(patient_id) ON DELETE CASCADE,"
+//                + "CONSTRAINT bill_rec_visit_date_fk FOREIGN KEY(check_in_id) REFERENCES billing_account(check_in_id) ON DELETE CASCADE;";
 
-        executeQuery( staff, patient, ward, checkin, medicalRecord, billingAccount, billingRecord );
+        executeQuery( staff, patient, ward, checkin, medicalRecord, billingAccount );
     }
 
     /** Populates tables with sample data */
@@ -195,8 +194,8 @@ public class DatabaseBuilder {
             staffDB.insert( doctor1 );
             staffDB.insert( doctor2 );
             wardDB.insert( ward );
-            checkinDB.insert( checkin );
             patientDB.insert( patient1 );
+            checkinDB.insert( checkin );
             medDB.insert( medicalRecord1 );
             medDB.insert( medicalRecord2 );
         }
