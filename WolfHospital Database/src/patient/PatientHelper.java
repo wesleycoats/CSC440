@@ -1,23 +1,22 @@
-package staff;
+package patient;
 
 import java.sql.Connection;
 import java.sql.Date;
 import java.util.Scanner;
 
-public class StaffHelper {
+public class PatientHelper {
+private Connection conn;
 	
-	private Connection conn;
+	public static final int NUMBER_OF_ATTRIBUTES = 8;
 	
-	public static final int NUMBER_OF_ATTRIBUTES = 9;
-	
-	public StaffHelper(Connection conn) {
+	public PatientHelper(Connection conn) {
 		this.conn = conn;
 	}
 	
 	public void add(Scanner scan) {
-		StaffDB sdb = new StaffDB(conn);
+		PatientDB pdb = new PatientDB(conn);
 		while(true) {
-			System.out.println("Enter the staff information in the following format: Id, Name, Date of Birth (YYYY-MM-DD), Gender, Phone Number, Address, Department, Job Title, Professional Title");
+			System.out.println("Enter the patient information in the following format: Id, Name, SSN, Date of Birth (YYYY-MM-DD), Gender, Phone Number, Address, Status");
 			System.out.print("> ");
 			String in = scan.nextLine().toLowerCase();
 			if (in.equals("b") || in.equals("back")) {
@@ -25,11 +24,11 @@ public class StaffHelper {
 			}
 			String[] inputArray = in.split(",");
 			if (inputArray.length == NUMBER_OF_ATTRIBUTES) {
-				Staff s = new Staff();
+				Patient p = new Patient();
 				try {
 					int id = Integer.parseInt(inputArray[0].trim());
-					if(sdb.getById(id) == null) {
-						s.setId(id);
+					if(pdb.getById(id) == null) {
+						p.setId(id);
 					} else {
 						System.out.println("An entry already exists with that id");
 						continue;
@@ -38,23 +37,22 @@ public class StaffHelper {
 					System.out.println("Invalid Id");
 					continue;
 				}
-				s.setName(inputArray[1].trim());
+				p.setSsn(inputArray[1].trim());
+				p.setName(inputArray[2].trim());
 				try {
-					s.setDateOfBirth(Date.valueOf(inputArray[2].trim()));
+					p.setDob(Date.valueOf(inputArray[3].trim()));
 				} catch (IllegalArgumentException e) {
 					System.out.println("Invalid Date");
 					continue;
 				}
-				s.setGender(inputArray[3].trim());
-				s.setPhoneNumber(inputArray[4].trim());
-				s.setAddress(inputArray[5].trim());
-				s.setDepartment(inputArray[6].trim());
-				s.setJobTitle(inputArray[7].trim());
-				s.setProfessionalTitle(inputArray[8].trim());
-				if (sdb.insert(s)) {
-					System.out.println("Staff successfully added");
+				p.setGender(inputArray[4].trim());
+				p.setPhone(inputArray[5].trim());
+				p.setAddress(inputArray[6].trim());
+				p.setStatus(inputArray[7].trim());
+				if (pdb.insert(p)) {
+					System.out.println("Patient successfully added");
 				} else {
-					System.out.println("Error adding staff");
+					System.out.println("Error adding patient");
 				}
 				return;
 			} else {
@@ -64,11 +62,11 @@ public class StaffHelper {
 	}
 	
 	public void update(Scanner scan) {
-		StaffDB sdb = new StaffDB(conn);
-		Staff s = null;
+		PatientDB pdb = new PatientDB(conn);
+		Patient p = null;
 		int id;
 		while(true) {
-			System.out.println("Enter the id of the staff entry to update");
+			System.out.println("Enter the id of the patient entry to update");
 			System.out.print("> ");
 			String in = scan.nextLine().trim().toLowerCase();
 			if (in.equals("b") || in.equals("back")) {
@@ -76,9 +74,9 @@ public class StaffHelper {
 			}
 			try {
 				id = Integer.parseInt(in);
-				s = sdb.getById(id);
-				if (s == null) {
-					System.out.println("No staff found with that ID");
+				p = pdb.getById(id);
+				if (p == null) {
+					System.out.println("No patient found with that ID");
 					continue;
 				}
 				break;
@@ -87,7 +85,7 @@ public class StaffHelper {
 			}
 		}
 		while(true) {
-			System.out.println("Enter new data for this entry in the following format: Id, Name, Date of Birth (YYYY-MM-DD), Gender, Phone Number, Address, Department, Job Title, Professional Title");
+			System.out.println("Enter new data for this entry in the following format: Id, Name, SSN, Date of Birth (YYYY-MM-DD), Gender, Phone Number, Address, Status");
 			System.out.println("Enter * to keep an entry the same");
 			System.out.print("> ");
 			String in = scan.nextLine().toLowerCase();
@@ -99,8 +97,8 @@ public class StaffHelper {
 				if(!inputArray[0].trim().equals("*")) {
 					try {
 						int newId = Integer.parseInt(inputArray[0].trim());
-						if(sdb.getById(newId) == null) {
-							s.setId(newId);
+						if(pdb.getById(newId) == null) {
+							p.setId(newId);
 						} else {
 							System.out.println("An entry already exists with that id");
 							continue;
@@ -111,38 +109,32 @@ public class StaffHelper {
 					}
 				}
 				if (!inputArray[1].trim().equals("*")) {
-					s.setName(inputArray[1].trim());
+					p.setName(inputArray[1].trim());
 				}
-				if (!inputArray[2].trim().equals("*")) {
+				if (!inputArray[3].trim().equals("*")) {
 					try {
-						s.setDateOfBirth(Date.valueOf(inputArray[2].trim()));
+						p.setDob(Date.valueOf(inputArray[3].trim()));
 					} catch (IllegalArgumentException e) {
 						System.out.println("Invalid Date");
 						continue;
 					}
 				}
-				if (!inputArray[3].trim().equals("*")) {
-					s.setGender(inputArray[3].trim());	
-				}
 				if (!inputArray[4].trim().equals("*")) {
-					s.setPhoneNumber(inputArray[4].trim());
+					p.setGender(inputArray[4].trim());	
 				}
 				if (!inputArray[5].trim().equals("*")) {
-					s.setAddress(inputArray[5].trim());
+					p.setPhone(inputArray[5].trim());
 				}
 				if (!inputArray[6].trim().equals("*")) {
-					s.setDepartment(inputArray[6].trim());
+					p.setAddress(inputArray[6].trim());
 				}
 				if (!inputArray[7].trim().equals("*")) {
-					s.setJobTitle(inputArray[7].trim());
+					p.setStatus(inputArray[7].trim());
 				}
-				if (!inputArray[8].trim().equals("*")) {
-					s.setProfessionalTitle(inputArray[8].trim());
-				}
-				if(sdb.update(id, s)) {
-					System.out.println("Staff successfully updated");
+				if(pdb.update(id, p)) {
+					System.out.println("Patient successfully updated");
 				} else {
-					System.out.println("Error updating staff");
+					System.out.println("Error updating patient");
 				}
 				return;
 			} else {
@@ -152,10 +144,10 @@ public class StaffHelper {
 	}
 	
 	public void delete(Scanner scan) {
-		StaffDB sdb = new StaffDB(conn);
+		PatientDB pdb = new PatientDB(conn);
 		int id;
 		while(true) {
-			System.out.println("Enter the id of the staff entry to delete");
+			System.out.println("Enter the id of the patient entry to delete");
 			System.out.print("> ");
 			String in = scan.nextLine().trim().toLowerCase();
 			if (in.equals("b") || in.equals("back")) {
@@ -167,11 +159,11 @@ public class StaffHelper {
 				System.out.println("Invalid id");
 				continue;
 			}
-			if(sdb.getById(id) != null) {
-				if(sdb.deleteById(id)) {
-					System.out.println("Staff entry successfully deleted");
+			if(pdb.getById(id) != null) {
+				if(pdb.deleteById(id)) {
+					System.out.println("Patient entry successfully deleted");
 				} else {
-					System.out.println("Staff entry could not be deleted");
+					System.out.println("Patient entry could not be deleted");
 				}
 				return;
 			} else {

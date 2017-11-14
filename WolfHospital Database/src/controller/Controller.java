@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Scanner;
 
+import patient.PatientHelper;
 import staff.StaffHelper;
 
 public class Controller {
@@ -33,7 +34,7 @@ public class Controller {
 				} else if (in.equals("u") || in.equals("update")) {
 					update(scan);
 				} else if (in.equals("d") || in.equals("delete")) {
-					delete();
+					delete(scan);
 				} else if (in.equals("e") || in.equals("exit")) {
 					break;
 				} else {
@@ -56,7 +57,9 @@ public class Controller {
 			String in = scan.nextLine();
 			in = in.toLowerCase();
 			if(in.equals("p") || in.equals("patient")) {
-				
+				PatientHelper ph = new PatientHelper(conn);
+				ph.add(scan);
+				return;
 			} else if (in.equals("s") || in.equals("staff")) {
 				StaffHelper sh = new StaffHelper(conn);
 				sh.add(scan);
@@ -82,7 +85,9 @@ public class Controller {
 			String in = scan.nextLine();
 			in = in.toLowerCase();
 			if(in.equals("p") || in.equals("patient")) {
-				
+				PatientHelper ph = new PatientHelper(conn);
+				ph.update(scan);
+				return;
 			} else if (in.equals("s") || in.equals("staff")) {
 				StaffHelper sh = new StaffHelper(conn);
 				sh.update(scan);
@@ -101,9 +106,28 @@ public class Controller {
 		}
 	}
 
-	private static void delete() {
-		// TODO Auto-generated method stub
-		
+	private static void delete(Scanner scan) {
+		while(true) {
+			System.out.println("What to delete? (p-Patient, s-Staff, w-Ward, or b-Back to return)");
+			System.out.print("> ");
+			String in = scan.nextLine();
+			in = in.toLowerCase();
+			if(in.equals("p") || in.equals("patient")) {
+				PatientHelper ph = new PatientHelper(conn);
+				ph.delete(scan);
+				return;
+			} else if (in.equals("s") || in.equals("staff")) {
+				StaffHelper sh = new StaffHelper(conn);
+				sh.delete(scan);
+				return;
+			} else if (in.equals("w") || in.equals("ward")) {
+			
+			} else if (in.equals("b") || in.equals("back")) {
+				return;
+			} else {
+				System.out.println("Invalid Command");
+			}
+		}
 	}
 
 }
