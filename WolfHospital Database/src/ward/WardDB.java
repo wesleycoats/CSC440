@@ -13,12 +13,13 @@ public class WardDB {
     }
 
     public Ward getById ( final int id ) {
-        final Ward s = new Ward();
+        Ward s = null;
         try {
             final PreparedStatement stmt = conn.prepareStatement( "SELECT * FROM ward WHERE id = ?;" );
             stmt.setInt( 1, id );
             final ResultSet rs = stmt.executeQuery();
             if ( rs.next() ) {
+            	s = new Ward();
                 s.setWardNum( id );
                 s.setCapacity1( rs.getInt( "capacity_one" ) );
                 s.setCapacity2( rs.getInt( "capacity_two" ) );

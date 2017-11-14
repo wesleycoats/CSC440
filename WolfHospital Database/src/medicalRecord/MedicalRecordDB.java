@@ -14,12 +14,13 @@ public class MedicalRecordDB {
     }
 
     public MedicalRecord getById ( final int id ) {
-        final MedicalRecord s = new MedicalRecord();
+        MedicalRecord s = null;
         try {
             final PreparedStatement stmt = conn.prepareStatement( "SELECT * FROM medical_record WHERE id = ?;" );
             stmt.setInt( 1, id );
             final ResultSet rs = stmt.executeQuery();
             if ( rs.next() ) {
+            	s = new MedicalRecord();
                 s.setId( id );
                 s.setPatientId( rs.getInt( "patient_id" ) );
                 s.setStartDate( rs.getDate( "start_date" ) );

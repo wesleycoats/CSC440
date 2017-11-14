@@ -14,12 +14,13 @@ public class BillingAccountDB {
     }
 
     public BillingAccount getById ( final int id ) {
-        final BillingAccount b = new BillingAccount();
+        BillingAccount b = null;
         try {
             final PreparedStatement stmt = conn.prepareStatement( "SELECT * FROM billing_account WHERE id = ?;" );
             stmt.setInt( 1, id );
             final ResultSet rs = stmt.executeQuery();
             if ( rs.next() ) {
+            	b = new BillingAccount();
                 b.setId( id );
                 b.setCheckinId( rs.getInt( "check_in_id" ) );
                 b.setDate( rs.getDate( "visit_date" ) );

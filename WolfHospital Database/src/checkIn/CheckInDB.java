@@ -13,12 +13,13 @@ public class CheckInDB {
     }
 
     public CheckIn getById ( final int id ) {
-        final CheckIn s = new CheckIn();
+        CheckIn s = null;
         try {
             final PreparedStatement stmt = conn.prepareStatement( "SELECT * FROM check_in WHERE id = ?;" );
             stmt.setInt( 1, id );
             final ResultSet rs = stmt.executeQuery();
             if ( rs.next() ) {
+            	s = new CheckIn();
                 s.setId( id );
                 s.setPatientId( rs.getInt( "patient_id" ) );
                 s.setStartDate( rs.getDate( "start_date" ) );
