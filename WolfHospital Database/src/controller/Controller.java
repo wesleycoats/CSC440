@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Scanner;
 
+import checkIn.CheckInHelper;
+import medicalRecord.MedicalRecordHelper;
 import patient.PatientHelper;
 import staff.StaffHelper;
+import ward.WardHelper;
 
 public class Controller {
 
@@ -125,7 +128,7 @@ public class Controller {
                 return;
             }
             else if ( in.equals( "m" ) || in.equals( "medical record" ) ) {
-                final MedicalRecordHelper ph = new MedicalRecordHelper( conn );
+                final MedicalRecordHelper mh = new MedicalRecordHelper( conn );
                 mh.update( scan );
                 return;
             }

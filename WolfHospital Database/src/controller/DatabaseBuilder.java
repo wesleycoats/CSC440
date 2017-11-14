@@ -97,12 +97,6 @@ public class DatabaseBuilder {
                 + "patientSSN NVARCHAR(11)," + "date_of_birth DATE NOT NULL, gender NVARCHAR(10) NOT NULL,"
                 + "phone NVARCHAR(20) NOT NULL, address NVARCHAR(128) NOT NULL, status NVARCHAR(30) NOT NULL);";
 
-        // final String ward = "CREATE TABLE IF NOT EXISTS ward(id INT PRIMARY
-        // KEY, ward_number INT NOT NULL, capacity INT NOT NULL, charges_per_day
-        // FLOAT NOT NULL,"
-        // + "open_beds INT NOT NULL, nurse_id INT, CONSTRAINT ward_nurse_fk
-        // FOREIGN KEY(nurse_id) REFERENCES staff(id));";
-
         final String ward = "CREATE TABLE IF NOT EXISTS ward(id INT PRIMARY KEY, capacity_one INT NOT NULL, "
                 + "capacity_two INT NOT NULL, capacity_three INT NOT NULL, charges_per_day FLOAT NOT NULL,"
                 + "nurse_id INT, CONSTRAINT ward_nurse_fk FOREIGN KEY(nurse_id) REFERENCES staff(id));";
@@ -128,11 +122,6 @@ public class DatabaseBuilder {
                 + "CONSTRAINT bill_acc_check_in_id_fk FOREIGN KEY(check_in_id) REFERENCES check_in(id),"
                 + "visit_date DATETIME, payerSSN NVARCHAR(11) NOT NULL, payment_type NVARCHAR(128) NOT NULL,"
                 + "billing_address NVARCHAR(128) NOT NULL);";
-
-//        final String billingRecord = "CREATE TABLE IF NOT EXISTS billing_record(patient_id INT, check_in_id INT,"
-//                + "CONSTRAINT bill_rec_pk PRIMARY KEY(patient_id, check_in_id),"
-//                + "CONSTRAINT bill_rec_patient_id_fk FOREIGN KEY(patient_id) REFERENCES billing_account(patient_id) ON DELETE CASCADE,"
-//                + "CONSTRAINT bill_rec_visit_date_fk FOREIGN KEY(check_in_id) REFERENCES billing_account(check_in_id) ON DELETE CASCADE;";
 
         executeQuery( staff, patient, ward, checkin, medicalRecord, billingAccount );
     }
