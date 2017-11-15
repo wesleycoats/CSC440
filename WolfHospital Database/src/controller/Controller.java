@@ -89,8 +89,23 @@ public class Controller {
             }
             else if ( in.equals( "s" ) || in.equals( "staff" ) ) {
                 final StaffHelper sh = new StaffHelper( conn );
-                sh.add( scan );
-                return;
+                while(true) {
+            		System.out.println("Add o-One or m-Multiple entries?");
+            		System.out.print("> ");
+            		in = scan.nextLine();
+            		in = in.trim().toLowerCase();
+            		if(in.equals("o") || in.equals("one")) {
+            			sh.add(scan);
+            			return;
+            		} else if(in.equals("m") || in.equals("multiple")) {
+            			sh.addMultiple(scan);
+            			return;
+            		} else if(in.equals("b") || in.equals("back")) {
+            			return;
+            		} else {
+            			System.out.println("Invalid command");
+            		}
+            	}
             }
             else if ( in.equals( "w" ) || in.equals( "ward" ) ) {
                 final WardHelper wh = new WardHelper( conn );
