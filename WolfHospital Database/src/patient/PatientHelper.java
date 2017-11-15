@@ -68,42 +68,64 @@ public class PatientHelper {
         }
     }
     
+    /**
+	 * Continuously prompts the user to add new patient until the user sends commit. Uses a transaction to ensure that everything is added without errors.
+	 * @param scan A scanner for user input
+	 */
     public void addMultiple(Scanner scan) {
     	PatientDB pdb = new PatientDB(conn);
+    	
+    	//Prompt for input and explain format
     	System.out.println(
                 "Enter the patient information in the following format: Id, Name, SSN, Date of Birth (YYYY-MM-DD), Gender, Phone Number, Address, Status" );
-        System.out.println("Enter d-Done when all patients are added or b-Back to return and discard all changes");
+        System.out.println("Enter c-Commit when all patients are added or b-Back to return and discard all changes");
+        
+        //Disable auto-commit to start the transaction
         try {
         	conn.setAutoCommit(false);
         } catch (SQLException e) {
         	System.out.println("An error occured when communicating with the database");
         	return;
         }
+        
+        //Take input until the user inputs commit or back
         while(true) {
             System.out.print("> ");
             String in = scan.nextLine().trim().toLowerCase();
-            if(in.equals("d") || in.equals("done")) {
+            
+            //User finishes inputing data and runs commit
+            if(in.equals("c") || in.equals("commit")) {
             	try {
+            		//Commit transaction
             		conn.commit();
+            		//Set SQL back to using auto commit
             		conn.setAutoCommit(true);
             		System.out.println("Transaction Completed Successfully");
             	} catch (SQLException e) {
             		System.out.println("An error occured when communicating with the database");
             	}
             	return;
+            
+            //User wants to discard the data and go back
             } else if(in.equals("b") || in.equals("back")) {
             	try {
+            		//Rollback all changes
             		conn.rollback();
+            		//Set SQL back to using auto commit
             		conn.setAutoCommit(true);
             		System.out.println("Transaction rolled back");
             	} catch (SQLException e) {
             		System.out.println("An error occured when communicating with the database");
             	}
             	return;
+            	
+            //Parse user input into a patient object
             } else {
                 String[] inputArray = in.split(",");
+                //Ensure that the input has the proper number of attributes
                 if (inputArray.length == NUMBER_OF_ATTRIBUTES) {
                     Patient p = new Patient();
+                    //Add each attribute to the patient object
                     try {
                         final int id = Integer.parseInt( inputArray[0].trim() );
                         if ( pdb.getById( id ) == null ) {
@@ -131,12 +153,16 @@ public class PatientHelper {
                     p.setPhone( inputArray[5].trim() );
                     p.setAddress( inputArray[6].trim() );
                     p.setStatus( inputArray[7].trim() );
+                    
+                    //Insert the data into the database
                     if (pdb.insert(p)) {
                     	continue;
+                    //If the insert fails, rollback the changes
                     } else {
                     	System.out.println("Transaction Failed. Rolling Back Changes");
                     	try {
                     		conn.rollback();
+                    		conn.setAutoCommit(true);
                     	} catch (SQLException e) {
                     		System.out.println("An error occured when communicating with the database");
                     	}
