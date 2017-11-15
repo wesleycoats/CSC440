@@ -68,9 +68,24 @@ public class Controller {
             String in = scan.nextLine();
             in = in.toLowerCase();
             if ( in.equals( "p" ) || in.equals( "patient" ) ) {
-                final PatientHelper ph = new PatientHelper( conn );
-                ph.add( scan );
-                return;
+            	final PatientHelper ph = new PatientHelper( conn );
+            	while(true) {
+            		System.out.println("Add o-One or m-Multiple entries?");
+            		System.out.print("> ");
+            		in = scan.nextLine();
+            		in = in.trim().toLowerCase();
+            		if(in.equals("o") || in.equals("one")) {
+            			ph.add(scan);
+            			return;
+            		} else if(in.equals("m") || in.equals("multiple")) {
+            			ph.addMultiple(scan);
+            			return;
+            		} else if(in.equals("b") || in.equals("back")) {
+            			return;
+            		} else {
+            			System.out.println("Invalid command");
+            		}
+            	}
             }
             else if ( in.equals( "s" ) || in.equals( "staff" ) ) {
                 final StaffHelper sh = new StaffHelper( conn );

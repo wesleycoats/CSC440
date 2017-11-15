@@ -2,6 +2,7 @@ package patient;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class PatientHelper {
@@ -63,6 +64,91 @@ public class PatientHelper {
             }
             else {
                 System.out.println( "Invalid Formatting" );
+            }
+        }
+    }
+    
+    public void addMultiple(Scanner scan) {
+    	PatientDB pdb = new PatientDB(conn);
+    	System.out.println(
+                "Enter the patient information in the following format: Id, Name, SSN, Date of Birth (YYYY-MM-DD), Gender, Phone Number, Address, Status" );
+        System.out.println("Enter d-Done when all patients are added or b-Back to return and discard all changes");
+        try {
+        	conn.setAutoCommit(false);
+        } catch (SQLException e) {
+        	System.out.println("An error occured when communicating with the database");
+        	return;
+        }
+        while(true) {
+            System.out.print("> ");
+            String in = scan.nextLine().trim().toLowerCase();
+            if(in.equals("d") || in.equals("done")) {
+            	try {
+            		conn.commit();
+            		conn.setAutoCommit(true);
+            		System.out.println("Transaction Completed Successfully");
+            	} catch (SQLException e) {
+            		System.out.println("An error occured when communicating with the database");
+            	}
+            	return;
+            } else if(in.equals("b") || in.equals("back")) {
+            	try {
+            		conn.rollback();
+            		conn.setAutoCommit(true);
+            		System.out.println("Transaction rolled back");
+            	} catch (SQLException e) {
+            		System.out.println("An error occured when communicating with the database");
+            	}
+            	return;
+            } else {
+                String[] inputArray = in.split(",");
+                if (inputArray.length == NUMBER_OF_ATTRIBUTES) {
+                    Patient p = new Patient();
+                    try {
+                        final int id = Integer.parseInt( inputArray[0].trim() );
+                        if ( pdb.getById( id ) == null ) {
+                            p.setId( id );
+                        }
+                        else {
+                            System.out.println( "An entry already exists with that id" );
+                            continue;
+                        }
+                    }
+                    catch ( final NumberFormatException e ) {
+                        System.out.println( "Invalid Id" );
+                        continue;
+                    }
+                    p.setSsn( inputArray[1].trim() );
+                    p.setName( inputArray[2].trim() );
+                    try {
+                        p.setDob( Date.valueOf( inputArray[3].trim() ) );
+                    }
+                    catch ( final IllegalArgumentException e ) {
+                        System.out.println( "Invalid Date" );
+                        continue;
+                    }
+                    p.setGender( inputArray[4].trim() );
+                    p.setPhone( inputArray[5].trim() );
+                    p.setAddress( inputArray[6].trim() );
+                    p.setStatus( inputArray[7].trim() );
+                    if (pdb.insert(p)) {
+                    	continue;
+                    } else {
+                    	System.out.println("Transaction Failed. Rolling Back Changes");
+                    	try {
+                    		conn.rollback();
+                    	} catch (SQLException e) {
+                    		System.out.println("An error occured when communicating with the database");
+                    	}
+                    	return;
+                    }
+                } else {
+                	System.out.println("Invalid Formatting");
+                	System.out.println(
+                            "Enter the patient information in the following format: Id, Name, SSN, Date of Birth (YYYY-MM-DD), Gender, Phone Number, Address, Status" );
+                    System.out.println("Enter d-Done when all patients are added or b-Back to return and discard all changes");
+                    continue;
+                }         
             }
         }
     }
