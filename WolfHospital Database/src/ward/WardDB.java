@@ -19,7 +19,7 @@ public class WardDB {
             stmt.setInt( 1, id );
             final ResultSet rs = stmt.executeQuery();
             if ( rs.next() ) {
-            	s = new Ward();
+                s = new Ward();
                 s.setWardNum( id );
                 s.setCapacity1( rs.getInt( "capacity_one" ) );
                 s.setCapacity2( rs.getInt( "capacity_two" ) );
@@ -54,7 +54,7 @@ public class WardDB {
         return false;
     }
 
-    public boolean update ( final Ward s ) {
+    public boolean update ( final int id, final Ward s ) {
         try {
             final PreparedStatement stmt = conn.prepareStatement( "UPDATE ward SET capacity_one = ?, "
                     + "capcity_two = ?, capacity_three = ?, charges_per_day = ?, nurse_id = ? WHERE id = ?;" );
@@ -63,7 +63,7 @@ public class WardDB {
             stmt.setInt( 3, s.getCapacity3() );
             stmt.setFloat( 4, s.getCharge() );
             stmt.setInt( 5, s.getNurseId() );
-            stmt.setInt( 6, s.getWardNum() );
+            stmt.setInt( 6, id );
             return ( stmt.executeUpdate() > 0 );
         }
         catch ( final SQLException e ) {
