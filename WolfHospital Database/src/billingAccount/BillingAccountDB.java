@@ -22,6 +22,7 @@ public class BillingAccountDB {
             if ( rs.next() ) {
                 b = new BillingAccount();
                 b.setId( id );
+                b.setPatientId( rs.getInt( "patient_id" ) );
                 b.setCheckinId( rs.getInt( "check_in_id" ) );
                 b.setDate( rs.getDate( "visit_date" ) );
                 b.setPayerSsn( rs.getString( "payerSSN" ) );
@@ -39,13 +40,15 @@ public class BillingAccountDB {
 
     public boolean insert ( final BillingAccount b ) {
         try {
-            final PreparedStatement stmt = conn.prepareStatement( "INSERT INTO billing_account VALUES (?,?,?,?,?,?);" );
+            final PreparedStatement stmt = conn
+                    .prepareStatement( "INSERT INTO billing_account " + "VALUES (?,?,?,?,?,?,?);" );
             stmt.setInt( 1, b.getId() );
-            stmt.setInt( 2, b.getCheckinId() );
-            stmt.setDate( 3, b.getDate() );
-            stmt.setString( 4, b.getPayerSsn() );
-            stmt.setString( 5, b.getPmtType() );
-            stmt.setString( 6, b.getAddress() );
+            stmt.setInt( 2, b.getPatientId() );
+            stmt.setInt( 3, b.getCheckinId() );
+            stmt.setDate( 4, b.getDate() );
+            stmt.setString( 5, b.getPayerSsn() );
+            stmt.setString( 6, b.getPmtType() );
+            stmt.setString( 7, b.getAddress() );
             return ( stmt.executeUpdate() > 0 );
         }
         catch ( final SQLException e ) {
@@ -60,12 +63,13 @@ public class BillingAccountDB {
             final PreparedStatement stmt = conn
                     .prepareStatement( "UPDATE billing_account SET check_in_id = ?, visit_date = ?, "
                             + "payerSSN = ?, payment_type = ?, billing_address= ? WHERE id = ?;" );
-            stmt.setInt( 1, b.getCheckinId() );
-            stmt.setDate( 2, b.getDate() );
-            stmt.setString( 3, b.getPayerSsn() );
-            stmt.setString( 4, b.getPmtType() );
-            stmt.setString( 5, b.getAddress() );
-            stmt.setInt( 9, id );
+            stmt.setInt( 1, b.getPatientId() );
+            stmt.setInt( 2, b.getCheckinId() );
+            stmt.setDate( 3, b.getDate() );
+            stmt.setString( 4, b.getPayerSsn() );
+            stmt.setString( 5, b.getPmtType() );
+            stmt.setString( 6, b.getAddress() );
+            stmt.setInt( 7, id );
             return ( stmt.executeUpdate() > 0 );
         }
         catch ( final SQLException e ) {

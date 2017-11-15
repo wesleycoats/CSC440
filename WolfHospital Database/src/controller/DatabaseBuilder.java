@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import billingAccount.BillingAccount;
+import billingAccount.BillingAccountDB;
 import checkIn.CheckIn;
 import checkIn.CheckInDB;
 import medicalRecord.MedicalRecord;
@@ -116,8 +118,8 @@ public class DatabaseBuilder {
                 + "consultation_fee FLOAT NOT NULL, test_fee FLOAT, treatment_fee FLOAT, specialist_id INT,"
                 + "CONSTRAINT staff_id_fk FOREIGN KEY(specialist_id) REFERENCES staff(id) ON DELETE CASCADE);";
 
-        final String billingAccount = "CREATE TABLE IF NOT EXISTS billing_account(patient_id INT, check_in_id INT,"
-                + "CONSTRAINT bill_acc_pk PRIMARY KEY(patient_id, check_in_id),"
+        final String billingAccount = "CREATE TABLE IF NOT EXISTS billing_account(id INT AUTO_INCREMENT, patient_id INT, check_in_id INT,"
+                + "CONSTRAINT bill_acc_pk PRIMARY KEY(id, patient_id, check_in_id),"
                 + "CONSTRAINT bill_acc_patient_id_fk FOREIGN KEY(patient_id) REFERENCES patient(id) ON DELETE CASCADE,"
                 + "CONSTRAINT bill_acc_check_in_id_fk FOREIGN KEY(check_in_id) REFERENCES check_in(id),"
                 + "visit_date DATETIME, payerSSN NVARCHAR(12) NOT NULL, payment_type NVARCHAR(128) NOT NULL,"
@@ -168,6 +170,10 @@ public class DatabaseBuilder {
         final MedicalRecord medicalRecord2 = new MedicalRecord( 2002, 3001, d10, d11, 1003, "X-ray chest (TB) Advanced",
                 "negative", "continue antibiotics", "Testing for TB", "Not required", 0, 125, 0, 1004 );
 
+        final Date d12 = new Date( 85, 05, 10 );
+        final BillingAccount b = new BillingAccount( 8001, 3001, 1001, d12, "123-123-1234", "card",
+                "99 ABC St , NC 27" );
+
         try {
             Class.forName( DRIVER );
             final Connection conn = DriverManager.getConnection( URL, USER, PW );
@@ -176,6 +182,7 @@ public class DatabaseBuilder {
             final CheckInDB checkinDB = new CheckInDB( conn );
             final PatientDB patientDB = new PatientDB( conn );
             final MedicalRecordDB medDB = new MedicalRecordDB( conn );
+            final BillingAccountDB billingDB = new BillingAccountDB( conn );
 
             staffDB.insert( operator );
             staffDB.insert( nurse1 );
@@ -187,6 +194,7 @@ public class DatabaseBuilder {
             checkinDB.insert( checkin );
             medDB.insert( medicalRecord1 );
             medDB.insert( medicalRecord2 );
+            billingDB.insert( b );
         }
         catch ( final Exception e ) {
             try {

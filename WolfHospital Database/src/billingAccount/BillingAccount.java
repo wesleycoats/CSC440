@@ -5,6 +5,7 @@ import java.sql.Date;
 public class BillingAccount {
 
     private int    id;
+    private int    patientId;
     private int    checkinId;
     private Date   date;
     private String payerSsn;
@@ -16,9 +17,10 @@ public class BillingAccount {
     }
 
     /** Constructor with id */
-    public BillingAccount ( final int id, final int checkinId, final Date date, final String payerSsn,
-            final String pmtType, final String address ) {
+    public BillingAccount ( final int id, final int patientId, final int checkinId, final Date date,
+            final String payerSsn, final String pmtType, final String address ) {
         setId( id );
+        setPatientId( patientId );
         setCheckinId( checkinId );
         setDate( date );
         setPayerSsn( payerSsn );
@@ -27,8 +29,9 @@ public class BillingAccount {
     }
 
     /** Constructor without id */
-    public BillingAccount ( final int checkinId, final Date date, final String payerSsn, final String pmtType,
-            final String address ) {
+    public BillingAccount ( final int checkinId, final int patientId, final Date date, final String payerSsn,
+            final String pmtType, final String address ) {
+        setPatientId( patientId );
         setCheckinId( checkinId );
         setDate( date );
         setPayerSsn( payerSsn );
@@ -42,6 +45,14 @@ public class BillingAccount {
 
     public void setId ( final int id ) {
         this.id = id;
+    }
+
+    public int getPatientId () {
+        return patientId;
+    }
+
+    public void setPatientId ( final int patientId ) {
+        this.patientId = patientId;
     }
 
     public int getCheckinId () {
