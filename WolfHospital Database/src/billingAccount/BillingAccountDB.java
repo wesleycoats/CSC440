@@ -61,7 +61,7 @@ public class BillingAccountDB {
     public boolean update ( final int id, final BillingAccount b ) {
         try {
             final PreparedStatement stmt = conn
-                    .prepareStatement( "UPDATE billing_account SET check_in_id = ?, visit_date = ?, "
+                    .prepareStatement( "UPDATE billing_account SET patient_id = ?, check_in_id = ?, visit_date = ?, "
                             + "payerSSN = ?, payment_type = ?, billing_address= ? WHERE id = ?;" );
             stmt.setInt( 1, b.getPatientId() );
             stmt.setInt( 2, b.getCheckinId() );
