@@ -38,13 +38,13 @@ import ward.WardDB;
  */
 public class DatabaseBuilder {
     /** Database url */
-    private static String       URL    = "jdbc:mysql://localhost:3306/";
+    private static String       URL    = Controller.URL;
     /** JDBC driver */
-    private static final String DRIVER = "com.mysql.jdbc.Driver";
+    private static final String DRIVER = Controller.DRIVER;
     /** Database username */
-    private static final String USER   = "root";
+    private static final String USER   = Controller.USERNAME;
     /** Database password */
-    private static final String PW     = "";
+    private static final String PW     = Controller.PASSWORD;
 
     public static void main ( final String[] args ) {
         try {

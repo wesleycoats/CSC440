@@ -12,12 +12,12 @@ import ward.WardHelper;
 
 public class Controller {
 
-    private static final String URL      = "jdbc:mysql://localhost:3306/wolfhospital";
-    private static final String DRIVER   = "com.mysql.jdbc.Driver";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "";
+    public static final String URL      = "jdbc:mysql://localhost:3306/wolfhospital";
+    public static final String DRIVER   = "com.mysql.jdbc.Driver";
+    public static final String USERNAME = "root";
+    public static final String PASSWORD = "";
 
-    private static Connection   conn;
+    private static Connection  conn;
 
     public static void main ( final String[] args ) {
 

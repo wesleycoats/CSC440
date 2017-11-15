@@ -1,10 +1,21 @@
 package billingAccount;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
+
+import java.sql.Connection;
 
 import org.junit.Test;
 
+import controller.Controller;
+
 public class BillingAccountDBTest {
+
+    private final String      URL      = Controller.URL;
+    private final String      DRIVER   = Controller.DRIVER;
+    private final String      USERNAME = Controller.USERNAME;
+    private final String      PASSWORD = Controller.PASSWORD;
+
+    private static Connection conn;
 
     @Test
     public void testGetById () {
