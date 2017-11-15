@@ -94,7 +94,7 @@ public class DatabaseBuilder {
                 + "professional_title NVARCHAR(128) NOT NULL);";
 
         final String patient = "CREATE TABLE IF NOT EXISTS patient(id INT PRIMARY KEY AUTO_INCREMENT, name NVARCHAR(128) NOT NULL,"
-                + "patientSSN NVARCHAR(11)," + "date_of_birth DATE NOT NULL, gender NVARCHAR(10) NOT NULL,"
+                + "patientSSN NVARCHAR(12)," + "date_of_birth DATE NOT NULL, gender NVARCHAR(10) NOT NULL,"
                 + "phone NVARCHAR(20) NOT NULL, address NVARCHAR(128) NOT NULL, status NVARCHAR(30) NOT NULL);";
 
         final String ward = "CREATE TABLE IF NOT EXISTS ward(id INT PRIMARY KEY, capacity_one INT NOT NULL, "
@@ -120,7 +120,7 @@ public class DatabaseBuilder {
                 + "CONSTRAINT bill_acc_pk PRIMARY KEY(patient_id, check_in_id),"
                 + "CONSTRAINT bill_acc_patient_id_fk FOREIGN KEY(patient_id) REFERENCES patient(id) ON DELETE CASCADE,"
                 + "CONSTRAINT bill_acc_check_in_id_fk FOREIGN KEY(check_in_id) REFERENCES check_in(id),"
-                + "visit_date DATETIME, payerSSN NVARCHAR(11) NOT NULL, payment_type NVARCHAR(128) NOT NULL,"
+                + "visit_date DATETIME, payerSSN NVARCHAR(12) NOT NULL, payment_type NVARCHAR(128) NOT NULL,"
                 + "billing_address NVARCHAR(128) NOT NULL);";
 
         executeQuery( staff, patient, ward, checkin, medicalRecord, billingAccount );
