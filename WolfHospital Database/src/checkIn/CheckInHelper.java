@@ -2,8 +2,11 @@ package checkIn;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 
+import medicalRecord.MedicalRecordDB;
 import patient.PatientDB;
 import ward.WardDB;
 
@@ -252,6 +255,29 @@ public class CheckInHelper {
             }
             else {
                 System.out.println( "Invalid Formatting" );
+            }
+        }
+    }
+
+    /**
+     * Call the functions to find the patients per month for the hospital.
+     */
+    public void findPPM() {
+        ResultSet rs;
+        final CheckInDB mdb = new CheckInDB( conn );
+        while ( true ) {
+            rs = mdb.getPatientsPerMonth();
+            try {
+                if (rs == null || !rs.next()) {
+                    System.out.println("Could not calculate patients per month.");
+                    System.out.print("There could be no medical records in the database.");
+                } else {
+                    do {
+                        System.out.printf("Year: %d Patients Per Month: %d\n", rs.getInt("y"), rs.getInt("ppm"));
+                    } while (rs.next());
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }

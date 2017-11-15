@@ -87,4 +87,25 @@ public class CheckInDB {
         }
         return false;
     }
+
+    /**
+     * Query the number of patients that have been to the hospital per month.
+     *
+     * @return the number of patients per month.
+     */
+    public ResultSet getPatientsPerMonth() {
+        String str;
+        try {
+            str = "SELECT YEAR(start_date) y, ROUND((COUNT(*) / 12) * 100, 2) AS ppm "
+                    + "FROM (SELECT DISTINCT start_date, patient_id FROM check_in) AS temp "
+                    + "GROUP BY YEAR(start_date);";
+            return conn.prepareStatement( str ).executeQuery();
+        }
+        catch ( final SQLException e ) {
+            // TODO put something here
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

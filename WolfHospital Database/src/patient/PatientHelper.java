@@ -3,6 +3,7 @@ package patient;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class PatientHelper {
@@ -299,6 +300,51 @@ public class PatientHelper {
             }
             else {
                 System.out.println( "No entry found with that ID" );
+            }
+        }
+    }
+
+    /**
+     * Gets information about all the patients a given doctor is
+     * currently responsible for.
+     *
+     * @param scan used to get user input
+     */
+    public void getPatientsOfDoctor(Scanner scan) {
+        int id;
+        ArrayList<Patient> patients;
+        final PatientDB pdb = new PatientDB( conn );
+
+        while (true) {
+            System.out.println("Enter doctor id:");
+            System.out.print("> ");
+            String in = scan.nextLine().trim().toLowerCase();
+
+            try {
+                id = Integer.parseInt( in );
+            }
+            catch ( final NumberFormatException e ) {
+                System.out.println( "Invalid id" );
+                continue;
+            }
+
+            if ( pdb.getById( id ) != null ) {
+                if ((patients = pdb.getDoctorPatients(id)) != null) {
+                    for (Patient p: patients) {
+                        System.out.printf("Name: %s\n", p.getName());
+                        System.out.printf("\tDateOfBirth: %s", p.getDob());
+                        System.out.printf("\tGender: %s", p.getGender());
+                        System.out.printf("\tPhone: %s", p.getPhone());
+                        System.out.printf("\tAddress: %s", p.getAddress());
+                        System.out.printf("\tStatus: %s", p.getStatus());
+                    }
+                    return;
+                } else {
+                    System.out.println("Doctor not responsible for any patients!");
+                    return;
+                }
+            } else {
+                System.out.println("Not a valid doctor id!");
             }
         }
     }

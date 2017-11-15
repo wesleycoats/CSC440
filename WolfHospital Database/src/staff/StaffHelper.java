@@ -3,6 +3,7 @@ package staff;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class StaffHelper {
@@ -285,6 +286,50 @@ public class StaffHelper {
 			} else {
 				System.out.println("No entry found with that ID");
 			}
+		}
+	}
+
+	/**
+	 * Calls functions to get staff information grouped by their department.
+	 *
+	 * @param scan used to get user input
+	 */
+	public void getStaffInfoByDepartment(Scanner scan) {
+		StaffDB sdb = new StaffDB(conn);
+		ArrayList<Staff> staff_info = null;
+
+		while (true) {
+			System.out.println("Enter how to order staff information: 1-department, 2-job_title, 3-professional_title, b-back");
+			System.out.print("> ");
+			String in = scan.nextLine().trim().toLowerCase();
+			if (in.equals("1") || in.equals("department")) {
+				staff_info = sdb.getStaffInfoGroupedByDepartment(1);
+				break;
+			} else if (in.equals("2") || in.equals("job_title")) {
+				staff_info = sdb.getStaffInfoGroupedByDepartment(2);
+				break;
+			} else if (in.equals("3") || in.equals("professional_title")) {
+				staff_info = sdb.getStaffInfoGroupedByDepartment(3);
+				break;
+			} if (in.equals("b") || in.equals("back")) {
+				return;
+			}
+		}
+
+		if (staff_info == null) {
+			System.out.println("No staff data in the database.\n");
+			return;
+		}
+
+		for (Staff s : staff_info) {
+			System.out.printf("Name: %s\n", s.getName());
+			System.out.printf("\tDateOfBirth: %s", s.getDateOfBirth());
+			System.out.printf("\tGender: %s", s.getGender());
+			System.out.printf("\tPhone Number: %s", s.getPhoneNumber());
+			System.out.printf("\tAddress: %s", s.getAddress());
+			System.out.printf("\tDepartment: %s", s.getDepartment());
+			System.out.printf("\tJob Title: %s", s.getJobTitle());
+			System.out.printf("\tProfessional Title: %s", s.getProfessionalTitle());
 		}
 	}
 }

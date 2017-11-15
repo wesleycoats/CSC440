@@ -10,6 +10,7 @@ import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Random;
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,8 +25,7 @@ public class MedicalRecordDBTest {
     private final String      PASSWORD = Controller.PASSWORD;
 
     private static Connection conn;
-
-    private MedicalRecordDB   db;
+    private MedicalRecordDB db;
 
     @Before
     public void setUp () throws Exception {
@@ -116,4 +116,18 @@ public class MedicalRecordDBTest {
 
     }
 
+    @Test
+    @SuppressWarnings("deprecation")
+    public void getPatientHistory() throws Exception {
+        final Date d1 = new Date( 117, 8, 05 );
+        final Date d2 = new Date( 117, 11, 16 );
+
+        ArrayList<MedicalRecord> medrecs = db.getPatientHistory(3001, d1, d2);
+
+        for (MedicalRecord rec: medrecs) {
+            assertTrue(rec.getPatientId() == 3001);
+            assertTrue(rec.getStartDate().compareTo(d1) > 0);
+            assertTrue(rec.getEndDate().compareTo(d2) < 0);
+        }
+    }
 }

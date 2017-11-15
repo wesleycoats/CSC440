@@ -98,9 +98,45 @@ public class WardDB {
                     + "WHERE ward_id = ward.id && (end_date > CURDATE() || end_date IS NULL)) AS total FROM ward HAVING "
                     + "(capacity_one='1' && total < 1) || " + "(capacity_two='1' &&  total < 2) || "
                     + "(capacity_three='1' && total < 3);";
-            final PreparedStatement stmt = conn.prepareStatement( str );
-            final ResultSet rs = stmt.executeQuery();
-            return rs;
+            return conn.prepareStatement( str ).executeQuery();
+        }
+        catch ( final SQLException e ) {
+            // TODO put something here
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    /**
+     * Gets the number of available beds in all wards.
+     *
+     * @return the result set given by the db.
+     */
+    public ResultSet getWardUsageStatus() {
+        try {
+            String str = "SELECT *, (SELECT COUNT(ward_id) FROM check_in "
+                    + "WHERE ward_id = ward.id && (end_date > CURDATE() || end_date IS NULL)) AS total FROM ward;";
+            return conn.prepareStatement( str ).executeQuery();
+        }
+        catch ( final SQLException e ) {
+            // TODO put something here
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    /**
+     * Gets the number of available beds in all wards.
+     *
+     * @return the result set given by the db.
+     */
+    public ResultSet getWardUsagePercent() {
+        try {
+            String str = "SELECT *, (SELECT COUNT(ward_id) FROM check_in "
+                    + "WHERE ward_id = ward.id) AS total FROM ward;";
+            return conn.prepareStatement( str ).executeQuery();
         }
         catch ( final SQLException e ) {
             // TODO put something here

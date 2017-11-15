@@ -11,6 +11,9 @@ public class BillingAccount {
     private String payerSsn;
     private String pmtType;
     private String address;
+    private float consulting_fee = 0;
+    private float treatment_fee = 0;
+    private float test_fee = 0;
 
     /** Empty constructor */
     public BillingAccount () {
@@ -95,4 +98,27 @@ public class BillingAccount {
         this.address = address;
     }
 
+    public float getConsultingFee() {
+        return consulting_fee;
+    }
+
+    public void setConsultingFee(float consulting_fee) {
+        this.consulting_fee = consulting_fee;
+    }
+
+    public float getTestFee() {
+        return test_fee;
+    }
+
+    public void setTestFee(float test_fee) {
+        this.test_fee = test_fee;
+    }
+
+    public float getTreatmentFee() {
+        return treatment_fee;
+    }
+
+    public void setTreatmentFee(float treatment_fee) {
+        this.treatment_fee = treatment_fee;
+    }
 }

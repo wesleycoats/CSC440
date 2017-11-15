@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class PatientDB {
     private final Connection conn;
@@ -93,5 +94,46 @@ public class PatientDB {
             e.printStackTrace();
         }
         return false;
+    }
+
+    /**
+     * Querys the db for all the patients the given doctor is responsible for.
+     *
+     * @param doc_id the id of the doctor whose patients data is needed
+     * @return an arraylist of patients.
+     */
+    public ArrayList<Patient> getDoctorPatients(int doc_id) {
+        try {
+            String str = "SELECT * FROM patient INNER JOIN "
+                    + "medical_record WHERE patient.id = medical_record.patient_id "
+                    + "&& medical_record.doctor_id = ?;";
+
+            final PreparedStatement stmt = conn.prepareStatement( str );
+            stmt.setInt(1, doc_id);
+            ResultSet rs = stmt.executeQuery();
+
+            Patient p;
+            ArrayList<Patient> patients = new ArrayList<>();
+            while (rs.next()) {
+                p = new Patient();
+                p.setId( rs.getInt("id") );
+                p.setName( rs.getString( "name" ) );
+                p.setSsn( rs.getString( "patientSSN" ) );
+                p.setDob( rs.getDate( "date_of_birth" ) );
+                p.setGender( rs.getString( "gender" ) );
+                p.setPhone( rs.getString( "phone" ) );
+                p.setAddress( rs.getString( "address" ) );
+                p.setStatus( rs.getString( "status" ) );
+
+                patients.add(p);
+            }
+
+            return patients;
+        } catch ( final SQLException e ) {
+            // TODO put something here
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

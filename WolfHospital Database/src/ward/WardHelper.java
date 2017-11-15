@@ -1,6 +1,7 @@
 package ward;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -259,6 +260,8 @@ public class WardHelper {
 	public void availableWardsAndBeds() throws SQLException{
 		WardDB pdb = new WardDB(conn);
 		ResultSet rs = pdb.checkAvailableWardsAndBeds();
+        ArrayList<Integer> ids = new ArrayList<>();
+        ArrayList<Integer> totals = new ArrayList<>();
 
 		while (rs.next()) {
 			int total = rs.getInt("total");
@@ -267,17 +270,145 @@ public class WardHelper {
 			int capacity2 = rs.getInt( "capacity_two" );
 			int capacity3 = rs.getInt( "capacity_three" );
 
-			if (capacity1 == 1) {
-				total = 1 - total;
-			} else if (capacity2 == 1) {
-				total = 2 - total;
-			} else if (capacity3 == 1) {
-				total = 3 - total;
-			}
+            if (capacity1 == 1) {
+                if (total > 1) {
+                    total = 0;
+                } else {
+                    total = 1 - total;
+                }
+            } else if (capacity2 == 1) {
+                if (total > 2) {
+                    total = 0;
+                } else {
+                    total = 2 - total;
+                }
+            } else if (capacity3 == 1) {
+                if (total > 3) {
+                    total = 0;
+                } else {
+                    total = 3 - total;
+                }
+            }
 
-			System.out.printf("Ward Number: %d Available Beds: %d\n", id, total);
+			ids.add(id);
+			totals.add(total);
 		}
+
+		if (ids.size() == 0) {
+		    System.out.println("No Available wards");
+        }
+
+		for (int i = 0; i < ids.size(); i++) {
+            System.out.printf("Ward Number: %d Available Beds: %d\n", ids.get(i), totals.get(i));
+        }
 
 		System.out.println("");
 	}
+
+    /**
+     * Gets the number of open beds for each ward
+     */
+    public void wardUsage() throws SQLException{
+        WardDB pdb = new WardDB(conn);
+        ResultSet rs = pdb.getWardUsageStatus();
+        ArrayList<Integer> ids = new ArrayList<>();
+        ArrayList<Integer> totals = new ArrayList<>();
+
+        while (rs.next()) {
+            int total = rs.getInt("total");
+            int id = rs.getInt("id");
+            int capacity1 = rs.getInt( "capacity_one" );
+            int capacity2 = rs.getInt( "capacity_two" );
+            int capacity3 = rs.getInt( "capacity_three" );
+
+            if (capacity1 == 1) {
+                if (total > 1) {
+                    total = 0;
+                } else {
+                    total = 1 - total;
+                }
+            } else if (capacity2 == 1) {
+                if (total > 2) {
+                    total = 0;
+                } else {
+                    total = 2 - total;
+                }
+            } else if (capacity3 == 1) {
+                if (total > 3) {
+                    total = 0;
+                } else {
+                    total = 3 - total;
+                }
+            }
+
+            ids.add(id);
+            totals.add(total);
+        }
+
+        if (ids.size() == 0) {
+            System.out.println("No available beds in wards");
+        }
+
+        for (int i = 0; i < ids.size(); i++) {
+            System.out.printf("Ward Number: %d Available Beds: %d\n", ids.get(i), totals.get(i));
+        }
+
+        System.out.println("");
+    }
+
+    /**
+     * Gets the uasge percent for each ward
+     */
+    public void wardUsagePercent() throws SQLException{
+        WardDB pdb = new WardDB(conn);
+        ResultSet rs = pdb.getWardUsageStatus();
+        ArrayList<Integer> ids = new ArrayList<>();
+        ArrayList<Double> percents = new ArrayList<>();
+
+
+        while (rs.next()) {
+            int total = rs.getInt("total");
+            int id = rs.getInt("id");
+            int capacity1 = rs.getInt( "capacity_one" );
+            int capacity2 = rs.getInt( "capacity_two" );
+            int capacity3 = rs.getInt( "capacity_three" );
+
+            if (capacity1 == 1) {
+                if (total > 1) {
+                    total = 0;
+                } else {
+                    total = 1 - total;
+                }
+
+                ids.add(id);
+                percents.add(100.0);
+            } else if (capacity2 == 1) {
+                if (total > 2) {
+                    total = 0;
+                } else {
+                    total = 2 - total;
+                }
+                ids.add(id);
+                percents.add((total / 2.0) * 100);
+            } else if (capacity3 == 1) {
+                if (total > 3) {
+                    total = 0;
+                } else {
+                    total = 3 - total;
+                }
+                ids.add(id);
+                percents.add((total / 3.0) * 100);
+            }
+        }
+
+        if (ids.size() == 0) {
+            System.out.println("No wards in database!");
+        }
+
+        for (int i = 0; i < ids.size(); i++) {
+            System.out.printf("Ward Number: %d Ward Usage Percent: %f%\n", ids.get(i), percents.get(i));
+        }
+
+        System.out.println("");
+    }
 }

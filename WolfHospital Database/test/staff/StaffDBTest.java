@@ -13,6 +13,12 @@ import java.util.Random;
 
 import org.junit.Before;
 import org.junit.Test;
+import ward.WardDB;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.util.ArrayList;
 
 import controller.Controller;
 
@@ -24,7 +30,6 @@ public class StaffDBTest {
     private final String      PASSWORD = Controller.PASSWORD;
 
     private static Connection conn;
-
     private StaffDB           sdb;
 
     @Before
@@ -39,8 +44,8 @@ public class StaffDBTest {
         }
     }
 
-    @SuppressWarnings ( "deprecation" )
     @Test
+    @SuppressWarnings("deprecation")
     public void testGetById () throws ClassNotFoundException, SQLException {
 
         Staff s = null;
@@ -108,6 +113,37 @@ public class StaffDBTest {
         assertTrue( sdb.deleteById( x ) );
         assertNull( sdb.getById( x ) );
 
+    }
+
+    @Test
+    @SuppressWarnings ( "deprecation" )
+    public void getStaffInfoGroupedByDepartment() throws Exception {
+        ArrayList<Staff> staff_info = sdb.getStaffInfoGroupedByDepartment(1);
+        final Date d1 = new Date( 1981, 10, 16 );
+        final Staff operator = new Staff( 1001, "Simpson", d1, "F", "919", "21 ABC St , NC 27", "Billing", "Biller",
+                "Accounts Supervisor" );
+
+        final Date d2 = new Date( 1972, 07, 15 );
+        final Staff nurse1 = new Staff( 1002, "David", d2, "M", "123", "22 ABC St , NC 27", "Casuality", "Nurse",
+                "Senior Nurse" );
+
+        final Date d3 = new Date( 1982, 02, 18 );
+        final Staff nurse2 = new Staff( 1005, "Ruth", d3, "F", "456", "23 ABC St , NC 27", "Casuality", "Nurse",
+                "Assistant Nurse" );
+
+        final Date d4 = new Date( 1977, 01, 01 );
+        final Staff doctor1 = new Staff( 1003, "Lucy", d4, "F", "631", "42 ABC St , NC 27", "Intensive Care", "Doctor",
+                "Senior Surgeon" );
+
+        final Date d5 = new Date( 1976, 03, 27 );
+        final Staff doctor2 = new Staff( 1004, "Joseph", d5, "M", "327", "51 ABC St , NC 27", "Pulmonary", "Doctor",
+                "Pulmonologist" );
+
+        assertTrue(staff_info.contains(operator));
+        assertTrue(staff_info.contains(nurse1));
+        assertTrue(staff_info.contains(nurse2));
+        assertTrue(staff_info.contains(doctor1));
+        assertTrue(staff_info.contains(doctor2));
     }
 
 }

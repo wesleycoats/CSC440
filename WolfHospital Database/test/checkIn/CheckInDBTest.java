@@ -11,6 +11,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Random;
 
+import java.sql.ResultSet;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,7 +26,6 @@ public class CheckInDBTest {
     private final String      PASSWORD = Controller.PASSWORD;
 
     private static Connection conn;
-
     private CheckInDB         db;
 
     @Before
@@ -99,6 +100,24 @@ public class CheckInDBTest {
         assertTrue( db.deleteById( x ) );
         assertNull( db.getById( x ) );
 
+    }
+
+    @Test
+    public void getPatientsPerMonth() throws Exception {
+        ResultSet rs = db.getPatientsPerMonth();
+
+        while (rs.next()) {
+            String year = rs.getString("y");
+            float ppm = rs.getFloat("ppm");
+
+            if (year.equals("2017")) {
+                assertTrue(ppm == (float) 16.67);
+            } else if (year.equals("2018")) {
+                assertTrue(ppm == (float) 8.33);
+            } else {
+                assertTrue(false);
+            }
+        }
     }
 
 }

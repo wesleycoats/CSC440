@@ -1,9 +1,9 @@
 package medicalRecord;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import patient.Patient;
+
+import java.sql.*;
+import java.util.ArrayList;
 
 public class MedicalRecordDB {
 
@@ -114,5 +114,56 @@ public class MedicalRecordDB {
             e.printStackTrace();
         }
         return false;
+    }
+
+    /**
+     * Query db for all of a patient's medical records within a given period.
+     *
+     * @param pid patient id
+     * @param start start date for medical records
+     * @param end end date for medical records
+     *
+     * @return the medical records with the give period.
+     */
+    public ArrayList<MedicalRecord> getPatientHistory(int pid, Date start, Date end) {
+        String str;
+        try {
+            str = "SELECT * FROM medical_record WHERE (start_date >= ? AND end_date <= ?) AND patient_id = ?;";
+            final PreparedStatement stmt = conn.prepareStatement( str );
+            stmt.setDate(1, start);
+            stmt.setDate(2, end);
+            stmt.setInt(3, pid);
+
+            ArrayList<MedicalRecord> medrecs = new ArrayList<>();
+            ResultSet rs = stmt.executeQuery();
+            MedicalRecord s;
+            while (rs.next()) {
+                s = new MedicalRecord();
+                s.setId( rs.getInt("id") );
+                s.setPatientId( rs.getInt( "patient_id" ) );
+                s.setStartDate( rs.getDate( "start_date" ) );
+                s.setEndDate( rs.getDate( "end_date" ) );
+                s.setDoctorId( rs.getInt( "doctor_id" ) );
+                s.setTestType( rs.getString( "test_type" ) );
+                s.setTestResult( rs.getString( "test_results" ) );
+                s.setPrescription( rs.getString( "prescription" ) );
+                s.setDiagDetails( rs.getString( "diagnosis_details" ) );
+                s.setTreatment( rs.getString( "treatment" ) );
+                s.setConsultFee( rs.getFloat( "consultation_fee" ) );
+                s.setTestFee( rs.getFloat( "test_fee" ) );
+                s.setTreatmentFee( rs.getFloat( "treatment_fee" ) );
+                s.setSpecialistId( rs.getInt( "specialist_id" ) );
+
+                medrecs.add(s);
+            }
+
+            return medrecs;
+        }
+        catch ( final SQLException e ) {
+            // TODO put something here
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

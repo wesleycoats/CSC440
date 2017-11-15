@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Scanner;
 
+import billingAccount.BillingAccountHelper;
 import checkIn.CheckInHelper;
 import medicalRecord.MedicalRecordHelper;
 import patient.PatientHelper;
@@ -30,19 +31,55 @@ public class Controller {
             conn = DriverManager.getConnection( URL, USERNAME, PASSWORD );
             String in = "";
             scan = new Scanner( System.in );
+            String str = "Enter a command: a-Add, u-Update, d-Delete, e-Exit, "
+                    + "ab-Available_beds, si-staff_info, gdp-get_doc_patients, "
+                    + "mh-patient_med_history, wu-ward_usage, ppm-patients_per_month"
+                    + "ba-billing-acct";
             while ( true ) {
-                System.out.println( "Enter a command (a-Add, u-Update, d-Delete, e-Exit)" );
+                System.out.println( str );
                 System.out.print( "> " );
                 in = scan.nextLine();
                 in = in.toLowerCase();
+                System.out.println("");
                 if ( in.equals( "a" ) || in.equals( "add" ) ) {
                     add( scan );
+                    break;
                 }
                 else if ( in.equals( "u" ) || in.equals( "update" ) ) {
                     update( scan );
+                    break;
                 }
                 else if ( in.equals( "d" ) || in.equals( "delete" ) ) {
                     delete( scan );
+                    break;
+                }
+                // gets available beds in wards
+                else if ( in.equals( "ab" ) || in.equals( "Available_beds" ) ) {
+                    new WardHelper( conn ).availableWardsAndBeds();
+                }
+                // staff info grouped by department
+                else if ( in.equals( "si" ) || in.equals( "staff_info" ) ) {
+                    new StaffHelper( conn ).getStaffInfoByDepartment(scan);
+                }
+                // get patients doctor is responsible for
+                else if ( in.equals( "gdp" ) || in.equals( "get_doc_patients" ) ) {
+                    new PatientHelper( conn ).getPatientsOfDoctor(scan);
+                }
+                // get medical history for patients
+                else if ( in.equals( "mh" ) || in.equals( "patient_med_history" ) ) {
+                    new MedicalRecordHelper( conn ).getPatientMedicalHistory(scan);
+                }
+                // get available beds in all wards
+                else if ( in.equals( "wu" ) || in.equals( "ward_usage" ) ) {
+                    new WardHelper( conn ).wardUsage();
+                }
+                // finds the patients per month
+                else if ( in.equals( "ppm" ) || in.equals( "patients_per_month" ) ) {
+                    new CheckInHelper( conn ).findPPM();
+                }
+                // gets billing account for patient
+                else if ( in.equals( "ba" ) || in.equals( "billing-acct" ) ) {
+                    new BillingAccountHelper( conn ).getBillingAccount(scan);
                 }
                 else if ( in.equals( "e" ) || in.equals( "exit" ) ) {
                     break;
@@ -203,5 +240,4 @@ public class Controller {
             }
         }
     }
-
 }

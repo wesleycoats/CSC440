@@ -3,6 +3,7 @@ package patient;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Connection;
@@ -13,8 +14,10 @@ import java.util.Random;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import controller.Controller;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.util.ArrayList;
 
 public class PatientDBTest {
 
@@ -22,7 +25,6 @@ public class PatientDBTest {
     private final String      DRIVER   = Controller.DRIVER;
     private final String      USERNAME = Controller.USERNAME;
     private final String      PASSWORD = Controller.PASSWORD;
-
     private static Connection conn;
 
     private PatientDB         db;
@@ -39,8 +41,8 @@ public class PatientDBTest {
         }
     }
 
-    @SuppressWarnings ( "deprecation" )
     @Test
+    @SuppressWarnings("deprecation")
     public void testGetById () throws ClassNotFoundException, SQLException {
 
         Patient p = null;
@@ -105,4 +107,32 @@ public class PatientDBTest {
 
     }
 
+    @Test
+    @SuppressWarnings("deprecation")
+    public void getDoctorPatients() throws Exception {
+        ArrayList<Patient> testpatients = new ArrayList<>();
+        ArrayList<Patient> patients = db.getDoctorPatients(1003);
+
+        final Date d7 = new Date( 1986, 10, 22 );
+        testpatients.add(new Patient( 3001, "John", null, d7, "M", "513", "81 ABC St , NC 27",
+                "Treatment complete" ));
+
+        boolean found;
+        for (Patient p: testpatients) {
+            found = false;
+            for (Patient p1: patients) {
+                if (p.getId() == p1.getId()) {
+                    found = true;
+                    assertTrue(true);
+                    break;
+                }
+            }
+
+            if (found) {
+                found = false;
+            } else {
+                assertTrue(false);
+            }
+        }
+    }
 }

@@ -11,6 +11,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
+import java.util.ArrayList;
+
 
 import org.junit.Before;
 import org.junit.Test;
@@ -129,6 +131,52 @@ public class WardDBTest {
             }
             else {
                 assertTrue( false );
+            }
+        }
+    }
+
+    @Test
+    public void getWardUsageStatus() throws Exception {
+        ResultSet rs = db.getWardUsageStatus();
+        ArrayList<Integer> ids = new ArrayList<>();
+        ArrayList<Integer> totals = new ArrayList<>();
+
+        while (rs.next()) {
+            int total = rs.getInt("total");
+            int id = rs.getInt("id");
+
+            ids.add(id);
+            totals.add(total);
+        }
+
+        for (int i = 0; i < ids.size(); i++) {
+            if (ids.get(i) == 5001) {
+                assertTrue(totals.get(i) == 1);
+            } else if (ids.get(i) == 5002 && ids.get(i) == 5003 && ids.get(i) == 5004) {
+                assertTrue(totals.get(i) == 0);
+            }
+        }
+    }
+
+    @Test
+    public void getWardUsagePercent() throws Exception {
+        ResultSet rs = db.getWardUsagePercent();
+        ArrayList<Integer> ids = new ArrayList<>();
+        ArrayList<Integer> percents = new ArrayList<>();
+
+        while (rs.next()) {
+            int total = rs.getInt("total");
+            int id = rs.getInt("id");
+
+            ids.add(id);
+            percents.add(total);
+        }
+
+        for (int i = 0; i < ids.size(); i++) {
+            if (ids.get(i) == 5001) {
+                assertTrue(percents.get(i) == 1);
+            } else if (ids.get(i) == 5002 && ids.get(i) == 5003 && ids.get(i) == 5004) {
+                assertTrue(percents.get(i) == 0);
             }
         }
     }

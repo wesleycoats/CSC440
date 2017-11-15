@@ -130,4 +130,16 @@ public class Staff {
     public void setProfessionalTitle ( final String professionalTitle ) {
         this.professionalTitle = professionalTitle;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        boolean sameSame = false;
+
+        if (object != null && object instanceof Staff)
+        {
+            sameSame = this.id == ((Staff) object).id;
+        }
+
+        return sameSame;
+    }
 }

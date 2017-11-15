@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class StaffDB {
     private final Connection conn;
@@ -97,4 +98,55 @@ public class StaffDB {
         }
         return false;
     }
+
+	/**
+	 * Gets all information on staff grouped by their department.
+	 *
+	 * @return A list of staff info grouped by department.
+	 */
+	public ArrayList<Staff> getStaffInfoGroupedByDepartment(int orderby) {
+		String str = null;
+		try {
+			switch (orderby) {
+				case 1:
+					str = "SELECT * FROM staff ORDER BY department";
+					break;
+				case 2:
+					str = "SELECT * FROM staff ORDER BY job_title";
+					break;
+				case 3:
+					str = "SELECT * FROM staff ORDER BY professional_title";
+					break;
+				default:
+					str = "SELECT * FROM staff ORDER BY department";
+					break;
+			};
+
+			final PreparedStatement stmt = conn.prepareStatement( str );
+			ResultSet rs = stmt.executeQuery();
+
+			ArrayList<Staff> staff_info = new ArrayList<>();
+			while (rs.next()) {
+				Staff s = new Staff();
+				s.setId(rs.getInt("id"));
+				s.setName(rs.getString("name"));
+				s.setDateOfBirth(rs.getDate("date_of_birth"));
+				s.setGender(rs.getString("gender"));
+				s.setPhoneNumber(rs.getString("phone"));
+				s.setAddress(rs.getString("address"));
+				s.setDepartment(rs.getString("department"));
+				s.setJobTitle(rs.getString("job_title"));
+				s.setProfessionalTitle(rs.getString("professional_title"));
+
+				staff_info.add(s);
+			}
+			return staff_info;
+		}
+		catch ( final SQLException e ) {
+			// TODO put something here
+			e.printStackTrace();
+		}
+
+		return null;
+	}
 }

@@ -1,0 +1,48 @@
+package billingAccount;
+
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class BillingAccountHelper {
+    private final Connection conn;
+
+    public BillingAccountHelper ( final Connection conn ) {
+        this.conn = conn;
+    }
+
+    /**
+     * Prints out billing account.
+     *
+     * @param scan used for user input.
+     */
+    public void getBillingAccount(Scanner scan) {
+        final BillingAccountDB bdb = new BillingAccountDB(conn);
+        int id;
+        while (true) {
+            System.out.println("Enter Patient id:");
+            System.out.println(">");
+
+            final String in = scan.nextLine().toLowerCase();
+
+            try {
+                id = Integer.parseInt( in );
+                ArrayList<BillingAccount> bas = bdb.getBillingAccount(id);
+
+                if (bas == null || bas.size() == 0) {
+                    System.out.println("There is no billing account for that id");
+                } else {
+                    System.out.printf("Patient ID: %d\n", id);
+                    for (BillingAccount b: bas) {
+                        System.out.printf("\tVisit date: %s Consultation fee: %f Test fee: %f Treatment fee: %f\n", b.getDate().toString(), b.getConsultingFee(), b.getTestFee(), b.getTreatmentFee());
+
+                    }
+                }
+            }
+            catch ( final NumberFormatException e ) {
+                System.out.println( "Invalid id" );
+            }
+        }
+    }
+
+}

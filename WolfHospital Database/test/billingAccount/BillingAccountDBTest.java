@@ -11,10 +11,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Random;
 
+import controller.DatabaseBuilder;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import controller.Controller;
+
+import javax.xml.crypto.Data;
 
 public class BillingAccountDBTest {
 
@@ -50,6 +54,12 @@ public class BillingAccountDBTest {
 
     @SuppressWarnings ( "deprecation" )
     @Test
+    public void getBillingAccount() throws Exception {
+        assertNotNull(db.getBillingAccount( 8001 ));
+    }
+
+    @SuppressWarnings ( "deprecation" )
+    @Test
     public void testInsert () throws ClassNotFoundException, SQLException {
 
         final Date d1 = new Date( 115, 05, 10 );
@@ -60,6 +70,19 @@ public class BillingAccountDBTest {
         assertTrue( db.insert( b ) );
         final BillingAccount s2 = db.getById( x );
         assertEquals( "card", s2.getPmtType() );
+        db.deleteById(x);
+    }
+
+    @SuppressWarnings ( "deprecation" )
+    @Test
+    public void insertNoId() throws Exception {
+        final Date d1 = new Date( 115, 05, 10 );
+        final BillingAccount b = new BillingAccount(1001, 3001, d1, "123-123-6543", "card", "99 ABCDE St , NC 27" );
+
+        assertTrue( db.insertNoId( b ) );
+        final BillingAccount s2 = db.getById( 8002 );
+        assertEquals( "card", s2.getPmtType() );
+        db.deleteById(8002);
     }
 
     @SuppressWarnings ( "deprecation" )
@@ -78,6 +101,7 @@ public class BillingAccountDBTest {
         assertTrue( db.update( x, b2 ) );
         final BillingAccount b3 = db.getById( x );
         assertEquals( "something", b3.getPmtType() );
+        db.deleteById(x);
     }
 
     @SuppressWarnings ( "deprecation" )
@@ -93,7 +117,7 @@ public class BillingAccountDBTest {
         assertTrue( db.insert( b ) );
         assertTrue( db.deleteById( x ) );
         assertNull( db.getById( x ) );
-
+        db.deleteById(x);
     }
 
 }
