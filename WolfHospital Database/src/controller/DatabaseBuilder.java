@@ -38,7 +38,7 @@ import ward.WardDB;
  */
 public class DatabaseBuilder {
     /** Database url */
-    private static String       URL    = Controller.URL;
+    private static String       URL    = Controller.BASE_URL;
     /** JDBC driver */
     private static final String DRIVER = Controller.DRIVER;
     /** Database username */
@@ -83,7 +83,7 @@ public class DatabaseBuilder {
      */
     public static void createDB () {
         executeQuery( "CREATE DATABASE wolfhospital" );
-        URL = "jdbc:mysql://localhost:3306/wolfhospital";
+        URL = Controller.URL;
     }
 
     /** Creates all tables to be used in database */
