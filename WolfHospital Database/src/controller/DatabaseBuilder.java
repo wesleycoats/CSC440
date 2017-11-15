@@ -129,42 +129,42 @@ public class DatabaseBuilder {
     /** Populates tables with sample data */
     @SuppressWarnings ( "deprecation" )
     public static void generateData () {
-        final Date d1 = new Date( 1981, 10, 16 );
+        final Date d1 = new Date( 81, 19, 16 );
         final Staff operator = new Staff( 1001, "Simpson", d1, "F", "919", "21 ABC St , NC 27", "Billing", "Biller",
                 "Accounts Supervisor" );
 
-        final Date d2 = new Date( 1972, 07, 15 );
+        final Date d2 = new Date( 72, 06, 15 );
         final Staff nurse1 = new Staff( 1002, "David", d2, "M", "123", "22 ABC St , NC 27", "Casuality", "Nurse",
                 "Senior Nurse" );
 
-        final Date d3 = new Date( 1982, 02, 18 );
+        final Date d3 = new Date( 82, 01, 18 );
         final Staff nurse2 = new Staff( 1005, "Ruth", d3, "F", "456", "23 ABC St , NC 27", "Casuality", "Nurse",
                 "Assistant Nurse" );
 
-        final Date d4 = new Date( 1977, 01, 01 );
+        final Date d4 = new Date( 77, 00, 01 );
         final Staff doctor1 = new Staff( 1003, "Lucy", d4, "F", "631", "42 ABC St , NC 27", "Intensive Care", "Doctor",
                 "Senior Surgeon" );
 
-        final Date d5 = new Date( 1976, 03, 27 );
+        final Date d5 = new Date( 76, 02, 27 );
         final Staff doctor2 = new Staff( 1004, "Joseph", d5, "M", "327", "51 ABC St , NC 27", "Pulmonary", "Doctor",
                 "Pulmonologist" );
 
         final Ward ward = new Ward( 5001, 1, 0, 0, 57, 1002 );
 
-        final Date d6 = new Date( 2017, 10, 05 );
+        final Date d6 = new Date( 117, 9, 05 );
         final CheckIn checkin = new CheckIn( 1001, 3001, d6, null, 5001, 1, 20 );
 
-        final Date d7 = new Date( 1986, 10, 22 );
+        final Date d7 = new Date( 86, 9, 22 );
         final Patient patient1 = new Patient( 3001, "John", null, d7, "M", "513", "81 ABC St , NC 27",
                 "Treatment complete" );
 
-        final Date d8 = new Date( 2017, 10, 05 );
-        final Date d9 = new Date( 2017, 10, 31 );
+        final Date d8 = new Date( 117, 9, 05 );
+        final Date d9 = new Date( 117, 9, 31 );
         final MedicalRecord medicalRecord1 = new MedicalRecord( 2001, 3001, d8, d9, 1003, "TB blood test", "positive",
                 "antibiotics", "Testing for TB", "TB treatment", 50, 75, 199, 1004 );
 
-        final Date d10 = new Date( 2017, 11, 01 );
-        final Date d11 = new Date( 2017, 11, 16 );
+        final Date d10 = new Date( 117, 10, 01 );
+        final Date d11 = new Date( 117, 10, 16 );
         final MedicalRecord medicalRecord2 = new MedicalRecord( 2002, 3001, d10, d11, 1003, "X-ray chest (TB) Advanced",
                 "negative", "continue antibiotics", "Testing for TB", "Not required", 0, 125, 0, 1004 );
 

@@ -12,7 +12,9 @@ import ward.WardHelper;
 
 public class Controller {
 
+    /** Base url used as part of DatabaseBuilder */
     public static final String BASE_URL = "jdbc:mysql://localhost:3306";
+    /** Full url path */
     public static final String URL      = "jdbc:mysql://localhost:3306/wolfhospital";
     public static final String DRIVER   = "com.mysql.jdbc.Driver";
     public static final String USERNAME = "root";

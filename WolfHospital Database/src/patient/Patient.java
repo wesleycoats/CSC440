@@ -1,12 +1,15 @@
 package patient;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class Patient {
 
     private int    id;
     private String name;
     private String ssn;
+    private int    age;
     private Date   dob;
     private String gender;
     private String phone;
@@ -23,6 +26,7 @@ public class Patient {
         setId( id );
         setName( name );
         setSsn( ssn );
+        setAge( dob );
         setDob( dob );
         setGender( gender );
         setPhone( phone );
@@ -35,6 +39,7 @@ public class Patient {
             final String address, final String status ) {
         setName( name );
         setSsn( ssn );
+        setAge( dob );
         setDob( dob );
         setGender( gender );
         setPhone( phone );
@@ -64,6 +69,14 @@ public class Patient {
 
     public void setSsn ( final String ssn ) {
         this.ssn = ssn;
+    }
+
+    public int getAge () {
+        return age;
+    }
+
+    public void setAge ( final Date dob ) {
+        age = (int) dob.toLocalDate().until( LocalDate.now(), ChronoUnit.YEARS );
     }
 
     public Date getDob () {

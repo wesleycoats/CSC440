@@ -19,10 +19,11 @@ public class PatientDB {
             stmt.setInt( 1, id );
             final ResultSet rs = stmt.executeQuery();
             if ( rs.next() ) {
-            	s = new Patient();
+                s = new Patient();
                 s.setId( id );
                 s.setName( rs.getString( "name" ) );
                 s.setSsn( rs.getString( "patientSSN" ) );
+                s.setAge( rs.getDate( "date_of_birth" ) );
                 s.setDob( rs.getDate( "date_of_birth" ) );
                 s.setGender( rs.getString( "gender" ) );
                 s.setPhone( rs.getString( "phone" ) );
@@ -58,12 +59,12 @@ public class PatientDB {
         return false;
     }
 
-    public boolean update (int id, final Patient s ) {
+    public boolean update ( final int id, final Patient s ) {
         try {
-            final PreparedStatement stmt = conn.prepareStatement( "UPDATE patient SET id = ?, name = ?, patientSSN = ?, "
-                                                                + "date_of_birth = ?, gender = ?, phone = ?, "
-                                                                + "address = ?, status = ? WHERE id = ?;" );
-            stmt.setInt(1, s.getId());
+            final PreparedStatement stmt = conn
+                    .prepareStatement( "UPDATE patient SET id = ?, name = ?, patientSSN = ?, "
+                            + "date_of_birth = ?, gender = ?, phone = ?, " + "address = ?, status = ? WHERE id = ?;" );
+            stmt.setInt( 1, s.getId() );
             stmt.setString( 2, s.getName() );
             stmt.setString( 3, s.getSsn() );
             stmt.setDate( 4, s.getDob() );

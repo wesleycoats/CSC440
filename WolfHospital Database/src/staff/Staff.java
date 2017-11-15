@@ -1,11 +1,14 @@
 package staff;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class Staff {
 
     private int    id;
     private String name;
+    private int    age;
     private Date   dateOfBirth;
     private String gender;
     private String phoneNumber;
@@ -24,6 +27,7 @@ public class Staff {
             final String professionalTitle ) {
         setId( id );
         setName( name );
+        setAge( dateOfBirth );
         setDateOfBirth( dateOfBirth );
         setGender( gender );
         setPhoneNumber( phoneNumber );
@@ -37,6 +41,7 @@ public class Staff {
     public Staff ( final String name, final Date dateOfBirth, final String gender, final String phoneNumber,
             final String address, final String department, final String jobTitle, final String professionalTitle ) {
         setName( name );
+        setAge( dateOfBirth );
         setDateOfBirth( dateOfBirth );
         setGender( gender );
         setPhoneNumber( phoneNumber );
@@ -60,6 +65,15 @@ public class Staff {
 
     public void setName ( final String name ) {
         this.name = name;
+    }
+
+    public int getAge () {
+        return age;
+    }
+
+    public void setAge ( final Date dob ) {
+        age = (int) dob.toLocalDate().until( LocalDate.now(), ChronoUnit.YEARS );
+        System.out.println( age );
     }
 
     public Date getDateOfBirth () {
