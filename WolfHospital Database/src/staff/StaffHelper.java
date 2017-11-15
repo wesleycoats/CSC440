@@ -2,6 +2,7 @@ package staff;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class StaffHelper {
@@ -62,6 +63,87 @@ public class StaffHelper {
 			}
 		}
 	}
+	
+	public void addMultiple(Scanner scan) {
+    	StaffDB sdb = new StaffDB(conn);
+		System.out.println("Enter the staff information in the following format: Id, Name, Date of Birth (YYYY-MM-DD), Gender, Phone Number, Address, Department, Job Title, Professional Title");
+        System.out.println("Enter d-Done when all patients are added or b-Back to return and discard all changes");
+        try {
+        	conn.setAutoCommit(false);
+        } catch (SQLException e) {
+        	System.out.println("An error occured when communicating with the database");
+        	return;
+        }
+        while(true) {
+            System.out.print("> ");
+            String in = scan.nextLine().trim().toLowerCase();
+            if(in.equals("d") || in.equals("done")) {
+            	try {
+            		conn.commit();
+            		conn.setAutoCommit(true);
+            		System.out.println("Transaction Completed Successfully");
+            	} catch (SQLException e) {
+            		System.out.println("An error occured when communicating with the database");
+            	}
+            	return;
+            } else if(in.equals("b") || in.equals("back")) {
+            	try {
+            		conn.rollback();
+            		conn.setAutoCommit(true);
+            		System.out.println("Transaction rolled back");
+            	} catch (SQLException e) {
+            		System.out.println("An error occured when communicating with the database");
+            	}
+            	return;
+            } else {
+                String[] inputArray = in.split(",");
+                if (inputArray.length == NUMBER_OF_ATTRIBUTES) {
+                    Staff s = new Staff();
+    				try {
+    					int id = Integer.parseInt(inputArray[0].trim());
+    					if(sdb.getById(id) == null) {
+    						s.setId(id);
+    					} else {
+    						System.out.println("An entry already exists with that id");
+    						continue;
+    					}
+    				} catch (NumberFormatException e) {
+    					System.out.println("Invalid Id");
+    					continue;
+    				}
+    				s.setName(inputArray[1].trim());
+    				try {
+    					s.setDateOfBirth(Date.valueOf(inputArray[2].trim()));
+    				} catch (IllegalArgumentException e) {
+    					System.out.println("Invalid Date");
+    					continue;
+    				}
+    				s.setGender(inputArray[3].trim());
+    				s.setPhoneNumber(inputArray[4].trim());
+    				s.setAddress(inputArray[5].trim());
+    				s.setDepartment(inputArray[6].trim());
+    				s.setJobTitle(inputArray[7].trim());
+    				s.setProfessionalTitle(inputArray[8].trim());
+                    if (sdb.insert(s)) {
+                    	continue;
+                    } else {
+                    	System.out.println("Transaction Failed. Rolling Back Changes");
+                    	try {
+                    		conn.rollback();
+                    	} catch (SQLException e) {
+                    		System.out.println("An error occured when communicating with the database");
+                    	}
+                    	return;
+                    }
+                } else {
+                	System.out.println("Invalid Formatting");
+            		System.out.println("Enter the staff information in the following format: Id, Name, Date of Birth (YYYY-MM-DD), Gender, Phone Number, Address, Department, Job Title, Professional Title");
+                    System.out.println("Enter d-Done when all staff entries are added or b-Back to return and discard all changes");
+                    continue;
+                }         
+            }
+        }
+    }
 	
 	public void update(Scanner scan) {
 		StaffDB sdb = new StaffDB(conn);
