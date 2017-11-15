@@ -177,7 +177,7 @@ public class DatabaseBuilder {
                 "99 ABC St , NC 27" );
         final MedicalRecord medicalRecord4 = new MedicalRecord( 2004, 3002, d12, null, 1003, "X-ray chest (TB) Advanced",
                 "negative", "continue antibiotics", "Testing for TB", "Not required", 0, 125, 0, 1004 );
-        final Patient patient2 = new Patient( 3002, "John", null, d7, "M", "513", "81 ABC St , NC 27",
+        final Patient patient2 = new Patient( 3002, "Jonnathan", null, d7, "M", "513-564-6969", "81 ABC St , NC 27",
                 "Treatment complete" );
 
         final Date d13 = new Date( 118, 11, 01 );
