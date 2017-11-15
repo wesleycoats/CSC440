@@ -2,6 +2,8 @@ package ward;
 
 import java.sql.Connection;
 import java.util.Scanner;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import staff.StaffDB;
 
@@ -249,4 +251,33 @@ public class WardHelper {
             }
         }
     }
+
+	/**
+	 * This gets the ward number and number of available beds
+	 * in the ward.
+	 */
+	public void availableWardsAndBeds() throws SQLException{
+		WardDB pdb = new WardDB(conn);
+		ResultSet rs = pdb.checkAvailableWardsAndBeds();
+
+		while (rs.next()) {
+			int total = rs.getInt("total");
+			int id = rs.getInt("id");
+			int capacity1 = rs.getInt( "capacity_one" );
+			int capacity2 = rs.getInt( "capacity_two" );
+			int capacity3 = rs.getInt( "capacity_three" );
+
+			if (capacity1 == 1) {
+				total = 1 - total;
+			} else if (capacity2 == 1) {
+				total = 2 - total;
+			} else if (capacity3 == 1) {
+				total = 3 - total;
+			}
+
+			System.out.printf("Ward Number: %d Available Beds: %d\n", id, total);
+		}
+
+		System.out.println("");
+	}
 }

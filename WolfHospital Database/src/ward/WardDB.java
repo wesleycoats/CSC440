@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class WardDB {
     private final Connection conn;
@@ -84,5 +85,29 @@ public class WardDB {
             e.printStackTrace();
         }
         return false;
+    }
+
+    /**
+     * This function queries the database for the wards with available beds
+     *
+     * @return The result set containing the ward_id and number of available beds.
+     */
+    public ResultSet checkAvailableWardsAndBeds() {
+        try {
+            String str = "SELECT *, (SELECT COUNT(ward_id) FROM check_in "
+                    + "WHERE ward_id = ward.id && (end_date > CURDATE() || end_date IS NULL)) AS total FROM ward HAVING "
+                    + "(capacity_one='1' && total < 1) || "
+                    + "(capacity_two='1' &&  total < 2) || "
+                    + "(capacity_three='1' && total < 3);";
+            final PreparedStatement stmt = conn.prepareStatement( str );
+            ResultSet rs = stmt.executeQuery();
+            return rs;
+        }
+        catch ( final SQLException e ) {
+            // TODO put something here
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }
