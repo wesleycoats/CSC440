@@ -20,7 +20,7 @@ public class MedicalRecordDB {
             stmt.setInt( 1, id );
             final ResultSet rs = stmt.executeQuery();
             if ( rs.next() ) {
-            	s = new MedicalRecord();
+                s = new MedicalRecord();
                 s.setId( id );
                 s.setPatientId( rs.getInt( "patient_id" ) );
                 s.setStartDate( rs.getDate( "start_date" ) );
@@ -72,7 +72,7 @@ public class MedicalRecordDB {
         return false;
     }
 
-    public boolean update ( final MedicalRecord s ) {
+    public boolean update ( final int id, final MedicalRecord s ) {
         try {
             final PreparedStatement stmt = conn
                     .prepareStatement( "UPDATE medical_record SET patient_id = ?, start_date = ?, "
@@ -93,7 +93,7 @@ public class MedicalRecordDB {
             stmt.setFloat( 11, s.getTestFee() );
             stmt.setFloat( 12, s.getTreatmentFee() );
             stmt.setInt( 13, s.getSpecialistId() );
-            stmt.setInt( 14, s.getId() );
+            stmt.setInt( 14, id );
             return ( stmt.executeUpdate() > 0 );
         }
         catch ( final SQLException e ) {

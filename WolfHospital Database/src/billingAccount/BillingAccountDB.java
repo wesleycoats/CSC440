@@ -20,7 +20,7 @@ public class BillingAccountDB {
             stmt.setInt( 1, id );
             final ResultSet rs = stmt.executeQuery();
             if ( rs.next() ) {
-            	b = new BillingAccount();
+                b = new BillingAccount();
                 b.setId( id );
                 b.setCheckinId( rs.getInt( "check_in_id" ) );
                 b.setDate( rs.getDate( "visit_date" ) );
@@ -55,7 +55,7 @@ public class BillingAccountDB {
         return false;
     }
 
-    public boolean update ( final BillingAccount b ) {
+    public boolean update ( final int id, final BillingAccount b ) {
         try {
             final PreparedStatement stmt = conn
                     .prepareStatement( "UPDATE billing_account SET check_in_id = ?, visit_date = ?, "
@@ -65,7 +65,7 @@ public class BillingAccountDB {
             stmt.setString( 3, b.getPayerSsn() );
             stmt.setString( 4, b.getPmtType() );
             stmt.setString( 5, b.getAddress() );
-            stmt.setInt( 9, b.getId() );
+            stmt.setInt( 9, id );
             return ( stmt.executeUpdate() > 0 );
         }
         catch ( final SQLException e ) {
