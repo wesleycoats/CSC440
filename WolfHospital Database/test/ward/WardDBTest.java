@@ -1,11 +1,16 @@
 package ward;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Random;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,8 +24,9 @@ public class WardDBTest {
     private final String      USERNAME = Controller.USERNAME;
     private final String      PASSWORD = Controller.PASSWORD;
 
-    private WardDB            db;
     private static Connection conn;
+
+    private WardDB            db;
 
     @Before
     public void setUp () throws Exception {
@@ -35,30 +41,72 @@ public class WardDBTest {
     }
 
     @Test
-    public void getById () throws Exception {
-        fail( "tbd" );
+    public void testGetById () throws ClassNotFoundException, SQLException {
+
+        Ward w = null;
+        w = db.getById( 5001 );
+
+        assertNotNull( w );
+        assertEquals( 1, w.getCapacity1() );
+        assertEquals( 0, w.getCapacity2() );
+        assertEquals( 0, w.getCapacity3() );
+        assertEquals( 57, w.getCharge(), 0 );
+        assertEquals( 1002, w.getNurseId() );
     }
 
     @Test
-    public void insert () throws Exception {
-        fail( "tbd" );
+    public void testInsert () throws ClassNotFoundException, SQLException {
+
+        final Random ran = new Random();
+        final int x = ran.nextInt( 9999 );
+        final Ward w = new Ward( x, 0, 0, 1, 18, 1002 );
+
+        assertTrue( db.insert( w ) );
+        final Ward s2 = db.getById( x );
+        assertEquals( 18, s2.getCharge(), 0 );
     }
 
     @Test
-    public void update () throws Exception {
-        fail( "tbd" );
+    public void testUpdate () throws ClassNotFoundException, SQLException {
+
+        final Random ran = new Random();
+        final int x = ran.nextInt( 9999 );
+        final Ward w = new Ward( x, 0, 0, 1, 18, 1002 );
+        assertTrue( db.insert( w ) );
+
+        final Ward w2 = new Ward( x, 1, 1, 0, 37, 1002 );
+
+        assertTrue( db.update( x, w2 ) );
+        final Ward w3 = db.getById( x );
+        assertEquals( 37, w3.getCharge(), 0 );
     }
 
     @Test
-    public void deleteById () throws Exception {
-        fail( "tbd" );
+    public void testDeleteById () throws ClassNotFoundException, SQLException {
+
+        final Random ran = new Random();
+        final int x = ran.nextInt( 9999 );
+        final Ward w = new Ward( x, 0, 0, 1, 1000, 1002 );
+        assertTrue( db.insert( w ) );
+        assertTrue( db.deleteById( x ) );
+        assertNull( db.getById( x ) );
+
     }
 
     @Test
     public void checkAvailableWardsAndBeds () throws Exception {
-        final Ward ward1 = new Ward( 5002, 0, 1, 0, 60, 1002 );
-        final Ward ward2 = new Ward( 5003, 0, 0, 1, 63, 1002 );
-        final Ward ward3 = new Ward( 5004, 0, 1, 0, 60, 1002 );
+        final Random ran = new Random();
+        final int x = ran.nextInt( 9999 );
+        final Ward ward1 = new Ward( x, 0, 1, 0, 1, 1002 );
+
+        final Random ran2 = new Random();
+        final int x2 = ran2.nextInt( 9999 );
+        final Ward ward2 = new Ward( x2, 0, 0, 1, 2, 1002 );
+
+        final Random ran3 = new Random();
+        final int x3 = ran3.nextInt( 9999 );
+        final Ward ward3 = new Ward( x3, 0, 1, 0, 3, 1002 );
+
         final ResultSet rs = db.checkAvailableWardsAndBeds();
 
         while ( rs.next() ) {

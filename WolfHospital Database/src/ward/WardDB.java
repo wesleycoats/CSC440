@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class WardDB {
     private final Connection conn;
@@ -58,7 +57,7 @@ public class WardDB {
     public boolean update ( final int id, final Ward s ) {
         try {
             final PreparedStatement stmt = conn.prepareStatement( "UPDATE ward SET capacity_one = ?, "
-                    + "capcity_two = ?, capacity_three = ?, charges_per_day = ?, nurse_id = ? WHERE id = ?;" );
+                    + "capacity_two = ?, capacity_three = ?, charges_per_day = ?, nurse_id = ? WHERE id = ?;" );
             stmt.setInt( 1, s.getCapacity1() );
             stmt.setInt( 2, s.getCapacity2() );
             stmt.setInt( 3, s.getCapacity3() );
@@ -90,17 +89,17 @@ public class WardDB {
     /**
      * This function queries the database for the wards with available beds
      *
-     * @return The result set containing the ward_id and number of available beds.
+     * @return The result set containing the ward_id and number of available
+     *         beds.
      */
-    public ResultSet checkAvailableWardsAndBeds() {
+    public ResultSet checkAvailableWardsAndBeds () {
         try {
-            String str = "SELECT *, (SELECT COUNT(ward_id) FROM check_in "
+            final String str = "SELECT *, (SELECT COUNT(ward_id) FROM check_in "
                     + "WHERE ward_id = ward.id && (end_date > CURDATE() || end_date IS NULL)) AS total FROM ward HAVING "
-                    + "(capacity_one='1' && total < 1) || "
-                    + "(capacity_two='1' &&  total < 2) || "
+                    + "(capacity_one='1' && total < 1) || " + "(capacity_two='1' &&  total < 2) || "
                     + "(capacity_three='1' && total < 3);";
             final PreparedStatement stmt = conn.prepareStatement( str );
-            ResultSet rs = stmt.executeQuery();
+            final ResultSet rs = stmt.executeQuery();
             return rs;
         }
         catch ( final SQLException e ) {

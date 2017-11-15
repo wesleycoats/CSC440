@@ -39,12 +39,11 @@ public class BillingAccountDBTest {
         }
     }
 
-    @SuppressWarnings ( "deprecation" )
     @Test
     public void testGetById () throws ClassNotFoundException, SQLException {
 
         BillingAccount b = null;
-        b = db.getById( 3001 );
+        b = db.getById( 8001 );
 
         assertNotNull( b );
     }
