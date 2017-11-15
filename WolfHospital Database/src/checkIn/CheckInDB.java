@@ -57,9 +57,8 @@ public class CheckInDB {
 
     public boolean update ( final int id, final CheckIn s ) {
         try {
-            final PreparedStatement stmt = conn.prepareStatement(
-                    "UPDATE check_in SET patient_id = ?," + " start_date = ?, end_date = ?, ward_id = ?, "
-                            + "bed_number = ?, registration_fee = ?, WHERE id = ?;" );
+            final PreparedStatement stmt = conn.prepareStatement( "UPDATE check_in SET patient_id = ?, start_date = ?, "
+                    + "end_date = ?, ward_id = ?, bed_number = ?, registration_fee = ? WHERE id = ?;" );
             stmt.setInt( 1, s.getPatientId() );
             stmt.setDate( 2, s.getStartDate() );
             stmt.setDate( 3, s.getEndDate() );

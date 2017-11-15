@@ -73,7 +73,6 @@ public class Staff {
 
     public void setAge ( final Date dob ) {
         age = (int) dob.toLocalDate().until( LocalDate.now(), ChronoUnit.YEARS );
-        System.out.println( age );
     }
 
     public Date getDateOfBirth () {
