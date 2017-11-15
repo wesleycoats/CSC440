@@ -19,7 +19,7 @@ public class CheckInDB {
             stmt.setInt( 1, id );
             final ResultSet rs = stmt.executeQuery();
             if ( rs.next() ) {
-            	s = new CheckIn();
+                s = new CheckIn();
                 s.setId( id );
                 s.setPatientId( rs.getInt( "patient_id" ) );
                 s.setStartDate( rs.getDate( "start_date" ) );
@@ -55,18 +55,18 @@ public class CheckInDB {
         return false;
     }
 
-    public boolean update ( final CheckIn s ) {
+    public boolean update ( final int id, final CheckIn s ) {
         try {
-            final PreparedStatement stmt = conn.prepareStatement("UPDATE check_in SET patient_id = ?,"
-                                                                + " start_date = ?, end_date = ?, ward_id = ?, "
-                                                                + "bed_number = ?, registration_fee = ?, WHERE id = ?;" );
+            final PreparedStatement stmt = conn.prepareStatement(
+                    "UPDATE check_in SET patient_id = ?," + " start_date = ?, end_date = ?, ward_id = ?, "
+                            + "bed_number = ?, registration_fee = ?, WHERE id = ?;" );
             stmt.setInt( 1, s.getPatientId() );
             stmt.setDate( 2, s.getStartDate() );
             stmt.setDate( 3, s.getEndDate() );
             stmt.setInt( 4, s.getWardId() );
             stmt.setInt( 5, s.getBedNum() );
             stmt.setFloat( 6, s.getFee() );
-            stmt.setInt( 7, s.getId() );
+            stmt.setInt( 7, id );
             return ( stmt.executeUpdate() > 0 );
         }
         catch ( final SQLException e ) {
