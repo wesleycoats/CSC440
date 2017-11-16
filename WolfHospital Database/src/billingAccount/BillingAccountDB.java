@@ -50,6 +50,33 @@ public class BillingAccountDB {
         }
         return b;
     }
+    
+    public BillingAccount getByPatientAndCheckIn(int id, int pid, int cid) {
+    	BillingAccount b = null;
+        try {
+            final PreparedStatement stmt = conn.prepareStatement( "SELECT * FROM billing_account WHERE id = ? AND patient_id = ? AND check_in_id = ?;" );
+            stmt.setInt(1, id);
+            stmt.setInt( 2, pid );
+            stmt.setInt(3, cid);
+            final ResultSet rs = stmt.executeQuery();
+            if ( rs.next() ) {
+                b = new BillingAccount();
+                b.setId( rs.getInt("id") );
+                b.setPatientId( pid );
+                b.setCheckinId( cid );
+                b.setDate( rs.getDate( "visit_date" ) );
+                b.setPayerSsn( rs.getString( "payerSSN" ) );
+                b.setPmtType( rs.getString( "payment_type" ) );
+                b.setAddress( rs.getString( "billing_address" ) );
+
+            }
+        }
+        catch ( final SQLException e ) {
+            // TODO put something here
+            e.printStackTrace();
+        }
+        return b;
+    }
 
     /**
      * Returns the billing account with all the fees included.
@@ -188,6 +215,29 @@ public class BillingAccountDB {
             stmt.setString( 5, b.getPmtType() );
             stmt.setString( 6, b.getAddress() );
             stmt.setInt( 7, id );
+            return ( stmt.executeUpdate() > 0 );
+        }
+        catch ( final SQLException e ) {
+            // TODO put something here
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public boolean updateWithPatientAndCheckinIds(int id, int pid, int cid, BillingAccount b) {
+    	try {
+            final PreparedStatement stmt = conn
+                    .prepareStatement( "UPDATE billing_account SET patient_id = ?, check_in_id = ?, visit_date = ?, "
+                            + "payerSSN = ?, payment_type = ?, billing_address= ? WHERE id = ? AND patient_id = ? AND check_in_id = ?;" );
+            stmt.setInt( 1, b.getPatientId() );
+            stmt.setInt( 2, b.getCheckinId() );
+            stmt.setDate( 3, b.getDate() );
+            stmt.setString( 4, b.getPayerSsn() );
+            stmt.setString( 5, b.getPmtType() );
+            stmt.setString( 6, b.getAddress() );
+            stmt.setInt(7, id);
+            stmt.setInt( 8, pid );
+            stmt.setInt(9, cid);
             return ( stmt.executeUpdate() > 0 );
         }
         catch ( final SQLException e ) {

@@ -112,8 +112,8 @@ public class Controller {
      */
     private static void add ( final Scanner scan ) {
         while ( true ) {
-            System.out.println(
-                    "What to add? (p-Patient, s-Staff, w-Ward, c-Check In, m-Medical Record, or b-Back to return)" );
+        	System.out.println(
+                    "What to add? (p-Patient, s-Staff, w-Ward, c-Check In, m-Medical Record, ba-Billing Account or b-Back to return)" );
             System.out.print( "> " );
             String in = scan.nextLine();
             in = in.toLowerCase();
@@ -178,6 +178,11 @@ public class Controller {
                 mh.add( scan );
                 return;
             }
+            else if (in.equals("ba") || in.equals("billing account")) {
+            	BillingAccountHelper bah = new BillingAccountHelper(conn);
+            	bah.add(scan);
+            	return;
+            }
             else if ( in.equals( "b" ) || in.equals( "back" ) ) {
                 return;
             }
@@ -196,8 +201,8 @@ public class Controller {
      */
     private static void update ( final Scanner scan ) {
         while ( true ) {
-            System.out.println(
-                    "What to update? (p-Patient, s-Staff, w-Ward, c-Check In, m-Medical Record, or b-Back to return)" );
+        	 System.out.println(
+                     "What to update? (p-Patient, s-Staff, w-Ward, c-Check In, m-Medical Record, ba-Billing Account, or b-Back to return)" );
             System.out.print( "> " );
             String in = scan.nextLine();
             in = in.toLowerCase();
@@ -225,6 +230,11 @@ public class Controller {
                 final MedicalRecordHelper mh = new MedicalRecordHelper( conn );
                 mh.update( scan );
                 return;
+            }
+            else if (in.equals("ba") || in.equals("billing account")) {
+            	BillingAccountHelper bah = new BillingAccountHelper(conn);
+            	bah.update(scan);
+            	return;
             }
             else if ( in.equals( "b" ) || in.equals( "back" ) ) {
                 return;
