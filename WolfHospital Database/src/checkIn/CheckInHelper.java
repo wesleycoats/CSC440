@@ -11,7 +11,7 @@ import ward.WardDB;
 import ward.WardHelper;
 
 public class CheckInHelper {
-	/** The database connection to use */
+    /** The database connection to use */
     private final Connection conn;
 
     /** The number of attributes for a check in entry */
@@ -19,7 +19,9 @@ public class CheckInHelper {
 
     /**
      * Constructor
-     * @param conn The database connection to use
+     *
+     * @param conn
+     *            The database connection to use
      */
     public CheckInHelper ( final Connection conn ) {
         this.conn = conn;
@@ -27,7 +29,9 @@ public class CheckInHelper {
 
     /**
      * Adds a new check in from user input
-     * @param scan Used for user input
+     *
+     * @param scan
+     *            Used for user input
      */
     public void add ( final Scanner scan ) {
         final CheckInDB cdb = new CheckInDB( conn );
@@ -95,14 +99,16 @@ public class CheckInHelper {
                     if ( wdb.getById( id ) == null ) {
                         System.out.println( "No ward exists with that id" );
                         continue;
-                    } else {
-                        WardHelper wh = new WardHelper(conn);
-                        int avaliability = wh.getAvaliability(id);
-                        if(avaliability == -1) {
-                        	continue;
-                        } else if(avaliability <= 0) {
-                        	System.out.println("There is no space left in that ward");
-                        	continue;
+                    }
+                    else {
+                        final WardHelper wh = new WardHelper( conn );
+                        final int avaliability = wh.getAvaliability( id );
+                        if ( avaliability == -1 ) {
+                            continue;
+                        }
+                        else if ( avaliability <= 0 ) {
+                            System.out.println( "There is no space left in that ward" );
+                            continue;
                         }
                         c.setWardId( id );
                     }
@@ -136,7 +142,9 @@ public class CheckInHelper {
 
     /**
      * Updates a check in from user input
-     * @param scan Used for user input
+     *
+     * @param scan
+     *            Used for user input
      */
     public void update ( final Scanner scan ) {
         final CheckInDB cdb = new CheckInDB( conn );
@@ -240,13 +248,14 @@ public class CheckInHelper {
                             continue;
                         }
                         else {
-                        	WardHelper wh = new WardHelper(conn);
-                            int avaliability = wh.getAvaliability(id);
-                            if(avaliability == -1) {
-                            	continue;
-                            } else if(avaliability <= 0) {
-                            	System.out.println("There is no space left in that ward");
-                            	continue;
+                            final WardHelper wh = new WardHelper( conn );
+                            final int avaliability = wh.getAvaliability( id );
+                            if ( avaliability == -1 ) {
+                                continue;
+                            }
+                            else if ( avaliability <= 0 ) {
+                                System.out.println( "There is no space left in that ward" );
+                                continue;
                             }
                             c.setWardId( newid );
                         }
@@ -302,11 +311,13 @@ public class CheckInHelper {
             }
             else {
                 do {
-                    System.out.printf( "Year: %d Patients Per Month: %f\n", rs.getInt( "y" ), rs.getFloat( "ppm" ) );
+                    System.out.printf( "Year: %d Patients: %d Patients Per Month: %.2f\n", rs.getInt( "y" ),
+                            rs.getInt( "p" ), rs.getFloat( "ppm" ) );
                 }
                 while ( rs.next() );
             }
-        } catch (SQLException e) {
+        }
+        catch ( final SQLException e ) {
             e.printStackTrace();
         }
     }
