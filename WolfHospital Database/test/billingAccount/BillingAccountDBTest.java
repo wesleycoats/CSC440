@@ -80,9 +80,9 @@ public class BillingAccountDBTest {
         final BillingAccount b = new BillingAccount(1001, 3001, d1, "123-123-6543", "card", "99 ABCDE St , NC 27" );
 
         assertTrue( db.insertNoId( b ) );
-        final BillingAccount s2 = db.getById( 8002 );
+        final BillingAccount s2 = db.getById( 8003 );
         assertEquals( "card", s2.getPmtType() );
-        db.deleteById(8002);
+        db.deleteById(8003);
     }
 
     @SuppressWarnings ( "deprecation" )

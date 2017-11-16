@@ -428,21 +428,21 @@ public class MedicalRecordHelper {
                     return;
                 }
 
-                for ( final MedicalRecord rec : medrecs ) {
-                    System.out.printf( "Medical Record ID: %d\n", rec.getId() );
-                    System.out.printf( "\tPatient ID: %d\n", rec.getPatientId() );
-                    System.out.printf( "\tStart Date: %s", rec.getStartDate().toString() );
-                    System.out.printf( "\tEnd Date: %s", rec.getEndDate().toString() );
-                    System.out.printf( "\tDoctor ID: %d", rec.getDoctorId() );
-                    System.out.printf( "\tTest Type: %s", rec.getTestType() );
-                    System.out.printf( "\tTest Result: %s", rec.getTestResult() );
-                    System.out.printf( "\tTest Fee: %f", rec.getTestFee() );
-                    System.out.printf( "\tPrescription: %s", rec.getPrescription() );
-                    System.out.printf( "\tDiagnosis Details: %s", rec.getDiagDetails() );
-                    System.out.printf( "\tTreatment: %s", rec.getTreatment() );
-                    System.out.printf( "\tTreatment Fee: %f", rec.getTreatmentFee() );
-                    System.out.printf( "\tConsultation Fee: %f", rec.getConsultFee() );
-                    System.out.printf( "\tSpecialist ID: %d", rec.getSpecialistId() );
+                System.out.printf("Patient ID: %d\n", id);
+                for (MedicalRecord rec: medrecs) {
+                    System.out.printf("\tMedical Record ID: %d\n", rec.getId());
+                    System.out.printf("\t\tStart Date: %s\n", rec.getStartDate().toString());
+                    System.out.printf("\t\tEnd Date: %s\n", rec.getEndDate().toString());
+                    System.out.printf("\t\tDoctor ID: %d\n", rec.getDoctorId());
+                    System.out.printf("\t\tTest Type: %s\n", rec.getTestType());
+                    System.out.printf("\t\tTest Result: %s\n", rec.getTestResult());
+                    System.out.printf("\t\tTest Fee: %f\n", rec.getTestFee());
+                    System.out.printf("\t\tPrescription: %s\n", rec.getPrescription());
+                    System.out.printf("\t\tDiagnosis Details: %s\n", rec.getDiagDetails());
+                    System.out.printf("\t\tTreatment: %s\n", rec.getTreatment());
+                    System.out.printf("\t\tTreatment Fee: %f\n", rec.getTreatmentFee());
+                    System.out.printf("\t\tConsultation Fee: %f\n", rec.getConsultFee());
+                    System.out.printf("\t\tSpecialist ID: %d\n\n", rec.getSpecialistId());
                 }
             }
             catch ( final IllegalArgumentException e ) {

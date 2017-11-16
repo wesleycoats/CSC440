@@ -24,6 +24,8 @@ public class BillingAccount {
     private float treatment_fee = 0;
     /** Default test fee */
     private float test_fee = 0;
+    private float registration_fee = 0;
+    private float accomadation_fee = 0;
 
     /** Empty constructor */
     public BillingAccount () {
@@ -130,5 +132,21 @@ public class BillingAccount {
 
     public void setTreatmentFee(float treatment_fee) {
         this.treatment_fee = treatment_fee;
+    }
+
+    public float getRegistrationFee() {
+        return registration_fee;
+    }
+
+    public void setRegistrationFee(float registration_fee) {
+        this.registration_fee = registration_fee;
+    }
+
+    public float getAccomadationFee() {
+        return accomadation_fee;
+    }
+
+    public void setAccomadationFee(float accomadation_fee) {
+        this.accomadation_fee = accomadation_fee;
     }
 }

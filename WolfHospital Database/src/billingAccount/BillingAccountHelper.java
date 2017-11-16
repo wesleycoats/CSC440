@@ -26,9 +26,10 @@ public class BillingAccountHelper {
     public void getBillingAccount ( final Scanner scan ) {
         final BillingAccountDB bdb = new BillingAccountDB( conn );
         int id;
-        while ( true ) {
-            System.out.println( "Enter Patient id or b-back:" );
-            System.out.println( ">" );
+        while (true) {
+            System.out.println("Enter Patient id or b (back):");
+            System.out.printf("> ");
+
 
             final String in = scan.nextLine().toLowerCase();
             if ( in.equals( "b" ) || in.equals( "back" ) ) {
@@ -44,9 +45,10 @@ public class BillingAccountHelper {
                 else {
                     System.out.printf( "Patient ID: %d\n", id );
                     for ( final BillingAccount b : bas ) {
-                        System.out.printf( "\tVisit date: %s Consultation fee: %f Test fee: %f Treatment fee: %f\n",
-                                b.getDate().toString(), b.getConsultingFee(), b.getTestFee(), b.getTreatmentFee() );
-
+                        System.out.printf( "\tVisit date: %s Consultation fee: %.2f Test fee: %.2f Treatment fee: %.2f "
+                                        + "Registration fee: %.2f Accommodation fee: %.2f\n",
+                                b.getDate().toString(), b.getConsultingFee(), b.getTestFee(), b.getTreatmentFee(),
+                                b.getRegistrationFee(), b.getAccomadationFee() );
                     }
                 }
             }

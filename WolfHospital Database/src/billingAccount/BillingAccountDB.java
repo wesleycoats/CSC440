@@ -60,10 +60,15 @@ public class BillingAccountDB {
     public ArrayList<BillingAccount> getBillingAccount (final int id ) {
         ArrayList<BillingAccount> bas = null;
         BillingAccount b = null;
-        String str = "SELECT * FROM billing_account INNER JOIN medical_record "
-                + "WHERE YEAR(start_date) = YEAR(visit_date) AND "
-                + "MONTH(start_date) = MONTH(visit_date) AND DAY(start_date) = DAY(visit_date) "
-                + "AND billing_account.patient_id = ?;";
+        String str = "SELECT DISTINCT billing_account.patient_id, check_in_id, payerSSN, payment_type, billing_address, "
+                + "medical_record.start_date, medical_record.end_date, "
+                + "consultation_fee, test_fee, treatment_fee, registration_fee, visit_date, charges_per_day FROM "
+                + "billing_account INNER JOIN medical_record ON "
+                + "billing_account.patient_id = medical_record.patient_id "
+                + "INNER JOIN check_in ON billing_account.patient_id = check_in.patient_id "
+                + "INNER JOIN ward ON check_in.ward_id = ward.id "
+                + "WHERE YEAR(medical_record.start_date) = YEAR(visit_date) AND MONTH(medical_record.start_date) = MONTH(visit_date) "
+                + "AND DAY(medical_record.start_date) = DAY(visit_date) AND billing_account.patient_id = ?;";
         try {
             final PreparedStatement stmt = conn.prepareStatement( str );
             stmt.setInt( 1, id );
@@ -81,6 +86,8 @@ public class BillingAccountDB {
                 b.setTestFee( rs.getFloat("test_fee") );
                 b.setTreatmentFee( rs.getFloat("treatment_fee") );
                 b.setConsultingFee( rs.getFloat("consultation_fee") );
+                b.setRegistrationFee( rs.getFloat("registration_fee") );
+                b.setAccomadationFee( rs.getFloat("charges_per_day") );
 
                 bas.add(b);
             }
