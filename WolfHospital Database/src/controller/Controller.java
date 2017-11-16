@@ -51,15 +51,12 @@ public class Controller {
                 System.out.println("");
                 if ( in.equals( "a" ) || in.equals( "add" ) ) {
                     add( scan );
-                    break;
                 }
                 else if ( in.equals( "u" ) || in.equals( "update" ) ) {
                     update( scan );
-                    break;
                 }
                 else if ( in.equals( "d" ) || in.equals( "delete" ) ) {
                     delete( scan );
-                    break;
                 }
                 // gets available beds in wards
                 else if ( in.equals( "ab" ) || in.equals( "Available_beds" ) ) {
