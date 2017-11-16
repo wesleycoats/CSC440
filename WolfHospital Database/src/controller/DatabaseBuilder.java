@@ -127,8 +127,10 @@ public class DatabaseBuilder {
 
         final Ward ward = new Ward( 5001, 1, 0, 0, 57, 1002 );
         final Ward ward1 = new Ward( 5002, 0, 1, 0, 60, 1002 );
+        /**
         final Ward ward2 = new Ward( 5003, 0, 0, 1, 63, 1002 );
         final Ward ward3 = new Ward( 5004, 0, 1, 0, 60, 1002 );
+        */
 
         final Date d6 = new Date( 117, 9, 05 );
         final CheckIn checkin = new CheckIn( 1001, 3001, d6, null, 5001, 1, 20 );
@@ -150,6 +152,7 @@ public class DatabaseBuilder {
         final Date d12 = new Date( 85, 05, 10 );
         final BillingAccount b = new BillingAccount( 8001, 3001, 1001, d8, "123-123-1234", "card",
                 "99 ABC St , NC 27" );
+        /**
         final MedicalRecord medicalRecord4 = new MedicalRecord( 2004, 3002, d12, null, 1003, "X-ray chest (TB) Advanced",
                 "negative", "continue antibiotics", "Testing for TB", "Not required", 0, 125, 0, 1004 );
         final Patient patient2 = new Patient( 3002, "Jonnathan", null, d7, "M", "513-564-6969", "81 ABC St , NC 27",
@@ -168,6 +171,7 @@ public class DatabaseBuilder {
 
         final BillingAccount b1 = new BillingAccount( 8002, 3001, 1003, d16, "123-123-1234", "card",
                 "99 ABC St , NC 27" );
+        */
 
         try {
             Class.forName( DRIVER );
@@ -186,19 +190,19 @@ public class DatabaseBuilder {
             staffDB.insert( doctor2 );
             wardDB.insert( ward );
             wardDB.insert( ward1 );
-            wardDB.insert( ward2 );
-            wardDB.insert( ward3 );
+            //wardDB.insert( ward2 );
+            //wardDB.insert( ward3 );
             patientDB.insert( patient1 );
-            patientDB.insert( patient2 );
+            //patientDB.insert( patient2 );
             checkinDB.insert( checkin );
-            checkinDB.insert( checkin2 );
-            checkinDB.insert( checkin3 );
+            //checkinDB.insert( checkin2 );
+            //checkinDB.insert( checkin3 );
             medDB.insert( medicalRecord1 );
             medDB.insert( medicalRecord2 );
             billingDB.insert( b );
-            billingDB.insert( b1 );
-            medDB.insert( medicalRecord3 );
-            medDB.insert( medicalRecord4 );
+            //billingDB.insert( b1 );
+            //medDB.insert( medicalRecord3 );
+            //medDB.insert( medicalRecord4 );
         }
         catch ( final Exception e ) {
             try {
