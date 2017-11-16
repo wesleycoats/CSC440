@@ -359,6 +359,9 @@ public class PatientHelper {
                         System.out.printf( "\tStatus: %s\n\n", p.getStatus() );
 
                     }
+                    if ( patients.size() == 0 ) {
+                        System.out.println( "Doctor not responsible for any patients!" );
+                    }
                     return;
                 }
                 else {
