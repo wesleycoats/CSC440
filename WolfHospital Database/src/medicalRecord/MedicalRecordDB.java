@@ -1,13 +1,11 @@
 package medicalRecord;
 
-import patient.Patient;
-
 import java.sql.*;
 import java.util.ArrayList;
 
 public class MedicalRecordDB {
 
-	/** The databse connection to use */
+	/** The database connection to use */
     private final Connection conn;
 
     /**
