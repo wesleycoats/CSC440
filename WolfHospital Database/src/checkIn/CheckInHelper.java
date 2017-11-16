@@ -311,7 +311,7 @@ public class CheckInHelper {
             }
             else {
                 do {
-                    System.out.printf( "Year: %d Patients: %d Patients Per Month: %.2f\n", rs.getInt( "y" ),
+                    System.out.printf( "Year: %d Patients: %d Patients Per Month: %.2f%%\n", rs.getInt( "y" ),
                             rs.getInt( "p" ), rs.getFloat( "ppm" ) );
                 }
                 while ( rs.next() );

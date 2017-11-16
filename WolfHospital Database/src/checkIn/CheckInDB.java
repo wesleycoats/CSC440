@@ -11,7 +11,7 @@ public class CheckInDB {
 
     /**
      * Constructor
-     * 
+     *
      * @param conn
      *            The database connection to use
      */
@@ -21,7 +21,7 @@ public class CheckInDB {
 
     /**
      * Returns a check in object with the given id
-     * 
+     *
      * @param id
      *            The id of the check in
      * @return The check in with the given id
@@ -52,7 +52,7 @@ public class CheckInDB {
 
     /**
      * Inserts a check in entry into the database
-     * 
+     *
      * @param s
      *            The check in object to insert
      * @return True if the entry was successfully inserted
@@ -78,7 +78,7 @@ public class CheckInDB {
 
     /**
      * Updates the check in with the given id
-     * 
+     *
      * @param id
      *            The id of the check in to update
      * @param s
@@ -126,7 +126,7 @@ public class CheckInDB {
     public ResultSet getPatientsPerMonth () {
         String str;
         try {
-            str = "SELECT YEAR(start_date) y, COUNT(*) p, ROUND((COUNT(*) / 12), 2) AS ppm "
+            str = "SELECT YEAR(start_date) y, COUNT(*) p, ROUND((COUNT(*) / 12) * 100, 2) AS ppm "
                     + "FROM (SELECT DISTINCT start_date, patient_id FROM check_in) AS temp "
                     + "GROUP BY YEAR(start_date);";
             return conn.prepareStatement( str ).executeQuery();
