@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import staff.StaffDB;
+
 public class PatientHelper {
     private final Connection conn;
 
@@ -328,6 +330,7 @@ public class PatientHelper {
         int id;
         ArrayList<Patient> patients;
         final PatientDB pdb = new PatientDB( conn );
+        final StaffDB sdb = new StaffDB( conn );
 
         while ( true ) {
             System.out.println( "Enter doctor id or b-back:" );
@@ -345,7 +348,7 @@ public class PatientHelper {
                 continue;
             }
 
-            if ( pdb.getById( id ) != null ) {
+            if ( sdb.getById( id ) != null ) {
                 if ( ( patients = pdb.getDoctorPatients( id ) ) != null ) {
                     for ( final Patient p : patients ) {
                         System.out.printf( "Name: %s\n", p.getName() );
@@ -353,7 +356,8 @@ public class PatientHelper {
                         System.out.printf( "\tGender: %s", p.getGender() );
                         System.out.printf( "\tPhone: %s", p.getPhone() );
                         System.out.printf( "\tAddress: %s", p.getAddress() );
-                        System.out.printf( "\tStatus: %s", p.getStatus() );
+                        System.out.printf( "\tStatus: %s\n\n", p.getStatus() );
+
                     }
                     return;
                 }

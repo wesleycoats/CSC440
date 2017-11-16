@@ -103,11 +103,11 @@ public class PatientDB {
      * @return an arraylist of patients.
      */
     public ArrayList<Patient> getDoctorPatients(int doc_id) {
+        System.out.println(doc_id);
         try {
-            String str = "SELECT * FROM patient INNER JOIN "
+            String str = "SELECT * FROM patient WHERE id IN (SELECT DISTINCT patient.id FROM patient INNER JOIN "
                     + "medical_record WHERE patient.id = medical_record.patient_id "
-                    + "&& medical_record.doctor_id = ?;";
-
+                    + "AND medical_record.doctor_id = ?);";
             final PreparedStatement stmt = conn.prepareStatement( str );
             stmt.setInt(1, doc_id);
             ResultSet rs = stmt.executeQuery();

@@ -329,7 +329,8 @@ public class StaffHelper {
 			System.out.printf("\tAddress: %s", s.getAddress());
 			System.out.printf("\tDepartment: %s", s.getDepartment());
 			System.out.printf("\tJob Title: %s", s.getJobTitle());
-			System.out.printf("\tProfessional Title: %s", s.getProfessionalTitle());
+			System.out.printf("\tProfessional Title: %s\n\n", s.getProfessionalTitle());
+
 		}
 	}
 }
