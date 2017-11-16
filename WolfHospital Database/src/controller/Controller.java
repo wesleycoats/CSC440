@@ -13,16 +13,14 @@ import ward.WardHelper;
 
 public class Controller {
 
-    /** Base url used as part of DatabaseBuilder */
-    public static final String BASE_URL = "jdbc:mysql://localhost:3306";
     /** Full url path */
-    public static final String URL      = "jdbc:mysql://localhost:3306/wolfhospital";
+    public static final String URL      = "jdbc:mariadb://classdb2.csc.ncsu.edu:3306/jktew";
     /** The driver url */
-    public static final String DRIVER   = "com.mysql.jdbc.Driver";
+    public static final String DRIVER   = "org.mariadb.jdbc.Driver";
     /** The database username */
-    public static final String USERNAME = "root";
+    public static final String USERNAME = "jktew";
     /** The database password */
-    public static final String PASSWORD = "";
+    public static final String PASSWORD = "GenericPassword1";
 
     /** The database connection to use */
     private static Connection  conn;

@@ -3,7 +3,6 @@ package controller;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -29,18 +28,13 @@ import ward.WardDB;
  * called elsewhere in the program since they will likely be helpful for
  * resetting the expected state of the database.
  *
- * Currently the DatabaseBuilder creates the database locally using the default
- * MySQL port 3306, and assumes user "root" with empty password. To run this on
- * your own machine, please change username and password appropriately, but do
- * not push these changes (or set them back to root and empty password before
- * pushing).
  *
  * @author ajfelion
  *
  */
 public class DatabaseBuilder {
     /** Database url */
-    private static String       URL    = Controller.BASE_URL;
+    private static String       URL    = Controller.URL;
     /** JDBC driver */
     private static final String DRIVER = Controller.DRIVER;
     /** Database username */
@@ -49,42 +43,23 @@ public class DatabaseBuilder {
     private static final String PW     = Controller.PASSWORD;
 
     public static void main ( final String[] args ) {
-        try {
-            dropDB();
-        }
-        catch ( final Exception e ) {
-            e.printStackTrace();
-        }
-        createDB();
+    	dropTables();
         createTables();
         generateData();
     }
 
-    /** Deletes the database and all contents */
-    public static void dropDB () throws Exception {
-        Class.forName( DRIVER );
-        final Connection connection = DriverManager.getConnection( URL, USER, PW );
-        final ResultSet resultSet = connection.getMetaData().getCatalogs();
-        String dbName = null;
-        // iterate each catalog in the ResultSet
-        while ( resultSet.next() ) {
-            // Get the database name, which is at position 1
-            dbName = resultSet.getString( 1 );
-        }
-        resultSet.close();
-        if ( dbName.equals( "wolfhospital" ) ) {
-            executeQuery( "DROP DATABASE wolfhospital" );
-        }
-    }
-
+    
     /**
-     * Creates the database
-     *
-     * @throws Exception
+     * Drops all tables
      */
-    public static void createDB () {
-        executeQuery( "CREATE DATABASE wolfhospital" );
-        URL = Controller.URL;
+    public static void dropTables() {
+    	String dropBilling = "DROP TABLE IF EXISTS billing_account;";
+    	String dropCheckIn = "DROP TABLE IF EXISTS check_in;";
+    	String dropMedicalRecord = "DROP TABLE IF EXISTS medical_record;";
+    	String dropWard = "DROP TABLE IF EXISTS ward;";
+    	String dropPatient = "DROP TABLE IF EXISTS patient;";
+    	String dropStaff = "DROP TABLE IF EXISTS staff;";
+    	executeQuery(dropBilling, dropCheckIn, dropMedicalRecord, dropWard, dropPatient, dropStaff);
     }
 
     /** Creates all tables to be used in database */
@@ -227,12 +202,11 @@ public class DatabaseBuilder {
         }
         catch ( final Exception e ) {
             try {
-                dropDB();
+                dropTables();
             }
             catch ( final Exception e2 ) {
                 e.printStackTrace();
             }
-            createDB();
             createTables();
             e.printStackTrace();
         }
