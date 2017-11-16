@@ -33,7 +33,7 @@ public class Controller {
             scan = new Scanner( System.in );
             String str = "Enter a command: a-Add, u-Update, d-Delete, e-Exit, "
                     + "ab-Available_beds, si-staff_info, gdp-get_doc_patients, "
-                    + "mh-patient_med_history, wu-ward_usage, ppm-patients_per_month"
+                    + "mh-patient_med_history, wu-ward_usage, ppm-patients_per_month, "
                     + "ba-billing-acct";
             while ( true ) {
                 System.out.println( str );

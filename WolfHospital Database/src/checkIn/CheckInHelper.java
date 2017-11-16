@@ -276,8 +276,7 @@ public class CheckInHelper {
                 }
                 while ( rs.next() );
             }
-        }
-        catch ( final SQLException e ) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

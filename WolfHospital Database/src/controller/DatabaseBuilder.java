@@ -173,7 +173,7 @@ public class DatabaseBuilder {
                 "negative", "continue antibiotics", "Testing for TB", "Not required", 0, 125, 0, 1004 );
 
         final Date d12 = new Date( 85, 05, 10 );
-        final BillingAccount b = new BillingAccount( 8001, 3001, 1001, d12, "123-123-1234", "card",
+        final BillingAccount b = new BillingAccount( 8001, 3001, 1001, d8, "123-123-1234", "card",
                 "99 ABC St , NC 27" );
         final MedicalRecord medicalRecord4 = new MedicalRecord( 2004, 3002, d12, null, 1003, "X-ray chest (TB) Advanced",
                 "negative", "continue antibiotics", "Testing for TB", "Not required", 0, 125, 0, 1004 );
@@ -190,6 +190,9 @@ public class DatabaseBuilder {
 
         final Date d16 = new Date( 117, 10, 01 );
         final CheckIn checkin3 = new CheckIn( 1003, 3001, d16, null, 5001, 1, 20 );
+
+        final BillingAccount b1 = new BillingAccount( 8002, 3001, 1003, d16, "123-123-1234", "card",
+                "99 ABC St , NC 27" );
 
         try {
             Class.forName( DRIVER );
@@ -218,6 +221,7 @@ public class DatabaseBuilder {
             medDB.insert( medicalRecord1 );
             medDB.insert( medicalRecord2 );
             billingDB.insert( b );
+            billingDB.insert( b1 );
             medDB.insert( medicalRecord3 );
             medDB.insert( medicalRecord4 );
         }
