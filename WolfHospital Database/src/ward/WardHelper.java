@@ -9,14 +9,25 @@ import java.sql.SQLException;
 import staff.StaffDB;
 
 public class WardHelper {
+	
+	/** The database connection to use */
     private final Connection conn;
 
+    /** The number of attributes for a ward entry */
     public static final int  NUMBER_OF_ATTRIBUTES = 6;
 
+    /**
+     * Constructor
+     * @param conn The database connection to use
+     */
     public WardHelper ( final Connection conn ) {
         this.conn = conn;
     }
 
+    /**
+     * Adds a new ward from user input
+     * @param scan Used for user input
+     */
     public void add ( final Scanner scan ) {
         final WardDB wdb = new WardDB( conn );
         while ( true ) {
@@ -95,6 +106,10 @@ public class WardHelper {
         }
     }
 
+    /**
+     * Updates a ward entry from user input
+     * @param scan Used for user input
+     */
     public void update ( final Scanner scan ) {
         final WardDB wdb = new WardDB( conn );
         Ward w = null;
@@ -221,6 +236,10 @@ public class WardHelper {
         }
     }
 
+    /**
+     * Deletes a ward entry from user input
+     * @param scan Used for user input
+     */
     public void delete ( final Scanner scan ) {
         final WardDB wdb = new WardDB( conn );
         int id;

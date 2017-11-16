@@ -6,12 +6,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CheckInDB {
+	/** The database connection to use */
     private final Connection conn;
 
+    /**
+     * Constructor
+     * @param conn The database connection to use
+     */
     public CheckInDB ( final Connection conn ) {
         this.conn = conn;
     }
 
+    /**
+     * Returns a check in object with the given id
+     * @param id The id of the check in
+     * @return The check in with the given id
+     */
     public CheckIn getById ( final int id ) {
         CheckIn s = null;
         try {
@@ -36,6 +46,11 @@ public class CheckInDB {
         return s;
     }
 
+    /**
+     * Inserts a check in entry into the database
+     * @param s The check in object to insert
+     * @return True if the entry was successfully inserted
+     */
     public boolean insert ( final CheckIn s ) {
         try {
             final PreparedStatement stmt = conn.prepareStatement( "INSERT INTO check_in VALUES (?,?,?,?,?,?,?);" );
@@ -55,6 +70,12 @@ public class CheckInDB {
         return false;
     }
 
+    /**
+     * Updates the check in with the given id
+     * @param id The id of the check in to update
+     * @param s The check in object to update with
+     * @return True if the entry was successfully updated
+     */
     public boolean update ( final int id, final CheckIn s ) {
         try {
             final PreparedStatement stmt = conn.prepareStatement( "UPDATE check_in SET patient_id = ?, start_date = ?, "

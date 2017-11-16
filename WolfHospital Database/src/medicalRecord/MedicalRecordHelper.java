@@ -9,14 +9,25 @@ import patient.PatientDB;
 import staff.StaffDB;
 
 public class MedicalRecordHelper {
+	
+	/** The database connection to use */
     private final Connection conn;
 
+    /** The number of attributes for a medical record entry */
     public static final int  NUMBER_OF_ATTRIBUTES = 14;
 
+    /**
+     * Constructor
+     * @param conn The database connection to use
+     */
     public MedicalRecordHelper ( final Connection conn ) {
         this.conn = conn;
     }
 
+    /**
+     * Adds a new medical record from user input
+     * @param scan Used for user input
+     */
     public void add ( final Scanner scan ) {
         final MedicalRecordDB mdb = new MedicalRecordDB( conn );
         while ( true ) {
@@ -142,6 +153,10 @@ public class MedicalRecordHelper {
         }
     }
 
+    /**
+     * Updates a medical record from user input
+     * @param scan Used for user input
+     */
     public void update ( final Scanner scan ) {
         final MedicalRecordDB mdb = new MedicalRecordDB( conn );
         MedicalRecord m = null;
@@ -337,6 +352,10 @@ public class MedicalRecordHelper {
         }
     }
 
+    /**
+     * Deletes a medical record from user input
+     * @param scan Used for user input
+     */
     public void delete ( final Scanner scan ) {
         final MedicalRecordDB mdb = new MedicalRecordDB( conn );
         int id;

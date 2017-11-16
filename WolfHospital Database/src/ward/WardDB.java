@@ -6,12 +6,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class WardDB {
+	
+	/** The database connection to use */
     private final Connection conn;
 
+    /**
+     * Constructor
+     * @param conn The database connection to use
+     */
     public WardDB ( final Connection conn ) {
         this.conn = conn;
     }
 
+    /**
+     * Returns a ward object with the given id
+     * @param id The id of the ward
+     * @return The ward with the given id
+     */
     public Ward getById ( final int id ) {
         Ward s = null;
         try {
@@ -35,6 +46,11 @@ public class WardDB {
         return s;
     }
 
+    /**
+     * Inserts a ward entry into the database
+     * @param s The ward object to insert
+     * @return True if the entry was successfully inserted
+     */
     public boolean insert ( final Ward s ) {
         try {
             final PreparedStatement stmt = conn.prepareStatement( "INSERT INTO ward VALUES (?,?,?,?,?,?);" );
@@ -54,6 +70,12 @@ public class WardDB {
         return false;
     }
 
+    /**
+     * Updates the ward entry with the given id
+     * @param id The id of the ward to update
+     * @param s The ward object to update with
+     * @return True if the entry was successfully updated
+     */
     public boolean update ( final int id, final Ward s ) {
         try {
             final PreparedStatement stmt = conn.prepareStatement( "UPDATE ward SET capacity_one = ?, "
@@ -73,6 +95,11 @@ public class WardDB {
         return false;
     }
 
+    /**
+     * Deletes the ward with the given id
+     * @param id The id of the ward to delete
+     * @return True if the ward was successfully deleted
+     */
     public boolean deleteById ( final int id ) {
         try {
             final PreparedStatement stmt = conn.prepareStatement( "DELETE FROM ward WHERE id = ?;" );

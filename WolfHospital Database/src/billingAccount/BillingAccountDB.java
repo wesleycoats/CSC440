@@ -10,12 +10,22 @@ import java.util.ArrayList;
 
 public class BillingAccountDB {
 
+	/** The database connection to use */
     private final Connection conn;
 
+    /**
+     * Constructor
+     * @param conn The database connection to use
+     */
     public BillingAccountDB ( final Connection conn ) {
         this.conn = conn;
     }
 
+    /**
+     * Returns a billing account object with the given id
+     * @param id The id of the account
+     * @return The account with the given id
+     */
     public BillingAccount getById ( final int id ) {
         BillingAccount b = null;
         try {
@@ -82,6 +92,11 @@ public class BillingAccountDB {
         return bas;
     }
 
+    /**
+     * Inserts a billing account entry into the database
+     * @param b The billing account object to insert
+     * @return True if the entry was successfully inserted
+     */
     public boolean insert ( final BillingAccount b ) {
         try {
             WardDB wdb = new WardDB(conn);
@@ -113,6 +128,11 @@ public class BillingAccountDB {
         return false;
     }
 
+    /**
+     * Inserts a billing account entry without setting the id so that it is auto-generated
+     * @param b The billing account object to insert
+     * @return True if the entry was successfully inserted
+     */
     public boolean insertNoId ( final BillingAccount b ) {
         try {
             WardDB wdb = new WardDB(conn);
@@ -143,6 +163,12 @@ public class BillingAccountDB {
         return false;
     }
 
+    /**
+     * Updates the billing account with the given id
+     * @param id The id of the account to update
+     * @param b The billing account object to update with
+     * @return True if the entry was successfully updated
+     */
     public boolean update ( final int id, final BillingAccount b ) {
         try {
             final PreparedStatement stmt = conn
@@ -164,6 +190,11 @@ public class BillingAccountDB {
         return false;
     }
 
+    /**
+     * Deletes the billing account with the given id
+     * @param id The id of the account to delete
+     * @return True if the account was successfully deleted
+     */
     public boolean deleteById ( final int id ) {
         try {
             final PreparedStatement stmt = conn.prepareStatement( "DELETE FROM billing_account WHERE id = ?;" );

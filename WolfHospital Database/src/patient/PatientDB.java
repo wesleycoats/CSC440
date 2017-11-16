@@ -7,12 +7,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class PatientDB {
+	
+	/** The database connection to use */
     private final Connection conn;
 
+    /**
+     * Constructor 
+     * @param conn The database connection to use
+     */
     public PatientDB ( final Connection conn ) {
         this.conn = conn;
     }
 
+    /**
+     * Returns a patient object with the given id
+     * @param id The id of the patient
+     * @return The patient with the given id
+     */
     public Patient getById ( final int id ) {
         Patient s = null;
         try {
@@ -39,6 +50,11 @@ public class PatientDB {
         return s;
     }
 
+    /**
+     * Inserts a patient entry into the database
+     * @param s The patient object to insert
+     * @return True if the entry was successfully inserted
+     */
     public boolean insert ( final Patient s ) {
         try {
             final PreparedStatement stmt = conn.prepareStatement( "INSERT INTO patient VALUES (?,?,?,?,?,?,?,?);" );
@@ -60,6 +76,12 @@ public class PatientDB {
         return false;
     }
 
+    /**
+     * Updates the patient with the given id
+     * @param id The id of the patient to update
+     * @param s The patient object to update with
+     * @return True if the entry was successfully updated
+     */
     public boolean update ( final int id, final Patient s ) {
         try {
             final PreparedStatement stmt = conn
@@ -83,6 +105,11 @@ public class PatientDB {
         return false;
     }
 
+    /**
+     * Deletes the patient with the given id
+     * @param id The id of the patient to delete
+     * @return True if the patient was successfully deleted
+     */
     public boolean deleteById ( final int id ) {
         try {
             final PreparedStatement stmt = conn.prepareStatement( "DELETE FROM patient WHERE id = ?;" );

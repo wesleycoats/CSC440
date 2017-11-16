@@ -6,14 +6,23 @@ import java.time.temporal.ChronoUnit;
 
 public class Patient {
 
+	/** The id of the patient */
     private int    id;
+    /** The name of the patient */
     private String name;
+    /** The social security number of the patient */
     private String ssn;
+    /** The age of the patient */
     private int    age;
+    /** The date of birth of the patient */
     private Date   dob;
+    /** The gender of the patient */
     private String gender;
+    /** The phone number of the patient */
     private String phone;
+    /** The address of the patient */
     private String address;
+    /** The status of the patient */
     private String status;
 
     /** Empty constructor */

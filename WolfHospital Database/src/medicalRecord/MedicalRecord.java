@@ -4,19 +4,33 @@ import java.sql.Date;
 
 public class MedicalRecord {
 
+	/** The id of the medical record */
     private int    id;
+    /** The id of the associated patient */
     private int    patientId;
+    /** The start date for the record */
     private Date   startDate;
+    /** The end date for the record */
     private Date   endDate;
+    /** The id of the responsible doctor */
     private int    doctorId;
+    /** The type of test performed */
     private String testType;
+    /** The result of the test */
     private String testResult;
+    /** The prescription given */
     private String prescription;
+    /** Diagnosis details */
     private String diagDetails;
+    /** The type of treatment given */
     private String treatment;
+    /** Fee for consultation */
     private float  consultFee;
+    /** Fee for testing */
     private float  testFee;
+    /** Fee for treatment */
     private float  treatmentFee;
+    /** The id of the associated specialist */
     private int    specialistId;
 
     /** Empty constructor */

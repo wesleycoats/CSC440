@@ -2,11 +2,17 @@ package ward;
 
 public class Ward {
 
+	/** The ward's number */
     private int   wardNum;
+    /** Whether the ward is a one bed ward */
     private int   capacity1;
+    /** Whether the ward is a two bed ward */
     private int   capacity2;
+    /** Whether the ward is a three bed ward */
     private int   capacity3;
+    /** The price per day of the ward */
     private float charge;
+    /** The id of the assigned nurse */
     private int   nurseId;
 
     /** Empty constructor */
