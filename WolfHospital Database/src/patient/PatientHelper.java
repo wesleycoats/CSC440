@@ -9,14 +9,25 @@ import java.util.Scanner;
 import staff.StaffDB;
 
 public class PatientHelper {
+	
+	/** The database connection to use */
     private final Connection conn;
 
+    /** The number of attributes for a patient entry */
     public static final int  NUMBER_OF_ATTRIBUTES = 8;
 
+    /**
+     * Constructor
+     * @param conn The database connection to use
+     */
     public PatientHelper ( final Connection conn ) {
         this.conn = conn;
     }
 
+    /**
+     * Adds a new patient from user input
+     * @param scan Used for user input
+     */
     public void add ( final Scanner scan ) {
         final PatientDB pdb = new PatientDB( conn );
         while ( true ) {
@@ -195,6 +206,10 @@ public class PatientHelper {
         }
     }
 
+    /**
+     * Updates a patient from user input
+     * @param scan Used for user input
+     */
     public void update ( final Scanner scan ) {
         final PatientDB pdb = new PatientDB( conn );
         Patient p = null;
@@ -287,6 +302,10 @@ public class PatientHelper {
         }
     }
 
+    /**
+     * Deletes a patient from user input
+     * @param scan Used for user input
+     */
     public void delete ( final Scanner scan ) {
         final PatientDB pdb = new PatientDB( conn );
         int id;

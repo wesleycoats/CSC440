@@ -17,12 +17,20 @@ public class Controller {
     public static final String BASE_URL = "jdbc:mysql://localhost:3306";
     /** Full url path */
     public static final String URL      = "jdbc:mysql://localhost:3306/wolfhospital";
+    /** The driver url */
     public static final String DRIVER   = "com.mysql.jdbc.Driver";
+    /** The database username */
     public static final String USERNAME = "root";
+    /** The database password */
     public static final String PASSWORD = "";
 
+    /** The database connection to use */
     private static Connection  conn;
 
+    /**
+     * Runs the program and parses initial user commands
+     * @param args Command line arguments
+     */
     public static void main ( final String[] args ) {
 
         Scanner scan = null;
@@ -99,6 +107,10 @@ public class Controller {
         }
     }
 
+    /**
+     * Takes user input to figure out what type of entry to add and then calls the appropriate helper class
+     * @param scan Used for user input
+     */
     private static void add ( final Scanner scan ) {
         while ( true ) {
             System.out.println(
@@ -170,6 +182,10 @@ public class Controller {
         }
     }
 
+    /**
+     * Takes user input to figure out what type of entry to update and then calls the appropriate helper class
+     * @param scan Used for user input
+     */
     private static void update ( final Scanner scan ) {
         while ( true ) {
             System.out.println(
@@ -211,6 +227,10 @@ public class Controller {
         }
     }
 
+    /**
+     * Takes user input to figure out what type of entry to delete and then calls the appropriate helper class
+     * @param scan Used for user input
+     */
     private static void delete ( final Scanner scan ) {
         while ( true ) {
             System.out.println( "What to delete? (p-Patient, s-Staff, w-Ward, or b-Back to return)" );

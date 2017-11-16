@@ -4,15 +4,25 @@ import java.sql.Date;
 
 public class BillingAccount {
 
+	/** Id of the account */
     private int    id;
+    /** Id of the patient associated with the account */
     private int    patientId;
+    /** Id of the check in associated with the account */
     private int    checkinId;
+    /** The date the account was created */
     private Date   date;
+    /** The SSN of the payer on the account */
     private String payerSsn;
+    /** The type of payment used */
     private String pmtType;
+    /** The billing address of the payer */
     private String address;
+    /** Default consulting fee */
     private float consulting_fee = 0;
+    /** Default treatment fee */
     private float treatment_fee = 0;
+    /** Default test fee */
     private float test_fee = 0;
     private float registration_fee = 0;
     private float accomadation_fee = 0;

@@ -6,15 +6,25 @@ import java.time.temporal.ChronoUnit;
 
 public class Staff {
 
+	/** The id of the staff entry */
     private int    id;
+    /** The name of the staff member */
     private String name;
+    /** The age of the staff member */
     private int    age;
+    /** The date of birth of the staff member */
     private Date   dateOfBirth;
+    /** The gender of the staff member */
     private String gender;
+    /** The phone number of the staff member */
     private String phoneNumber;
+    /** The address of the staff member */
     private String address;
+    /** The department the staff member belongs to */
     private String department;
+    /** The staff member's job title */
     private String jobTitle;
+    /** The staff member's professional title */
     private String professionalTitle;
 
     /** Empty constructor */

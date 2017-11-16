@@ -10,14 +10,24 @@ import patient.PatientDB;
 import ward.WardDB;
 
 public class CheckInHelper {
+	/** The database connection to use */
     private final Connection conn;
 
+    /** The number of attributes for a check in entry */
     public static final int  NUMBER_OF_ATTRIBUTES = 7;
 
+    /**
+     * Constructor
+     * @param conn The database connection to use
+     */
     public CheckInHelper ( final Connection conn ) {
         this.conn = conn;
     }
 
+    /**
+     * Adds a new check in from user input
+     * @param scan Used for user input
+     */
     public void add ( final Scanner scan ) {
         final CheckInDB cdb = new CheckInDB( conn );
         while ( true ) {
@@ -116,6 +126,10 @@ public class CheckInHelper {
         }
     }
 
+    /**
+     * Updates a check in from user input
+     * @param scan Used for user input
+     */
     public void update ( final Scanner scan ) {
         final CheckInDB cdb = new CheckInDB( conn );
         CheckIn c = null;

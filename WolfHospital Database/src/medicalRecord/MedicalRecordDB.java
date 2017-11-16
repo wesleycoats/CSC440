@@ -7,12 +7,22 @@ import java.util.ArrayList;
 
 public class MedicalRecordDB {
 
+	/** The databse connection to use */
     private final Connection conn;
 
+    /**
+     * Constructor
+     * @param conn The database connection to use
+     */
     public MedicalRecordDB ( final Connection conn ) {
         this.conn = conn;
     }
 
+    /**
+     * Returns a medical record object with the given id
+     * @param id The id of the account
+     * @return The record with the given id
+     */
     public MedicalRecord getById ( final int id ) {
         MedicalRecord s = null;
         try {
@@ -44,6 +54,11 @@ public class MedicalRecordDB {
         return s;
     }
 
+    /**
+     * Inserts a medical record entry into the database
+     * @param s The medical record object to insert
+     * @return True if the entry was successfully inserted
+     */
     public boolean insert ( final MedicalRecord s ) {
         try {
             final PreparedStatement stmt = conn
@@ -72,6 +87,12 @@ public class MedicalRecordDB {
         return false;
     }
 
+    /**
+     * Updates the medical record with the given id
+     * @param id The id of the account to update
+     * @param s The medical record object to update with
+     * @return True if the entry was successfully updated
+     */
     public boolean update ( final int id, final MedicalRecord s ) {
         try {
             final PreparedStatement stmt = conn
@@ -103,6 +124,11 @@ public class MedicalRecordDB {
         return false;
     }
 
+    /**
+     * Deletes the medical record with the given id
+     * @param id The id of the record to delete
+     * @return True if the record was successfully deleted
+     */
     public boolean deleteById ( final int id ) {
         try {
             final PreparedStatement stmt = conn.prepareStatement( "DELETE FROM medical_record WHERE id = ?;" );

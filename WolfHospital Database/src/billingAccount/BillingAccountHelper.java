@@ -5,8 +5,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class BillingAccountHelper {
-    private final Connection conn;
+    
+	/** The database connection to use */
+	private final Connection conn;
 
+	/**
+	 * Constructor
+	 * @param conn The database connection to use
+	 */
     public BillingAccountHelper ( final Connection conn ) {
         this.conn = conn;
     }

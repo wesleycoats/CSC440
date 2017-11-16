@@ -4,12 +4,19 @@ import java.sql.Date;
 
 public class CheckIn {
 
+	/** The id of the check in entry */
     private int   id;
+    /** The id of the associated patient */
     private int   patientId;
+    /** The start date of the check in */
     private Date  startDate;
+    /** The end date of the check in */
     private Date  endDate;
+    /** The id of the assigned ward */
     private int   wardId;
+    /** The number of the assigned bed */
     private int   bedNum;
+    /** The check in fee */
     private float fee;
 
     /** Empty constructor */

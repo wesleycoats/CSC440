@@ -8,14 +8,24 @@ import java.util.Scanner;
 
 public class StaffHelper {
 	
+	/** The database connection to use */
 	private Connection conn;
 	
+	/** The number of attributes for a staff entry */
 	public static final int NUMBER_OF_ATTRIBUTES = 9;
 	
+	/**
+	 * Constructor
+	 * @param conn The database connection to use
+	 */
 	public StaffHelper(Connection conn) {
 		this.conn = conn;
 	}
 	
+	/**
+     * Adds a new staff member from user input
+     * @param scan Used for user input
+     */
 	public void add(Scanner scan) {
 		StaffDB sdb = new StaffDB(conn);
 		while(true) {
@@ -172,6 +182,10 @@ public class StaffHelper {
         }
     }
 	
+	/**
+     * Updates a staff entry from user input
+     * @param scan Used for user input
+     */
 	public void update(Scanner scan) {
 		StaffDB sdb = new StaffDB(conn);
 		Staff s = null;
@@ -260,6 +274,10 @@ public class StaffHelper {
 		}
 	}
 	
+	/**
+     * Deletes a staff entry from user input
+     * @param scan Used for user input
+     */
 	public void delete(Scanner scan) {
 		StaffDB sdb = new StaffDB(conn);
 		int id;
