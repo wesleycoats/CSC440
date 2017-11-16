@@ -2,8 +2,6 @@ package medicalRecord;
 
 import java.sql.Connection;
 import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -374,11 +372,12 @@ public class MedicalRecordHelper {
     /**
      * Prints the medical records within a given time period.
      */
-    public void getPatientMedicalHistory(Scanner scan) {
+    public void getPatientMedicalHistory ( final Scanner scan ) {
         int id;
         final MedicalRecordDB mdb = new MedicalRecordDB( conn );
         while ( true ) {
-            System.out.println( "Enter the patient id and the start and end date: id, start date (YYYY-MM-DD), end date (YYYY-MM-DD)" );
+            System.out.println(
+                    "Enter the patient id and the start and end date: id, start date (YYYY-MM-DD), end date (YYYY-MM-DD) or b-back" );
             System.out.print( "> " );
             final String in = scan.nextLine().trim().toLowerCase();
             if ( in.equals( "b" ) || in.equals( "back" ) ) {
@@ -386,10 +385,10 @@ public class MedicalRecordHelper {
             }
             final String[] inputArray = in.split( "," );
 
-            if (inputArray.length != 3) {
-                System.out.println("Invalid input");
-                System.out.println("please format input in comma separated list");
-                System.out.println("Example: 1004, 2017-01-01, 2017-02-01");
+            if ( inputArray.length != 3 ) {
+                System.out.println( "Invalid input" );
+                System.out.println( "please format input in comma separated list" );
+                System.out.println( "Example: 1004, 2017-01-01, 2017-02-01" );
             }
 
             try {
@@ -401,30 +400,30 @@ public class MedicalRecordHelper {
             }
 
             try {
-                Date start = Date.valueOf( inputArray[1].trim() );
-                Date end = Date.valueOf( inputArray[2].trim() );
-                ArrayList<MedicalRecord> medrecs = mdb.getPatientHistory(id, start, end);
+                final Date start = Date.valueOf( inputArray[1].trim() );
+                final Date end = Date.valueOf( inputArray[2].trim() );
+                final ArrayList<MedicalRecord> medrecs = mdb.getPatientHistory( id, start, end );
 
-                if (medrecs == null || medrecs.size() == 0) {
-                    System.out.println("There are no medical patients for this patient");
+                if ( medrecs == null || medrecs.size() == 0 ) {
+                    System.out.println( "There are no medical patients for this patient" );
                     return;
                 }
 
-                for (MedicalRecord rec: medrecs) {
-                    System.out.printf("Medical Record ID: %d\n", rec.getId());
-                    System.out.printf("\tPatient ID: %d\n", rec.getPatientId());
-                    System.out.printf("\tStart Date: %s", rec.getStartDate().toString());
-                    System.out.printf("\tEnd Date: %s", rec.getEndDate().toString());
-                    System.out.printf("\tDoctor ID: %d", rec.getDoctorId());
-                    System.out.printf("\tTest Type: %s", rec.getTestType());
-                    System.out.printf("\tTest Result: %s", rec.getTestResult());
-                    System.out.printf("\tTest Fee: %f", rec.getTestFee());
-                    System.out.printf("\tPrescription: %s", rec.getPrescription());
-                    System.out.printf("\tDiagnosis Details: %s", rec.getDiagDetails());
-                    System.out.printf("\tTreatment: %s", rec.getTreatment());
-                    System.out.printf("\tTreatment Fee: %f", rec.getTreatmentFee());
-                    System.out.printf("\tConsultation Fee: %f", rec.getConsultFee());
-                    System.out.printf("\tSpecialist ID: %d", rec.getSpecialistId());
+                for ( final MedicalRecord rec : medrecs ) {
+                    System.out.printf( "Medical Record ID: %d\n", rec.getId() );
+                    System.out.printf( "\tPatient ID: %d\n", rec.getPatientId() );
+                    System.out.printf( "\tStart Date: %s", rec.getStartDate().toString() );
+                    System.out.printf( "\tEnd Date: %s", rec.getEndDate().toString() );
+                    System.out.printf( "\tDoctor ID: %d", rec.getDoctorId() );
+                    System.out.printf( "\tTest Type: %s", rec.getTestType() );
+                    System.out.printf( "\tTest Result: %s", rec.getTestResult() );
+                    System.out.printf( "\tTest Fee: %f", rec.getTestFee() );
+                    System.out.printf( "\tPrescription: %s", rec.getPrescription() );
+                    System.out.printf( "\tDiagnosis Details: %s", rec.getDiagDetails() );
+                    System.out.printf( "\tTreatment: %s", rec.getTreatment() );
+                    System.out.printf( "\tTreatment Fee: %f", rec.getTreatmentFee() );
+                    System.out.printf( "\tConsultation Fee: %f", rec.getConsultFee() );
+                    System.out.printf( "\tSpecialist ID: %d", rec.getSpecialistId() );
                 }
             }
             catch ( final IllegalArgumentException e ) {

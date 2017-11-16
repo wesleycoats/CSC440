@@ -14,27 +14,32 @@ public class BillingAccountHelper {
     /**
      * Prints out billing account.
      *
-     * @param scan used for user input.
+     * @param scan
+     *            used for user input.
      */
-    public void getBillingAccount(Scanner scan) {
-        final BillingAccountDB bdb = new BillingAccountDB(conn);
+    public void getBillingAccount ( final Scanner scan ) {
+        final BillingAccountDB bdb = new BillingAccountDB( conn );
         int id;
-        while (true) {
-            System.out.println("Enter Patient id:");
-            System.out.println(">");
+        while ( true ) {
+            System.out.println( "Enter Patient id or b-back:" );
+            System.out.println( ">" );
 
             final String in = scan.nextLine().toLowerCase();
-
+            if ( in.equals( "b" ) || in.equals( "back" ) ) {
+                return;
+            }
             try {
                 id = Integer.parseInt( in );
-                ArrayList<BillingAccount> bas = bdb.getBillingAccount(id);
+                final ArrayList<BillingAccount> bas = bdb.getBillingAccount( id );
 
-                if (bas == null || bas.size() == 0) {
-                    System.out.println("There is no billing account for that id");
-                } else {
-                    System.out.printf("Patient ID: %d\n", id);
-                    for (BillingAccount b: bas) {
-                        System.out.printf("\tVisit date: %s Consultation fee: %f Test fee: %f Treatment fee: %f\n", b.getDate().toString(), b.getConsultingFee(), b.getTestFee(), b.getTreatmentFee());
+                if ( bas == null || bas.size() == 0 ) {
+                    System.out.println( "There is no billing account for that id" );
+                }
+                else {
+                    System.out.printf( "Patient ID: %d\n", id );
+                    for ( final BillingAccount b : bas ) {
+                        System.out.printf( "\tVisit date: %s Consultation fee: %f Test fee: %f Treatment fee: %f\n",
+                                b.getDate().toString(), b.getConsultingFee(), b.getTestFee(), b.getTreatmentFee() );
 
                     }
                 }
