@@ -323,6 +323,59 @@ public class WardHelper {
 
 		System.out.println("");
 	}
+	
+	public int getAvaliability(int wardId) {
+		WardDB pdb = new WardDB(conn);
+		ResultSet rs = pdb.checkAvailableWardsAndBeds();
+        ArrayList<Integer> ids = new ArrayList<>();
+        ArrayList<Integer> totals = new ArrayList<>();
+
+        try {
+        	while (rs.next()) {
+				int total = rs.getInt("total");
+				int id = rs.getInt("id");
+				int capacity1 = rs.getInt( "capacity_one" );
+				int capacity2 = rs.getInt( "capacity_two" );
+				int capacity3 = rs.getInt( "capacity_three" );
+
+				if (capacity1 == 1) {
+                	if (total > 1) {
+                    	total = 0;
+                	} else {
+                		total = 1 - total;
+                	}
+            	} else if (capacity2 == 1) {
+            		if (total > 2) {
+                    	total = 0;
+                	} else {
+                		total = 2 - total;
+                	}
+            	} else if (capacity3 == 1) {
+                	if (total > 3) {
+                    	total = 0;
+                	} else {
+                		total = 3 - total;
+                	}
+            	}
+
+				ids.add(id);
+				totals.add(total);
+			}
+        	for(int i = 0; i < ids.size(); i++) {
+        		if(ids.get(i) == wardId) {
+        			if(totals.get(i) < 0) {
+        				return 0;
+        			} else {
+            			return totals.get(i);        				
+        			}
+        		}
+        	}
+        	return 0;
+        } catch (SQLException e) {
+        	System.out.println("Error Accessing Ward Information");
+        	return -1;
+        }
+	}
 
     /**
      * Gets the number of open beds for each ward

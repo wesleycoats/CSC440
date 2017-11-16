@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import patient.PatientDB;
 import ward.WardDB;
+import ward.WardHelper;
 
 public class CheckInHelper {
 	/** The database connection to use */
@@ -94,8 +95,15 @@ public class CheckInHelper {
                     if ( wdb.getById( id ) == null ) {
                         System.out.println( "No ward exists with that id" );
                         continue;
-                    }
-                    else {
+                    } else {
+                        WardHelper wh = new WardHelper(conn);
+                        int avaliability = wh.getAvaliability(id);
+                        if(avaliability == -1) {
+                        	continue;
+                        } else if(avaliability <= 0) {
+                        	System.out.println("There is no space left in that ward");
+                        	continue;
+                        }
                         c.setWardId( id );
                     }
                 }
@@ -232,6 +240,14 @@ public class CheckInHelper {
                             continue;
                         }
                         else {
+                        	WardHelper wh = new WardHelper(conn);
+                            int avaliability = wh.getAvaliability(id);
+                            if(avaliability == -1) {
+                            	continue;
+                            } else if(avaliability <= 0) {
+                            	System.out.println("There is no space left in that ward");
+                            	continue;
+                            }
                             c.setWardId( newid );
                         }
                     }
@@ -286,7 +302,7 @@ public class CheckInHelper {
             }
             else {
                 do {
-                    System.out.printf( "Year: %d Patients Per Month: %d\n", rs.getInt( "y" ), rs.getInt( "ppm" ) );
+                    System.out.printf( "Year: %d Patients Per Month: %f\n", rs.getInt( "y" ), rs.getFloat( "ppm" ) );
                 }
                 while ( rs.next() );
             }
