@@ -6,12 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CheckInDB {
-	/** The database connection to use */
+    /** The database connection to use */
     private final Connection conn;
 
     /**
      * Constructor
-     * @param conn The database connection to use
+     * 
+     * @param conn
+     *            The database connection to use
      */
     public CheckInDB ( final Connection conn ) {
         this.conn = conn;
@@ -19,7 +21,9 @@ public class CheckInDB {
 
     /**
      * Returns a check in object with the given id
-     * @param id The id of the check in
+     * 
+     * @param id
+     *            The id of the check in
      * @return The check in with the given id
      */
     public CheckIn getById ( final int id ) {
@@ -48,7 +52,9 @@ public class CheckInDB {
 
     /**
      * Inserts a check in entry into the database
-     * @param s The check in object to insert
+     * 
+     * @param s
+     *            The check in object to insert
      * @return True if the entry was successfully inserted
      */
     public boolean insert ( final CheckIn s ) {
@@ -72,8 +78,11 @@ public class CheckInDB {
 
     /**
      * Updates the check in with the given id
-     * @param id The id of the check in to update
-     * @param s The check in object to update with
+     * 
+     * @param id
+     *            The id of the check in to update
+     * @param s
+     *            The check in object to update with
      * @return True if the entry was successfully updated
      */
     public boolean update ( final int id, final CheckIn s ) {
@@ -114,10 +123,10 @@ public class CheckInDB {
      *
      * @return the number of patients per month.
      */
-    public ResultSet getPatientsPerMonth() {
+    public ResultSet getPatientsPerMonth () {
         String str;
         try {
-            str = "SELECT YEAR(start_date) y, ROUND((COUNT(*) / 12) * 100, 2) AS ppm "
+            str = "SELECT YEAR(start_date) y, COUNT(*) p, ROUND((COUNT(*) / 12), 2) AS ppm "
                     + "FROM (SELECT DISTINCT start_date, patient_id FROM check_in) AS temp "
                     + "GROUP BY YEAR(start_date);";
             return conn.prepareStatement( str ).executeQuery();
